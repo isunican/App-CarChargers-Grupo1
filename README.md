@@ -1,4 +1,4 @@
-# Proyecto Base
+# Proyecto Base Grupo 1
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=App-CarChargers-Grupo1&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=App-CarChargers-Grupo1)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=App-CarChargers-Grupo1&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=App-CarChargers-Grupo1)
