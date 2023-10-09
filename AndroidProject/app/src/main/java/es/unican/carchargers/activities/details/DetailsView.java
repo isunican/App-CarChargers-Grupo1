@@ -45,6 +45,8 @@ public class DetailsView extends AppCompatActivity {
 
         // Set Infos
 
+        //TODO tipo conector + foto descriptiva
+
         // Validar y establecer el texto para tcTitle
         validarYEstablecerTextView(tvTitle, charger.operator.title, "No hay título");
 
