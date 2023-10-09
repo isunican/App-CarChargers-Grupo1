@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.filtros_menu, menu);
         return true;
     }
 
@@ -59,9 +62,29 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
+            case R.id.action_accept:
+                // Manejar la acción de Aceptar aquí
+                RadioGroup radioGroupPotencia = findViewById(R.id.radio_group_potencia);
+                int selectedPotenciaRadioButtonId = radioGroupPotencia.getCheckedRadioButtonId();
+                RadioButton selectedPotenciaRadioButton = findViewById(selectedPotenciaRadioButtonId);
+                String selectedPotenciaText = selectedPotenciaRadioButton.getText().toString();
+
+                RadioGroup radioGroupEnchufe = findViewById(R.id.radio_group_enchufe);
+                int selectedEnchufeRadioButtonId = radioGroupEnchufe.getCheckedRadioButtonId();
+                RadioButton selectedEnchufeRadioButton = findViewById(selectedEnchufeRadioButtonId);
+                String selectedEnchufeText = selectedEnchufeRadioButton.getText().toString();
+
+                // Realizar la acción deseada con las selecciones
+                return true;
+
+            case R.id.action_cancel:
+                // Manejar la acción de Cancelar aquí
+                // Puedes cerrar el menú o realizar cualquier otra acción
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     @Override

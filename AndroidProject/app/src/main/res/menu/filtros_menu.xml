@@ -1,0 +1,54 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_group_potencia"
+        android:title="Potencia">
+        <menu>
+            <group
+                android:id="@+id/radio_group_potencia"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/radio_button_potencia1"
+                    android:title="Potencia 1"
+                    android:checkable="true"/>
+                <item
+                    android:id="@+id/radio_button_potencia2"
+                    android:title="Potencia 2"
+                    android:checkable="true"/>
+                <item
+                    android:id="@+id/radio_button_potencia3"
+                    android:title="Potencia 3"
+                    android:checkable="true"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_group_enchufe"
+        android:title="Enchufe">
+        <menu>
+            <group
+                android:id="@+id/radio_group_enchufe"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/radio_button_enchufe1"
+                    android:title="Enchufe 1"
+                    android:checkable="true"/>
+                <item
+                    android:id="@+id/radio_button_enchufe2"
+                    android:title="Enchufe 2"
+                    android:checkable="true"/>
+                <item
+                    android:id="@+id/radio_button_enchufe3"
+                    android:title="Enchufe 3"
+                    android:checkable="true"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_accept"
+        android:title="Aceptar"
+        android:showAsAction="always"/>
+    <item
+        android:id="@+id/action_cancel"
+        android:title="Cancelar"
+        android:showAsAction="always"/>
+</menu>
