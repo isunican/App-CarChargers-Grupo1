@@ -1,5 +1,8 @@
 package es.unican.carchargers.repository;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +39,25 @@ class Repository implements IRepository {
 
                     @Override
                     public void onFailure(Call<List<Charger>> call, Throwable t) {
+                        /*
+                        Aqui lanza el error por pantalla.
+                        Crear aqui el intent del popUp para que aparezca por pantalla el error
+                        y pueda leer que ha pasado y darle a la "x" para cerrar la lectura del error.
+                         */
                         cb.onFailure(t);
                     }
                 });
+    }
+
+    /**
+     * Cuadro de error.
+     * @param menu Menu sobre el que desplegar el popUp de error.
+     * @return true si ha sido correcto.
+     */
+    public boolean onCreateAvisoError(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
     /**
