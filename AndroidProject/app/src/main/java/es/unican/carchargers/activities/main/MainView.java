@@ -98,8 +98,37 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
+    public void showLoadErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Error");
+        builder.setMessage("Error cargando cargadores");
+
+        // Configurar un botón para cerrar el diálogo
+        builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Cerrar el diálogo si el usuario hace clic en "Salir"
+                dialog.dismiss();
+            }
+        });
+
+        // Mostrar el AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
     @Override
     public void showLoadError() {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+        showLoadErrorDialog();
+=======
+>>>>>>> nombre-de-la-nueva-rama
         
         //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
         // Crear un AlertDialog
@@ -126,6 +155,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
         cb.onFailure(t);
+<<<<<<< HEAD
+=======
+>>>>>>> pruebaErrorConectividad
+>>>>>>> nombre-de-la-nueva-rama
     }
     
 

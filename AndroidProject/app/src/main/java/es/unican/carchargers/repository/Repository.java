@@ -46,6 +46,11 @@ class Repository extends AppCompatActivity implements IRepository {
                     @Override
                     public void onFailure(Call<List<Charger>> call, Throwable t) {
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> nombre-de-la-nueva-rama
                         // Crear un AlertDialog
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(Repository.this); // context es una referencia al contexto de la actividad
@@ -68,6 +73,10 @@ class Repository extends AppCompatActivity implements IRepository {
                         dialog.show();
 
                         // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
+<<<<<<< HEAD
+=======
+>>>>>>> pruebaErrorConectividad
+>>>>>>> nombre-de-la-nueva-rama
                         cb.onFailure(t);
                     }
                 });
@@ -78,6 +87,11 @@ class Repository extends AppCompatActivity implements IRepository {
         // Crear un AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context); // context es una referencia al contexto de la actividad
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> nombre-de-la-nueva-rama
         // Configurar el título y el mensaje de error
         builder.setTitle("Error");
         builder.setMessage("Ha ocurrido un error: " + t.getMessage());
@@ -99,6 +113,10 @@ class Repository extends AppCompatActivity implements IRepository {
         cb.onFailure(t);
     }
 */
+<<<<<<< HEAD
+=======
+>>>>>>> pruebaErrorConectividad
+>>>>>>> nombre-de-la-nueva-rama
 
 
     /**
