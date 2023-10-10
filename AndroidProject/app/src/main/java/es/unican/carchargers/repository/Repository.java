@@ -45,78 +45,12 @@ class Repository extends AppCompatActivity implements IRepository {
 
                     @Override
                     public void onFailure(Call<List<Charger>> call, Throwable t) {
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> nombre-de-la-nueva-rama
-                        // Crear un AlertDialog
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Repository.this); // context es una referencia al contexto de la actividad
-
-                        // Configurar el título y el mensaje de error
-                        builder.setTitle("Error");
-                        builder.setMessage("Ha ocurrido un error: " + t.getMessage());
-
-                        // Configurar un botón para cerrar el diálogo
-                        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Cerrar el diálogo
-                                dialog.dismiss();
-                            }
-                        });
-
-                        // Mostrar el AlertDialog
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-
-                        // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
-<<<<<<< HEAD
-=======
->>>>>>> pruebaErrorConectividad
->>>>>>> nombre-de-la-nueva-rama
                         cb.onFailure(t);
                     }
                 });
     }
-/*
-    @Override
-    public void onFailure(Call<List<Charger>> call, Throwable t) {
-        // Crear un AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(context); // context es una referencia al contexto de la actividad
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> nombre-de-la-nueva-rama
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Error");
-        builder.setMessage("Ha ocurrido un error: " + t.getMessage());
 
-        // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Cerrar el diálogo
-                dialog.dismiss();
-            }
-        });
-
-        // Mostrar el AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
-        cb.onFailure(t);
-    }
-*/
-<<<<<<< HEAD
-=======
->>>>>>> pruebaErrorConectividad
->>>>>>> nombre-de-la-nueva-rama
 
 
     /**
