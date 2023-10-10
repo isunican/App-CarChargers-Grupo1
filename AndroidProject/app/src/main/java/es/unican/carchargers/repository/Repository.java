@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ import retrofit2.Response;
 /**
  * An implementation of a repository that uses the OpenChargeMap API to retrieve charging stations.
  */
-class Repository implements IRepository {
+class Repository extends AppCompatActivity implements IRepository {
 
     private final IOpenChargeMapAPI api;
 
@@ -42,11 +44,11 @@ class Repository implements IRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Charger>> call, Throwable t, MainPresenter mp) {
+                    public void onFailure(Call<List<Charger>> call, Throwable t) {
 
                         // Crear un AlertDialog
-                        Context c = this;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(c); // context es una referencia al contexto de la actividad
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Repository.this); // context es una referencia al contexto de la actividad
 
                         // Configurar el título y el mensaje de error
                         builder.setTitle("Error");
@@ -98,16 +100,6 @@ class Repository implements IRepository {
     }
 */
 
-    /**
-     * Cuadro de error.
-     * @param menu Menu sobre el que desplegar el popUp de error.
-     * @return true si ha sido correcto.
-     */
-    public boolean onCreateAvisoError(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        return true;
-    }
 
     /**
      * Cleans the argument map. This mas is used by the QueryMap feature of Retrofit.

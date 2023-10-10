@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +27,9 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
+import es.unican.carchargers.repository.Repository;
 
 @AndroidEntryPoint
 public class MainView extends AppCompatActivity implements IMainContract.View {
@@ -96,8 +100,34 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showLoadError() {
-        Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+        
+        //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+        // Crear un AlertDialog
+        ICallBack cb = null;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this); // context es una referencia al contexto de la actividad
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Error");
+        builder.setMessage("Ha ocurrido un error: " + t.getMessage());
+
+        // Configurar un botón para cerrar el diálogo
+        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Cerrar el diálogo
+                dialog.dismiss();
+            }
+        });
+
+        // Mostrar el AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
+        cb.onFailure(t);
     }
+    
 
     @Override
     public void showChargerDetails(Charger charger) {

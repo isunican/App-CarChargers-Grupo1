@@ -68,7 +68,7 @@ public class DetailsView extends AppCompatActivity {
 
         //TODO tipo conector + foto descriptiva
 
-        validarYEstablecerTextView(tvTipoConector, charger);
+        //validarYEstablecerTextView(tvTipoConector, charger);
 }
 
     private void validarYEstablecerTextView(TextView textView, String valor, String mensajeError) {
