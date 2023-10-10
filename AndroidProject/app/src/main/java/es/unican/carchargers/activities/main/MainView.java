@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -94,9 +96,32 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
+    public void showLoadErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Error");
+        builder.setMessage("Error cargando cargadores");
+
+        // Configurar un botón para cerrar el diálogo
+        builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Cerrar el diálogo si el usuario hace clic en "Salir"
+                dialog.dismiss();
+            }
+        });
+
+        // Mostrar el AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
     @Override
     public void showLoadError() {
-        Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+        showLoadErrorDialog();
     }
 
     @Override
