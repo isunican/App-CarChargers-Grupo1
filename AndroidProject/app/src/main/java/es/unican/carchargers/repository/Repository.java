@@ -1,5 +1,8 @@
 package es.unican.carchargers.repository;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.service.APIArguments;
 import es.unican.carchargers.repository.service.IOpenChargeMapAPI;
@@ -38,16 +42,61 @@ class Repository implements IRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Charger>> call, Throwable t) {
-                        /*
-                        Aqui lanza el error por pantalla.
-                        Crear aqui el intent del popUp para que aparezca por pantalla el error
-                        y pueda leer que ha pasado y darle a la "x" para cerrar la lectura del error.
-                         */
+                    public void onFailure(Call<List<Charger>> call, Throwable t, MainPresenter mp) {
+
+                        // Crear un AlertDialog
+                        Context c = this;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(c); // context es una referencia al contexto de la actividad
+
+                        // Configurar el título y el mensaje de error
+                        builder.setTitle("Error");
+                        builder.setMessage("Ha ocurrido un error: " + t.getMessage());
+
+                        // Configurar un botón para cerrar el diálogo
+                        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Cerrar el diálogo
+                                dialog.dismiss();
+                            }
+                        });
+
+                        // Mostrar el AlertDialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
                         cb.onFailure(t);
                     }
                 });
     }
+/*
+    @Override
+    public void onFailure(Call<List<Charger>> call, Throwable t) {
+        // Crear un AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context); // context es una referencia al contexto de la actividad
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Error");
+        builder.setMessage("Ha ocurrido un error: " + t.getMessage());
+
+        // Configurar un botón para cerrar el diálogo
+        builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Cerrar el diálogo
+                dialog.dismiss();
+            }
+        });
+
+        // Mostrar el AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Llamar al callback de onFailure para que la lógica de manejo de errores continúe
+        cb.onFailure(t);
+    }
+*/
 
     /**
      * Cuadro de error.
