@@ -21,8 +21,15 @@ public class Charger {
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
 
-    @SerializedName("AddressInfo")          public List<Connection> connections;
+    @SerializedName("Connections")          public List<Connection> connections;
 
+    public String listarTiposConector(){
+        String lista = "";
+        for (Connection c:connections){
+            lista += c.connectionType.title + "\n";
+        }
+        return lista;
+    }
 
     public Charger() {
         this.operator = new Operator();

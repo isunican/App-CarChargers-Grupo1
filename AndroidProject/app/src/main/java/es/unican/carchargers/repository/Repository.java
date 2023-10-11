@@ -1,10 +1,19 @@
 package es.unican.carchargers.repository;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.Menu;
+import android.view.MenuInflater;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.service.APIArguments;
 import es.unican.carchargers.repository.service.IOpenChargeMapAPI;
@@ -15,7 +24,7 @@ import retrofit2.Response;
 /**
  * An implementation of a repository that uses the OpenChargeMap API to retrieve charging stations.
  */
-class Repository implements IRepository {
+class Repository extends AppCompatActivity implements IRepository {
 
     private final IOpenChargeMapAPI api;
 
@@ -40,6 +49,9 @@ class Repository implements IRepository {
                     }
                 });
     }
+
+
+
 
     /**
      * Cleans the argument map. This mas is used by the QueryMap feature of Retrofit.

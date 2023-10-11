@@ -36,6 +36,7 @@ public class DetailsView extends AppCompatActivity {
         TextView tvTipoConector = findViewById(R.id.tvTipo);
 
 
+
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
 
@@ -44,6 +45,7 @@ public class DetailsView extends AppCompatActivity {
         ivLogo.setImageResource(resourceId);
 
         // Set Infos
+
 
         // Validar y establecer el texto para tcTitle
         validarYEstablecerTextView(tvTitle, charger.operator.title, "No hay título");
@@ -57,8 +59,10 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvCiudad, charger.address.title, "No hay ciudad");
         // Validar y establecer el texto para tvPrecio
         validarYEstablecerTextView(tvPrecio, charger.usageCost, "No hay precio");
+
         // Validar y establecer el texto para tvTipo
-        //validarYEstablecerTextView(tvPrecio, charger.connections, "No hay precio");
+        validarYEstablecerTextView(tvTipoConector, charger.listarTiposConector(), "No hay conexiones");
+
 }
 
     private void validarYEstablecerTextView(TextView textView, String valor, String mensajeError) {
