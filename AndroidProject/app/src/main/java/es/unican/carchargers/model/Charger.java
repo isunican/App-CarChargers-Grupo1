@@ -21,6 +21,8 @@ public class Charger {
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
 
+    @SerializedName("AddressInfo")          public List<Connection> connections;
+
 
     public Charger() {
         this.operator = new Operator();

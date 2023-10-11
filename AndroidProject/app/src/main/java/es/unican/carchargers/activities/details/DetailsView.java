@@ -33,7 +33,7 @@ public class DetailsView extends AppCompatActivity {
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
-
+        TextView tvTipoConector = findViewById(R.id.tvTipo);
 
 
         // Get Charger from the intent that triggered this activity
@@ -47,22 +47,18 @@ public class DetailsView extends AppCompatActivity {
 
         // Validar y establecer el texto para tcTitle
         validarYEstablecerTextView(tvTitle, charger.operator.title, "No hay título");
-
         //Validar y establecer el texto para tvInfo
         validarYEstablecerTextView(tvInfo, charger.operator.website, "No hay info adicional");
-
         // Validar y establecer el texto para tvId
         validarYEstablecerTextView(tvId, charger.id, "No hay ID");
-
         // Validar y establecer el texto para tvProvincia
         validarYEstablecerTextView(tvProvincia, charger.address.province, "No hay provincia");
-
         // Validar y establecer el texto para tvCiudad
         validarYEstablecerTextView(tvCiudad, charger.address.title, "No hay ciudad");
-
         // Validar y establecer el texto para tvPrecio
         validarYEstablecerTextView(tvPrecio, charger.usageCost, "No hay precio");
-
+        // Validar y establecer el texto para tvTipo
+        //validarYEstablecerTextView(tvPrecio, charger.connections, "No hay precio");
 }
 
     private void validarYEstablecerTextView(TextView textView, String valor, String mensajeError) {
