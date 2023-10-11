@@ -3,6 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/potencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_filtro"
+        android:title="Item"
+        app:showAsAction="always">
+        <menu
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <item
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="150" />
+            <item
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="300" />
+        </menu>
+    </item>
+    <item
         android:id="@+id/menuItemInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
