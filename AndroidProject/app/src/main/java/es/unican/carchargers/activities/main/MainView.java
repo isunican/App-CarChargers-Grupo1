@@ -97,6 +97,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Crea un alertDialog que avisa de un error determinado
+     * TODO: Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
+     */
     public void showLoadErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 

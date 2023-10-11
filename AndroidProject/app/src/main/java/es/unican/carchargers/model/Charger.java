@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.util.List;
+
 /**
  * A charging station according to the OpenChargeMap API
  * Documentation: https://openchargemap.org/site/develop/api#/operations/get-poi
@@ -19,12 +21,6 @@ public class Charger {
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
 
-
-    /*
-    Hacer clase de "Connection" para definir los parametros que se tienen en cuenta por cada
-    conexion.
-     */
-    //@SerializedName("Connections")          public Connection connection;
 
 
     public Charger() {
