@@ -1,16 +1,17 @@
 package es.unican.carchargers.activities.main;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
+    //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
+    private TextView txtPopUpPotencia;
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
+
+        //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
+        txtPopUpPotencia = findViewById(R.id.txtPopUpPotencia);
+
+
+        //TODO Al pulsar en potencia se abriria el pop up
+        txtPopUpPotencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainView.this, popUpPotencias.class));
+            }
+        });
     }
 
     @Override
@@ -142,5 +160,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
+
 
 }
