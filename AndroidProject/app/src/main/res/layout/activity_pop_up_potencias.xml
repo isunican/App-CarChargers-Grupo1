@@ -20,44 +20,44 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <CheckBox android:id="@+id/checkbox1kW"
+    <CheckBox android:id="@+id/checkbox2kW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="150dp"
-        android:text="Potencia1"
+        android:text="2kW"
         android:onClick="onCheckboxClicked"/>
 
-    <CheckBox android:id="@+id/checkbox2kW"
+    <CheckBox android:id="@+id/checkbox7.4kW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
-        android:text="Potencia2"
+        android:text="7.4kW"
         android:onClick="onCheckboxClicked"/>
 
-    <CheckBox android:id="@+id/checkbox3kW"
+    <CheckBox android:id="@+id/checkbox22kW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
-        android:text="Potencia3"
+        android:text="22kW"
         android:onClick="onCheckboxClicked"/>
 
-    <CheckBox android:id="@+id/checkbox4kW"
+    <CheckBox android:id="@+id/checkbox40kW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
-        android:text="Potencia4"
+        android:text="40kW"
         android:onClick="onCheckboxClicked"/>
 
-    <CheckBox android:id="@+id/checkbox5kW"
+    <CheckBox android:id="@+id/checkbox50kW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
-        android:text="Potencia5"
+        android:text="50kW"
         android:onClick="onCheckboxClicked"/>
 
     <Button
