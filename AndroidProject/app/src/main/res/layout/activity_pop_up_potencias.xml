@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="150dp"
+        android:textSize="20sp"
         android:text="2kW"
         android:onClick="onCheckboxClicked"/>
 
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
+        android:textSize="20sp"
         android:text="7.4kW"
         android:onClick="onCheckboxClicked"/>
 
@@ -41,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
+        android:textSize="20sp"
         android:text="22kW"
         android:onClick="onCheckboxClicked"/>
 
@@ -49,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
+        android:textSize="20sp"
         android:text="40kW"
         android:onClick="onCheckboxClicked"/>
 
@@ -57,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="150dp"
+        android:textSize="20sp"
         android:text="50kW"
         android:onClick="onCheckboxClicked"/>
 
