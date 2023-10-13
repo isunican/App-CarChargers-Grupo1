@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,10 +24,10 @@ public class Charger {
 
     @SerializedName("Connections")          public List<Connection> connections;
 
-    public String listarTiposConector(){
-        String lista = "";
+    public List<String> listarTiposConector(){
+        List<String> lista = new ArrayList<>();
         for (Connection c:connections){
-            lista += c.connectionType.title + "\n";
+            lista.add(c.connectionType.title);
         }
         return lista;
     }

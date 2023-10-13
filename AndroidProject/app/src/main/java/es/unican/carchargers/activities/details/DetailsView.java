@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import org.parceler.Parcels;
 
+import java.util.List;
+
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
@@ -33,9 +35,6 @@ public class DetailsView extends AppCompatActivity {
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
-        TextView tvTipoConector = findViewById(R.id.tvTipo);
-
-
 
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -45,34 +44,58 @@ public class DetailsView extends AppCompatActivity {
         ivLogo.setImageResource(resourceId);
 
         // Set Infos
-
-
         // Validar y establecer el texto para tcTitle
-        validarYEstablecerTextView(tvTitle, charger.operator.title, "No hay título");
+        validarYEstablecerTextView(tvTitle, charger.operator.title);
         //Validar y establecer el texto para tvInfo
-        validarYEstablecerTextView(tvInfo, charger.operator.website, "No hay info adicional");
+        validarYEstablecerTextView(tvInfo, charger.operator.website);
         // Validar y establecer el texto para tvId
-        validarYEstablecerTextView(tvId, charger.id, "No hay ID");
+        validarYEstablecerTextView(tvId, charger.id);
         // Validar y establecer el texto para tvProvincia
-        validarYEstablecerTextView(tvProvincia, charger.address.province, "No hay provincia");
+        validarYEstablecerTextView(tvProvincia, charger.address.province);
         // Validar y establecer el texto para tvCiudad
-        validarYEstablecerTextView(tvCiudad, charger.address.title, "No hay ciudad");
+        validarYEstablecerTextView(tvCiudad, charger.address.title);
         // Validar y establecer el texto para tvPrecio
-        validarYEstablecerTextView(tvPrecio, charger.usageCost, "No hay precio");
+        validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
-        // Validar y establecer el texto para tvTipo
-        validarYEstablecerTextView(tvTipoConector, charger.listarTiposConector(), "No hay conexiones");
+        //Mostrar LOGO-CONECTOR
+        ImageView[] logos = new ImageView[3];
+        logos[0] = findViewById(R.id.logo1);
+        logos[1] = findViewById(R.id.logo2);
+        logos[2] = findViewById(R.id.logo3);
 
+        TextView[] conectores = new TextView[3];
+        conectores[0] = findViewById(R.id.tvConector1);
+        conectores[1] = findViewById(R.id.tvConector2);
+        conectores[2] = findViewById(R.id.tvConector3);
+
+        List<String> lista = charger.listarTiposConector();
+
+        for (int i = 0; i < lista.size() && i < 3; i++) {
+            validarYEstablecerTextView(conectores[i], lista.get(i));
+            switch(lista.get(i)){
+                case "CCS (Type 1)":
+                    logos[i].setImageResource(R.drawable.type1);
+                    break;
+                case "CCS (Type 2)":
+                    logos[i].setImageResource(R.drawable.type2);
+                    break;
+                case "CHAdeMO":
+                    logos[i].setImageResource(R.drawable.chademo);
+                    break;
+                case "CEE 74 - Schuko - Type F":
+                    logos[i].setImageResource(R.drawable.schuko);
+                    break;
+                default:
+                    logos[i].setImageResource(R.drawable.unknown);
+            }
+        }
 }
-
-    private void validarYEstablecerTextView(TextView textView, String valor, String mensajeError) {
+    private void validarYEstablecerTextView(TextView textView, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
-            textView.setText(mensajeError);
+            textView.setText("-");
         } else {
             textView.setText(valor);
         }
     }
-
-
 
 }
