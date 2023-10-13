@@ -1,10 +1,8 @@
 package es.unican.carchargers.activities.main;
 
-<<<<<<< HEAD
+
 import android.annotation.SuppressLint;
-=======
 import android.app.AlertDialog;
->>>>>>> 0fafdda6e51ca0531c900cb9f69925c4ea09c0ee
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,19 +41,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
-<<<<<<< HEAD
 
     //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
-    private TextView txtPopUpPotencia;
+    private Button btnPotencia;
 
 
 
     @SuppressLint("MissingInflatedId")
-=======
     //Para elegir filtros
     AlertDialog dialogFiltros;
 
->>>>>>> 0fafdda6e51ca0531c900cb9f69925c4ea09c0ee
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,21 +61,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter = new MainPresenter();
         presenter.init(this);
 
-<<<<<<< HEAD
         //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
-        txtPopUpPotencia = findViewById(R.id.txtPopUpPotencia);
+        btnPotencia = findViewById(R.id.btnPotencia);
 
 
         //TODO Al pulsar en potencia se abriria el pop up
-        txtPopUpPotencia.setOnClickListener(new View.OnClickListener() {
+        btnPotencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainView.this, popUpPotencias.class));
             }
         });
-
-=======
->>>>>>> 0fafdda6e51ca0531c900cb9f69925c4ea09c0ee
 
     }
 
