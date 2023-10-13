@@ -69,15 +69,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void init() {
-        // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                presenter.onChargerClicked(position);
-            }
-        });
+        lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
     }
+
 
     @Override
     public IRepository getRepository() {
@@ -101,21 +96,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
      * Crea un alertDialog que avisa de un error determinado
      * TODO: Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
      */
-    public void showLoadErrorDialog() {
+    public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // Configurar el título y el mensaje de error
         builder.setTitle("Error");
-        builder.setMessage("Error cargando cargadores");
+        builder.setMessage(error);
 
         // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Cerrar el diálogo si el usuario hace clic en "Salir"
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton("Salir", (dialog, which) -> dialog.dismiss());
 
         // Mostrar el AlertDialog
         AlertDialog dialog = builder.create();
@@ -124,9 +113,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     @Override
-    public void showLoadError() {
+    public void showLoadError(String error) {
         //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
-        showLoadErrorDialog();
+        showLoadErrorDialog(error);
     }
     
 
