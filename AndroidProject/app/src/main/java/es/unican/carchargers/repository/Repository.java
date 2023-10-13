@@ -24,7 +24,7 @@ import retrofit2.Response;
 /**
  * An implementation of a repository that uses the OpenChargeMap API to retrieve charging stations.
  */
-class Repository extends AppCompatActivity implements IRepository {
+class Repository implements IRepository {
 
     private final IOpenChargeMapAPI api;
 

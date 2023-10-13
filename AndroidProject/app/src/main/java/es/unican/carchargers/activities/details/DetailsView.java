@@ -56,7 +56,7 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvCiudad, charger.address.title);
         // Validar y establecer el texto para tvPrecio
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
-
+        
         //Mostrar LOGO-CONECTOR
         ImageView[] logos = new ImageView[3];
         logos[0] = findViewById(R.id.logo1);
