@@ -77,8 +77,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
     }
 
-
-
     /**
      * Crea un alertDialog para elegir los filtros.
      */
@@ -159,5 +157,5 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
-    
+
 }
