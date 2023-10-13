@@ -1,10 +1,9 @@
 package es.unican.carchargers.activities.main;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +27,6 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 
 @AndroidEntryPoint
@@ -40,8 +38,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
+
     //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
     private TextView txtPopUpPotencia;
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -65,6 +65,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 startActivity(new Intent(MainView.this, popUpPotencias.class));
             }
         });
+
+
     }
 
     @Override
@@ -115,38 +117,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Crea un alertDialog que avisa de un error determinado
-     * TODO: Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
-     */
-    public void showLoadErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Error");
-        builder.setMessage("Error cargando cargadores");
-
-        // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Cerrar el diálogo si el usuario hace clic en "Salir"
-                dialog.dismiss();
-            }
-        });
-
-        // Mostrar el AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-
     @Override
     public void showLoadError() {
-        //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
-        showLoadErrorDialog();
+        Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
     }
-    
 
     @Override
     public void showChargerDetails(Charger charger) {
@@ -160,6 +134,5 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
-
 
 }
