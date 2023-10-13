@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -11,6 +12,7 @@ import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 import android.content.Context;
 
 import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -36,7 +38,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class MainViewUITest {
+public class FiltrarPotenciaValidoUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -65,12 +67,29 @@ public class MainViewUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
     @Test
-    public void showChargersTest() {
+    public void filtrosDialogTest() {
+
+        // Verifica que el elemento de menú "filtro" se muestra y tiene el contenido correcto.
+        Espresso.onView(withId(R.id.filtro))
+                .check(matches(isDisplayed()))
+                .check(matches(withText(R.string.filtros))); // Cambia esto a lo que sea apropiado
+
+        // Verifica que el elemento de menú "info" se muestra y tiene el contenido correcto.
+        Espresso.onView(withId(R.id.menuItemInfo))
+                .check(matches(isDisplayed()))
+                .check(matches(withText(R.string.info)));
+
+        onView(withId(R.id.filtro)).perform(click());
+
+
+
+        /*
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
 
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+        */
     }
 
 }

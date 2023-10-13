@@ -64,13 +64,19 @@ public class ShowChargersUITest {
     @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
+    // para simular que no hay conexion a internet ponemos getfail en vez de getfake. El get fail llama al onFailure de presenter
+
+
     @Test
     public void showChargersTest() {
+
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
 
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+
+
     }
 
 }
