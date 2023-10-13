@@ -1,10 +1,9 @@
 package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
-<<<<<<< HEAD
+
 import android.content.DialogInterface;
-=======
->>>>>>> feature/484709-FiltrarPotencia
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
