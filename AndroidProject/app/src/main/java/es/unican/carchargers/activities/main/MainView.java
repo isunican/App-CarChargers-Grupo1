@@ -1,14 +1,19 @@
 package es.unican.carchargers.activities.main;
 
+<<<<<<< HEAD
 import android.annotation.SuppressLint;
+=======
+import android.app.AlertDialog;
+>>>>>>> 0fafdda6e51ca0531c900cb9f69925c4ea09c0ee
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +43,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
+<<<<<<< HEAD
 
     //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
     private TextView txtPopUpPotencia;
@@ -45,6 +51,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     @SuppressLint("MissingInflatedId")
+=======
+    //Para elegir filtros
+    AlertDialog dialogFiltros;
+
+>>>>>>> 0fafdda6e51ca0531c900cb9f69925c4ea09c0ee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +65,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter = new MainPresenter();
         presenter.init(this);
 
+<<<<<<< HEAD
         //TODO Creado para gestionar la apracicion del popUp cuando seleccionas filtrar por potencia
         txtPopUpPotencia = findViewById(R.id.txtPopUpPotencia);
 
@@ -66,13 +78,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             }
         });
 
+=======
+>>>>>>> 0fafdda6e51ca0531c900cb9f69925c4ea09c0ee
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater menuInflater = getMenuInflater();
+
         menuInflater.inflate(R.menu.menu, menu);
+
         return true;
     }
 
@@ -82,15 +99,51 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
+            case R.id.filtro:
+                // inicializar el dialogo de filtros
+                filtrosDialog();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Crea un alertDialog para elegir los filtros.
+     */
+    public void filtrosDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.menu_filtros, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        Button btnAceptar = (Button)view.findViewById(R.id.btnAceptar);
+        btnAceptar.setOnClickListener(v -> {
+            // TODO guardar seleccion de filtros
+            dialogFiltros.dismiss();
+        });
+
+        Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
+        btnCancelar.setOnClickListener(v -> {
+            dialogFiltros.dismiss();
+        });
+
+
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Filtros");
+
+        // Mostrar el AlertDialog
+        dialogFiltros = builder.create();
+        // Mostrar el AlertDialog para elegir filtros
+        dialogFiltros.show();
     }
 
     @Override
     public void init() {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
