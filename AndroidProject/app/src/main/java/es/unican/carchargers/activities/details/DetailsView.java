@@ -33,6 +33,8 @@ public class DetailsView extends AppCompatActivity {
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
+        TextView tvTipoConector = findViewById(R.id.tvTipoConector);
+
 
 
 
@@ -44,6 +46,7 @@ public class DetailsView extends AppCompatActivity {
         ivLogo.setImageResource(resourceId);
 
         // Set Infos
+
 
         // Validar y establecer el texto para tcTitle
         validarYEstablecerTextView(tvTitle, charger.operator.title, "No hay título");
@@ -63,6 +66,9 @@ public class DetailsView extends AppCompatActivity {
         // Validar y establecer el texto para tvPrecio
         validarYEstablecerTextView(tvPrecio, charger.usageCost, "No hay precio");
 
+        //TODO tipo conector + foto descriptiva
+
+        //validarYEstablecerTextView(tvTipoConector, charger);
 }
 
     private void validarYEstablecerTextView(TextView textView, String valor, String mensajeError) {
