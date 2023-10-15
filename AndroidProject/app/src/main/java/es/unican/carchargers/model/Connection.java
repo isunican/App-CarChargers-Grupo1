@@ -2,6 +2,9 @@ package es.unican.carchargers.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Connection {
     /* LOS ELEMENTOS DE LA CLASE COMPLETA SON:
         ID integer
@@ -22,13 +25,13 @@ public class Connection {
      */
 
     @SerializedName("ID")                   public int id;
-    @SerializedName("ConnectionTypeID")     public int ConnectionTypeID;
-    @SerializedName("ConnectionType")       public ConnectionType ConnectionType;
-    @SerializedName("PowerKW")              public double PowerKW;
-    @SerializedName("Title")                public String Title;
+    @SerializedName("ConnectionTypeID")     public int connectionTypeID;
+    @SerializedName("ConnectionType")       public ConnectionType connectionType;
+    @SerializedName("PowerKW")              public double powerKW;
+    @SerializedName("Title")                public String title;
 
     public Connection() {
-        this.ConnectionType = new ConnectionType();
+        this.connectionType = new ConnectionType();
     }
 
 }
