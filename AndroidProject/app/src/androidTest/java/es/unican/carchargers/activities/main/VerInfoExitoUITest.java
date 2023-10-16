@@ -77,7 +77,6 @@ public class VerInfoExitoUITest {
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
 
 
-        
     }
 
 }
