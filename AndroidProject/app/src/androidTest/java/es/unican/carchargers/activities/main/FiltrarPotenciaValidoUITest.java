@@ -4,18 +4,26 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.not;
+import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
+import android.view.View;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.hamcrest.Matcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -68,28 +76,31 @@ public class FiltrarPotenciaValidoUITest {
 
     @Test
     public void filtrosDialogTest() {
+        // CASO VALIDO
 
-        // Verifica que el elemento de menú "filtro" se muestra y tiene el contenido correcto.
-        Espresso.onView(withId(R.id.filtro))
-                .check(matches(isDisplayed()))
-                .check(matches(withText(R.string.filtros))); // Cambia esto a lo que sea apropiado
-
-        // Verifica que el elemento de menú "info" se muestra y tiene el contenido correcto.
-        Espresso.onView(withId(R.id.menuItemInfo))
-                .check(matches(isDisplayed()))
-                .check(matches(withText(R.string.info)));
-
+        // Verifica que el elemento de menú filtro
         onView(withId(R.id.filtro)).perform(click());
 
+        // Verifica que el elemento de filtrar por potencia se muestra
+        onView(withId(R.id.btnPotencia)).perform(click());
 
+        // Verifica que el diálogo se muestra
+        onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
 
-        /*
-        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+        // Realiza una selección de elementos en el diálogo de selección múltiple
+        onView(withText("43kW")).perform(click());
+        onView(withText("7.4kW")).perform(click());
 
-        DataInteraction interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
-        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
-        */
+        // Verifica que las selecciones se realizaron correctamente
+        onView(withText("43kW")).check(matches(isChecked()));
+        onView(withText("7.4kW")).check(matches(isChecked()));
+
+        // Acepta el diálogo
+        onView(withText("Aceptar")).perform(click());
+
+        onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
+
     }
+
 
 }

@@ -130,13 +130,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //True = Si pinchas fuera se cierra la ventana
         builder.setCancelable(true);
         String[] potencias = new String[] {
-                "2kW", "7.4kW", "22kW", "40kW", "50kW"
+                "2kW", "7.4kW", "22kW", "43kW", "50kW"
         };
         //Por defecto no estará seleccionada ninguna opción
         final boolean[] checkItems = new boolean[] {
                 false, false, false, false, false
         };
-        //Convierte el array de colores en una lista
+        //Convierte el array de potencias en una lista
         final List<String> potenciaList = Arrays.asList(potencias);
 
         builder.setMultiChoiceItems(potencias, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
@@ -159,7 +159,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                filtrosDialog();
             }
         });
 
