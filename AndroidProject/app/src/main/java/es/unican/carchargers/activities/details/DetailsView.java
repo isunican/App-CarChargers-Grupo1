@@ -43,21 +43,14 @@ public class DetailsView extends AppCompatActivity {
         int resourceId = EOperator.fromId(charger.operator.id).logo;
         ivLogo.setImageResource(resourceId);
 
-        // Set Infos
-        // Validar y establecer el texto para tcTitle
+        // Mostrar detalles del punto de carga
         validarYEstablecerTextView(tvTitle, charger.operator.title);
-        //Validar y establecer el texto para tvInfo
         validarYEstablecerTextView(tvInfo, charger.operator.website);
-        // Validar y establecer el texto para tvId
         validarYEstablecerTextView(tvId, charger.id);
-        // Validar y establecer el texto para tvProvincia
         validarYEstablecerTextView(tvProvincia, charger.address.province);
-        // Validar y establecer el texto para tvCiudad
         validarYEstablecerTextView(tvCiudad, charger.address.title);
-        // Validar y establecer el texto para tvPrecio
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
-        
-        //Mostrar LOGO-CONECTOR
+
         ImageView[] logos = new ImageView[3];
         logos[0] = findViewById(R.id.logo1);
         logos[1] = findViewById(R.id.logo2);
@@ -84,6 +77,15 @@ public class DetailsView extends AppCompatActivity {
                     break;
                 case "CEE 74 - Schuko - Type F":
                     logos[i].setImageResource(R.drawable.schuko);
+                    break;
+                case "Type 1 (J1772)":
+                    logos[i].setImageResource(R.drawable.type1j1772);
+                    break;
+                case "Type 2 (Socket Only)":
+                    logos[i].setImageResource(R.drawable.type2socket);
+                    break;
+                case "Type 2 (Tethered Connector)":
+                    logos[i].setImageResource(R.drawable.type2tethered);
                     break;
                 default:
                     logos[i].setImageResource(R.drawable.unknown);
