@@ -1,13 +1,5 @@
 package es.unican.carchargers.repository;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.view.Menu;
-import android.view.MenuInflater;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +16,7 @@ import retrofit2.Response;
 /**
  * An implementation of a repository that uses the OpenChargeMap API to retrieve charging stations.
  */
-class Repository extends AppCompatActivity implements IRepository {
+class Repository implements IRepository {
 
     private final IOpenChargeMapAPI api;
 
