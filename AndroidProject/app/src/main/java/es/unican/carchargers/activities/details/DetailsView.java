@@ -36,6 +36,8 @@ public class DetailsView extends AppCompatActivity {
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
 
+        TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
+
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
 
@@ -50,6 +52,12 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvProvincia, charger.address.province);
         validarYEstablecerTextView(tvCiudad, charger.address.title);
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
+
+        if(charger.comprobarDiponibilidad() == true) {
+            tvDisponibilidad.setText("Disponible");
+        } else {
+            tvDisponibilidad.setText("Ocupado");
+        }
 
         ImageView[] logos = new ImageView[3];
         logos[0] = findViewById(R.id.logo1);
