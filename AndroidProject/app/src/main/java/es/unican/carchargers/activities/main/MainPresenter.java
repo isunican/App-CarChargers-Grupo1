@@ -51,7 +51,8 @@ public class MainPresenter implements IMainContract.Presenter {
             @Override
             public void onFailure(Throwable e) {
                 MainPresenter.this.shownChargers = Collections.emptyList();
-                view.showLoadError();
+                String error = "El sistema no pudo conectarse a la red";
+                view.showLoadError(error);
             }
         };
 
