@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,8 +30,6 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.Connection;
-import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 
 @AndroidEntryPoint
@@ -136,10 +134,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //True = Si pinchas fuera se cierra la ventana
         builder.setCancelable(true);
         String[] potencias = new String[] {
-                "2kW", "7.4kW", "22kW", "40kW", "50kW"
+                "2kW", "7.4kW", "22kW", "43kW", "50kW"
         };
+        //Lista con los valores de potencias, igual que potencias
+        double[] potenciasEnteras = new double[] {
+                2000, 7400, 22000, 43000, 50000
+        };
+
         //Por defecto no estará seleccionada ninguna opción
-        final boolean[] checkItems = new boolean[] {
+        boolean[] checkItems = new boolean[] {
                 false, false, false, false, false
         };
         //Convierte el array de potencias en una lista
@@ -157,9 +160,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO llamar al algoritmo que filtra por la/s potencia/s seleccionada/s
-                filtraPorPot(checkItems);
-                filtrosDialog();
+
+                List<Double> potenciasSeleccionadas = new ArrayList<>();
+                for (int i = 0; i < checkItems.length; i++) {
+                    if (checkItems[i]) {
+                        potenciasSeleccionadas.add(potenciasEnteras[i]);
+                    }
+                }
+
+                filtraPorPot(potenciasSeleccionadas);
             }
         });
 
@@ -176,22 +185,23 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
-    private void filtraPorPot(boolean[] checkItems) {
+    private void filtraPorPot(List<Double> potencias) {
         //List<Charger> chargersIniciales;
         //List<Charger> chargersFiltrados;
 
-        //"2kW", "7.4kW", "22kW", "40kW", "50kW"
-        //
-
+        //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
 
         for (Charger charger : chargersIniciales) {
-            //for (double) {
-
-            //}
-            if (charger.connections.get(1).powerKW == 1) {
-
+            for (Double potencia : potencias) {
+                if (charger.contienePotencia(potencia)) {
+                    chargersFiltrados.add(charger);
+                }
             }
         }
+
+        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargersFiltrados);
+        ListView listView = findViewById(R.id.lvChargers);
+        listView.setAdapter(adapter);
 
     }
 
