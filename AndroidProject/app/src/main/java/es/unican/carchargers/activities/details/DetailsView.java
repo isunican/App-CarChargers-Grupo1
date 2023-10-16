@@ -54,8 +54,6 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-
-
         if(charger.comprobarDiponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {

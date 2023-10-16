@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
@@ -74,7 +75,17 @@ public class VerInfoExitoUITest {
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
 
+        //Cojo el primer cargador del layout
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
+
+        //Comprobacion elementos cargador en posicion 0
+        onView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+        onView(withId(R.id.tvInfo)).check(matches(withText("https://www.zunder.com/en/")));
+        onView(withId(R.id.tvProvincia)).check(matches(withText("Región de Murcia")));
+        onView(withId(R.id.tvCiudad)).check(matches(withText("Zunder")));
+        onView(withId(R.id.tvPrecio)).check(matches(withText("Zunder")));
+        onView(withId(R.id.tvDisponibilidad)).check(matches(withText("Zunder")));
+
 
 
     }
