@@ -52,12 +52,6 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-
-
-}
-
-    private static void validarYEstablecerTextView(TextView textView, String valor, String mensajeError) {
-
         //Mostrar LOGO-CONECTOR
 
         ImageView[] logos = new ImageView[3];
@@ -82,7 +76,7 @@ public class DetailsView extends AppCompatActivity {
                     logos[i].setImageResource(R.drawable.type2);
                     break;
                 case "CHAdeMO":
-                    logos[i].setImageResource(R.drawable.CHAdeMO);
+                    logos[i].setImageResource(R.drawable.chademo);
                     break;
                 case "CEE 74 - Schuko - Type F":
                     logos[i].setImageResource(R.drawable.schuko);

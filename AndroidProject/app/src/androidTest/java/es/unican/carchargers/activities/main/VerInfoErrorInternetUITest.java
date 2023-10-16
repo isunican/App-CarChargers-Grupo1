@@ -24,9 +24,9 @@ import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import es.unican.carchargers.R;
+import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
-import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.utils.HTTPIdlingResource;
 
 /**
@@ -37,7 +37,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class ShowChargersUITest {
+public class VerInfoErrorInternetUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
