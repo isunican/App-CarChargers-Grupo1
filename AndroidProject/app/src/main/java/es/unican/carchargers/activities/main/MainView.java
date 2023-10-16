@@ -30,6 +30,7 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.Connection;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 
@@ -44,6 +45,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     //Para elegir filtros
     AlertDialog dialogFiltros;
+
+    //Lista de cargadores obtenida por la llamada inicial a la API.
+    List<Charger> chargersIniciales;
+    List<Charger> chargersFiltrados;
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -152,6 +158,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO llamar al algoritmo que filtra por la/s potencia/s seleccionada/s
+                filtraPorPot(checkItems);
+                filtrosDialog();
             }
         });
 
@@ -166,7 +174,26 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-    };
+    }
+
+    private void filtraPorPot(boolean[] checkItems) {
+        //List<Charger> chargersIniciales;
+        //List<Charger> chargersFiltrados;
+
+        //"2kW", "7.4kW", "22kW", "40kW", "50kW"
+        //
+
+
+        for (Charger charger : chargersIniciales) {
+            //for (double) {
+
+            //}
+            if (charger.connections.get(1).powerKW == 1) {
+
+            }
+        }
+
+    }
 
     @Override
     public void init() {
@@ -183,6 +210,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
+        chargersIniciales = chargers;
         ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers);
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
