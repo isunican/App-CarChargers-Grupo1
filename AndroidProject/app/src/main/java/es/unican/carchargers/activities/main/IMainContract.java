@@ -37,6 +37,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+        public void filtraPorPot(List<Double> potenciasSeleccionadas);
     }
 
     /**

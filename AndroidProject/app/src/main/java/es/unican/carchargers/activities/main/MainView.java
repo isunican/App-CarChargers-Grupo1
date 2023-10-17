@@ -44,12 +44,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     //Para elegir filtros
     AlertDialog dialogFiltros;
 
-    //Lista de cargadores obtenida por la llamada inicial a la API.
-    List<Charger> chargersIniciales;
-    List<Charger> chargersFiltrados;
-
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +75,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.filtro:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -103,17 +98,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
 
         Button btnAceptar = (Button)view.findViewById(R.id.btnAceptar);
-        btnAceptar.setOnClickListener(v -> {
-            // TODO guardar seleccion de filtros
-            dialogFiltros.dismiss();
-        });
+        btnAceptar.setOnClickListener(v ->
+                // TODO guardar seleccion de filtros
+                dialogFiltros.dismiss()
+        );
 
         Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
-        btnCancelar.setOnClickListener(v -> {
-            dialogFiltros.dismiss();
-        });
-
-
+        btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
         // Configurar el título y el mensaje de error
         builder.setTitle("Filtros");
@@ -138,7 +129,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         };
         //Lista con los valores de potencias, igual que potencias
         double[] potenciasEnteras = new double[] {
-                2000, 7400, 22000, 43000, 50000
+                2, 7.4, 22, 43, 50
         };
 
         //Por defecto no estará seleccionada ninguna opción
@@ -148,12 +139,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //Convierte el array de potencias en una lista
         final List<String> potenciaList = Arrays.asList(potencias);
 
-        builder.setMultiChoiceItems(potencias, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                //Se verifica que hay un item seleccionado
-                checkItems[which] = isChecked;
-            }
+        builder.setMultiChoiceItems(potencias, checkItems, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItems[which] = isChecked;
         });
 
         //Al pulsar aceptar
@@ -168,42 +156,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     }
                 }
 
-                filtraPorPot(potenciasSeleccionadas);
+                presenter.filtraPorPot(potenciasSeleccionadas);
             }
         });
 
         //Al pulsar cancelar
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                filtrosDialog();
-            }
-        });
+        builder.setNegativeButton("Cancelar", (dialog, which) -> filtrosDialog());
 
         AlertDialog dialog = builder.create();
         dialog.show();
 
     }
 
-    private void filtraPorPot(List<Double> potencias) {
-        //List<Charger> chargersIniciales;
-        //List<Charger> chargersFiltrados;
 
-        //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
-
-        for (Charger charger : chargersIniciales) {
-            for (Double potencia : potencias) {
-                if (charger.contienePotencia(potencia)) {
-                    chargersFiltrados.add(charger);
-                }
-            }
-        }
-
-        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargersFiltrados);
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapter);
-
-    }
 
     @Override
     public void init() {
@@ -220,7 +185,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        chargersIniciales = chargers;
         ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers);
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
