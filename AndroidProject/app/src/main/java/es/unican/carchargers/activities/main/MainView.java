@@ -97,12 +97,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtradoPotenciaDialog();
         });
 
-        Button btnAceptar = (Button)view.findViewById(R.id.btnAceptar);
-        btnAceptar.setOnClickListener(v ->
-                // TODO guardar seleccion de filtros
-                dialogFiltros.dismiss()
-        );
-
         Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
