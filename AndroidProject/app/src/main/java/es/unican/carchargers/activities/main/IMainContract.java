@@ -37,6 +37,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+        public void filtraPorPot(List<Double> potenciasSeleccionadas);
     }
 
     /**
@@ -83,7 +84,7 @@ public interface IMainContract {
          * stations were not loaded correctly.
          * Only the Presenter should call this method
          */
-        public void showLoadError();
+        public void showLoadError(String error);
 
         /**
          * The view is requested to display the detailed view of the given charging station.

@@ -1,6 +1,6 @@
 package es.unican.carchargers.activities.main;
 
-import static androidx.test.espresso.Espresso.onData;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -8,22 +8,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.anything;
-import static org.hamcrest.CoreMatchers.not;
+
 import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
-import static es.unican.carchargers.utils.Matchers.isNotEmpty;
+
 
 import android.content.Context;
-import android.view.View;
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.DataInteraction;
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.ViewInteraction;
+
+
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.hamcrest.Matcher;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;

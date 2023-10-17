@@ -1,8 +1,12 @@
 package es.unican.carchargers.activities.main;
 
+import android.widget.ListView;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import es.unican.carchargers.R;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
@@ -18,6 +22,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
+    private List<Charger> chargersFiltrados;
 
     @Override
     public void init(IMainContract.View view) {
@@ -51,7 +56,8 @@ public class MainPresenter implements IMainContract.Presenter {
             @Override
             public void onFailure(Throwable e) {
                 MainPresenter.this.shownChargers = Collections.emptyList();
-                view.showLoadError();
+                String error = "El sistema no pudo conectarse a la red";
+                view.showLoadError(error);
             }
         };
 
@@ -70,6 +76,24 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void onMenuInfoClicked() {
         view.showInfoActivity();
+    }
+
+    public void filtraPorPot(List<Double> potencias) {
+
+        //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
+        chargersFiltrados = new ArrayList<>();
+
+        for (Charger charger : shownChargers) {
+            for (Double potencia : potencias) {
+                if (charger.contienePotencia(potencia)) {
+                    chargersFiltrados.add(charger);
+                }
+            }
+        }
+
+        view.showChargers(MainPresenter.this.chargersFiltrados);
+        view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
+
     }
 
 }
