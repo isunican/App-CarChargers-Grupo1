@@ -39,17 +39,6 @@ public class Matchers {
 
     public static Matcher<View> isFilteredByPower() {
         return new TypeSafeMatcher<View>() {
-            /*
-            @Override public boolean matchesSafely (final View view) {
-                ListView lv = (ListView) view;
-                int count = lv.getCount();
-                List<Charger> c = (List<Charger>) lv.getAdapter();
-                Charger c = getItem(1);
-                c.get(0).id.equals("213027");
-                c.get(27).id.equals("212922");
-                return count == 28;   // hay 7 de 7.4 y 43 hay 21
-            }
-            */
             @Override public boolean matchesSafely (final View view) {
             ListView lv = (ListView) view;
             ListAdapter adapter = lv.getAdapter();
@@ -77,21 +66,4 @@ public class Matchers {
             }
         };
     }
-/*
-    public static Matcher<View> isFilteredByPower() {
-        return new TypeSafeMatcher<View>() {
-            @Override public boolean matchesSafely (final View view) {
-                ListView lv = (ListView) view;
-                List<Charger> c = (List<Charger>) lv.getAdapter();
-                for(int i = 0; i < c.size(); i++){
-                    if (c.get(i).)
-                }
-            }
-
-            @Override public void describeTo (final Description description) {
-                description.appendText ("ListView should not be empty");
-            }
-        };
-    }
-*/
 }
