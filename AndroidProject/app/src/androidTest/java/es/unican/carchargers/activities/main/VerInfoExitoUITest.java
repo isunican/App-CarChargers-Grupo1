@@ -5,6 +5,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
@@ -82,9 +83,13 @@ public class VerInfoExitoUITest {
         onView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
         onView(withId(R.id.tvInfo)).check(matches(withText("https://www.zunder.com/en/")));
         onView(withId(R.id.tvProvincia)).check(matches(withText("Región de Murcia")));
-        onView(withId(R.id.tvCiudad)).check(matches(withText("Zunder")));
-        onView(withId(R.id.tvPrecio)).check(matches(withText("Zunder")));
-        onView(withId(R.id.tvDisponibilidad)).check(matches(withText("Zunder")));
+        onView(withId(R.id.tvCiudad)).check(matches(withText("Balsicas - Centro Cívico ( Zunder)")));
+        onView(withId(R.id.tvPrecio)).check(matches(withText(" 0,39€/kWh AC")));
+        onView(withId(R.id.tvDisponibilidad)).check(matches(withText("Disponible")));
+
+        //Comprobacion tipo de enchufe y correspondiente imagen
+        onView(withId(R.id.tvConector1)).check(matches(withText("Type 2 (Socket Only)")));
+        onView(withId(R.id.logo1));
 
 
 
