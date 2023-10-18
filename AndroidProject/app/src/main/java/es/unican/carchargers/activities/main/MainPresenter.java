@@ -96,4 +96,8 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
+    public List<Charger> getChargersFiltrados(){
+        return chargersFiltrados;
+    }
+
 }

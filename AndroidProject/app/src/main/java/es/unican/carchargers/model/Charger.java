@@ -47,6 +47,8 @@ public class Charger {
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
+        this.connections = new ArrayList<>();
     }
+
 
 }
