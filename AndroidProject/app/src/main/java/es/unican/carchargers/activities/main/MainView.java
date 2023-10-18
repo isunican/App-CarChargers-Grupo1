@@ -76,6 +76,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.filtro:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -92,10 +93,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setView(view);
 
         Button btnAceptar = (Button)view.findViewById(R.id.btnAceptar);
-        btnAceptar.setOnClickListener(v -> {
-            // TODO guardar seleccion de filtros
-            dialogFiltros.dismiss();
-        });
+        btnAceptar.setOnClickListener(v -> dialogFiltros.dismiss());
 
         Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> {
@@ -141,7 +139,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     /**
      * Crea un alertDialog que avisa de un error determinado
-     * TODO: Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
+     * Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
      */
     public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -161,7 +159,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showLoadError(String error) {
-        //Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
         showLoadErrorDialog(error);
     }
     
