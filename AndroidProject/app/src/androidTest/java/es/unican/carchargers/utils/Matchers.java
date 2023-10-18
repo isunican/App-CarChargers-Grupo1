@@ -1,11 +1,19 @@
 package es.unican.carchargers.utils;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import es.unican.carchargers.activities.main.ChargersArrayAdapter;
+import es.unican.carchargers.model.Charger;
 
 public class Matchers {
 
@@ -29,4 +37,61 @@ public class Matchers {
         };
     }
 
+    public static Matcher<View> isFilteredByPower() {
+        return new TypeSafeMatcher<View>() {
+            /*
+            @Override public boolean matchesSafely (final View view) {
+                ListView lv = (ListView) view;
+                int count = lv.getCount();
+                List<Charger> c = (List<Charger>) lv.getAdapter();
+                Charger c = getItem(1);
+                c.get(0).id.equals("213027");
+                c.get(27).id.equals("212922");
+                return count == 28;   // hay 7 de 7.4 y 43 hay 21
+            }
+            */
+            @Override public boolean matchesSafely (final View view) {
+            ListView lv = (ListView) view;
+            ListAdapter adapter = lv.getAdapter();
+            if (adapter instanceof ChargersArrayAdapter) {
+                ChargersArrayAdapter chargersAdapter = (ChargersArrayAdapter) adapter;
+                List<Charger> chargers = new ArrayList<>();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    chargers.add(chargersAdapter.getItem(i));
+                }
+
+                boolean isCharger1IdEqual = chargers.get(0).id.equals("213038");
+                boolean isCharger27IdEqual = chargers.get(27).id.equals("212923");
+                /*
+                String a = chargers.get(0).id;
+                String b = chargers.get(27).id;
+                Log.d("MiTag", "Este es un mensaje de depuración."+ a + " " + b);
+                */
+                return chargers.size() == 28 && isCharger1IdEqual && isCharger27IdEqual;
+            }
+            return false;
+        }
+
+            @Override public void describeTo (final Description description) {
+                description.appendText ("ListView should be filtered by power");
+            }
+        };
+    }
+/*
+    public static Matcher<View> isFilteredByPower() {
+        return new TypeSafeMatcher<View>() {
+            @Override public boolean matchesSafely (final View view) {
+                ListView lv = (ListView) view;
+                List<Charger> c = (List<Charger>) lv.getAdapter();
+                for(int i = 0; i < c.size(); i++){
+                    if (c.get(i).)
+                }
+            }
+
+            @Override public void describeTo (final Description description) {
+                description.appendText ("ListView should not be empty");
+            }
+        };
+    }
+*/
 }

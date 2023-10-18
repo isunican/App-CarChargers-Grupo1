@@ -32,6 +32,18 @@ public class Charger {
         return lista;
     }
 
+    // Devuelve true si alguno de los cargadores en este punto tiene la potencia indicada.
+    public boolean contienePotencia(double potencia) {
+
+        //Comprobar si alguno de sus valores Power (dentro de sus connections es el indicado)
+        for (Connection c : connections) {
+            if (c.powerKW == potencia) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
