@@ -130,8 +130,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         boolean[] checkItems = new boolean[] {
                 false, false, false, false, false
         };
-        //Convierte el array de potencias en una lista
-        final List<String> potenciaList = Arrays.asList(potencias);
 
         builder.setMultiChoiceItems(potencias, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado
@@ -139,19 +137,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
 
         //Al pulsar aceptar
-        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
 
-                List<Double> potenciasSeleccionadas = new ArrayList<>();
-                for (int i = 0; i < checkItems.length; i++) {
-                    if (checkItems[i]) {
-                        potenciasSeleccionadas.add(potenciasEnteras[i]);
-                    }
+            List<Double> potenciasSeleccionadas = new ArrayList<>();
+            for (int i = 0; i < checkItems.length; i++) {
+                if (checkItems[i]) {
+                    potenciasSeleccionadas.add(potenciasEnteras[i]);
                 }
-
-                presenter.filtraPorPot(potenciasSeleccionadas);
             }
+
+            presenter.filtraPorPot(potenciasSeleccionadas);
         });
 
         //Al pulsar cancelar
@@ -192,7 +187,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     /**
      * Crea un alertDialog que avisa de un error determinado
-     * TODO: Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
+     * @param error mensaje que rellena el campo de setMessage con el string de parametro
      */
     public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -203,6 +198,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         // Configurar un botón para cerrar el diálogo
         builder.setPositiveButton("Salir", (dialog, which) -> dialog.dismiss());
+
+        // Mostrar el AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showLoadSinCargadores(String error) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Error");
+        builder.setMessage(error);
+
+        // Configurar un botón para cerrar el diálogo
+        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaOriginal());
 
         // Mostrar el AlertDialog
         AlertDialog dialog = builder.create();

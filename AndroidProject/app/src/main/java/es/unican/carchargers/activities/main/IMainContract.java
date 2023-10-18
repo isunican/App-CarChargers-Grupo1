@@ -38,6 +38,11 @@ public interface IMainContract {
         public void onMenuInfoClicked();
 
         public void filtraPorPot(List<Double> potenciasSeleccionadas);
+
+        /**
+         * Muestra lista original con todos los cargadores.
+         */
+        void listaOriginal();
     }
 
     /**
@@ -99,5 +104,11 @@ public interface IMainContract {
          */
         public void showInfoActivity();
 
+        /**
+         * Se llama a este metodo cuando no se encuentra ningun cargador con las caracteristicas
+         * introducidas en el filtro
+         * @param s mensaje explicativo del error.
+         */
+        void showLoadSinCargadores(String s);
     }
 }
