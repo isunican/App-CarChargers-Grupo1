@@ -91,8 +91,9 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         }
 
-        if(chargersFiltrados.size() == 0) {
+        if(chargersFiltrados.isEmpty()) {
             view.showLoadSinCargadores("No se han encontrado cargadores que se ajusten a tu busqueda");
+            return;
         }
 
         view.showChargers(MainPresenter.this.chargersFiltrados);
