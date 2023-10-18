@@ -80,6 +80,12 @@ public class MainPresenter implements IMainContract.Presenter {
 
     public void filtraPorPot(List<Double> potencias) {
 
+        //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
+        if (potencias.isEmpty()) {
+            listaOriginal();
+            return;
+        }
+
         //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
         chargersFiltrados = new ArrayList<>();
 
