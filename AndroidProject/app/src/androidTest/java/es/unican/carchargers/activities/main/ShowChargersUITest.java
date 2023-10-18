@@ -74,4 +74,6 @@ public class ShowChargersUITest {
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
     }
 
+
+
 }
