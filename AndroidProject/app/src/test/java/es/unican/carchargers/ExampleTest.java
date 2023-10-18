@@ -8,6 +8,8 @@ import es.unican.carchargers.model.Charger;
 
 public class ExampleTest {
 
+
+
     @Test
     public void test() {
         Charger charger = new Charger();

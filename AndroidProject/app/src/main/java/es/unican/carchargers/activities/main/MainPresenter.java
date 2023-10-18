@@ -107,6 +107,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
+
     public void listaOriginal() {
         view.showChargers(MainPresenter.this.shownChargers);
         view.showLoadCorrect(MainPresenter.this.shownChargers.size());
