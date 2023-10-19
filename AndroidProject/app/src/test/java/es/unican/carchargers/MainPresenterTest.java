@@ -236,4 +236,43 @@ public class MainPresenterTest {
         // Verifica que el resultado sea el esperado
         assertEquals(captados.size(), 1);
     }
+
+    @Test
+    public void filtrarPorPotTestCasoF() {
+        //Caso sin potencias
+
+        Connection c = new Connection();
+        c.powerKW = 50;
+        c.id = 1;
+        Connection c2 = new Connection();
+        c2.powerKW = 7.4;
+        c2.id = 2;
+        Connection c3 = new Connection();
+        c2.powerKW = 43.0;
+        c2.id = 3;
+
+        Charger a = new Charger();
+        a.connections.add(c);
+        a.connections.add(c2);
+        a.connections.add(c3);
+
+        Charger a2 = new Charger();
+        a2.connections.add(c);
+
+        chargers.add(a);
+        chargers.add(a2);
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+        assertTrue(captados.get(0).equals(a));
+        assertTrue(captados.get(1).equals(a2));
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(captados.size(), 2);
+    }
 }
