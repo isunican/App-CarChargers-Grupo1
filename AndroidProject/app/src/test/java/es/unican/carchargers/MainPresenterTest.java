@@ -79,7 +79,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtraPorPot(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -120,7 +120,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtraPorPot(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -162,7 +162,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtraPorPot(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
@@ -189,7 +189,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtraPorPot(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -228,7 +228,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtraPorPot(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));

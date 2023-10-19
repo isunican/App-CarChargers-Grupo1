@@ -37,7 +37,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void filtraPorPot(List<Double> potenciasSeleccionadas);
+        public void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
 
         /**
          * Muestra lista original con todos los cargadores.

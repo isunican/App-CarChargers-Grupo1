@@ -78,7 +78,7 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
-    public void filtraPorPot(List<Double> potencias) {
+    public void onAceptarFiltroPotenciaClicked(List<Double> potencias) {
 
         //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
         if (potencias.isEmpty()) {

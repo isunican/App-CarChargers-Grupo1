@@ -2,7 +2,6 @@ package es.unican.carchargers.activities.main;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -146,7 +144,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 }
             }
 
-            presenter.filtraPorPot(potenciasSeleccionadas);
+            presenter.onAceptarFiltroPotenciaClicked(potenciasSeleccionadas);
         });
 
         //Al pulsar cancelar
