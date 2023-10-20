@@ -1,10 +1,13 @@
-/*package es.unican.carchargers;
+package es.unican.carchargers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -14,20 +17,24 @@ import java.util.List;
 import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.repository.IRepository;
+import es.unican.carchargers.repository.Repositories;
 
 public class OnChargerClickedCorrectoTest {
 
+    @Mock
+    IMainContract.View view;
+
+    ArgumentCaptor<Charger> captorCharger;
 
 
-        @Mock
-        private IMainContract view;
-
-        private MainPresenter presenter;
+    IMainContract.Presenter presenter;
         Charger c1, c2, c3, c4;
 
-        @Before
         public void setup() {
-            MockitoAnnotations.initMocks(this);
+            MockitoAnnotations.openMocks(this); // Creación de los mocks definidos anteriormente con @Mock
+
+            captorCharger = ArgumentCaptor.forClass(Charger.class);
             presenter = new MainPresenter();
             c1 = new Charger();
             c1.operator.title = "Zunder";
@@ -41,31 +48,22 @@ public class OnChargerClickedCorrectoTest {
 
         @Test
         public void testOnChargerClickedIndiceValidoTest() {
-            List<Charger> chargers = new ArrayList<>();
-            chargers.add(new Charger());
-            chargers.add(new Charger());
+            setup();
+            List<Charger> chargers = new ArrayList<Charger>();
+            chargers.add(c1);
+            chargers.add(c2);
 
-            int validIndex = 1;
-            presenter.onChargerClicked(validIndex);
+            int indiceValid = 1;
+            IRepository repository = Repositories.getFake(chargers);
+            when(view.getRepository()).thenReturn(repository);
 
-            verify(view).showChargerDetails(chargers.get(validIndex));
+            presenter.init(view);
+            presenter.onChargerClicked(indiceValid);
+
+            verify(view).showChargerDetails(captorCharger.capture());
         }
 
-        @Test
-        public void testOnChargerClickedIndiceInvalidoTest() {
-            List<Charger> chargers = new ArrayList<>();
-            chargers.add(new Charger("Charger 1"));
-            chargers.add(new Charger("Charger 2"));
+}
 
-            int invalidIndex = 2; // Index out of bounds
 
-            presenter.setShownChargers(chargers);
-            presenter.onChargerClicked(invalidIndex);
-
-            // Verify that view.showChargerDetails is never called when the index is invalid
-            Mockito.verify(view, Mockito.never()).showChargerDetails(Mockito.any(Charger.class));
-        }
-    }
-
- */
 
