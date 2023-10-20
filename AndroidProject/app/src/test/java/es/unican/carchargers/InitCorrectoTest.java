@@ -1,11 +1,14 @@
 package es.unican.carchargers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -27,14 +30,13 @@ public class InitCorrectoTest {
     IMainContract.View mView;
 
     IMainContract.Presenter sut;
-
     List<Charger> listChargers;
     Charger c1, c2, c3, c4;
 
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
 
-
+    @BeforeEach
     public void inicializa() {
         MockitoAnnotations.openMocks(this); // Creación de los mocks definidos anteriormente con @Mock
 
@@ -52,11 +54,10 @@ public class InitCorrectoTest {
         c4.operator.title = "Particular";
     }
 
+
     @Test
-    public void test() {
-
+    public void listaVaciaTest() {
         inicializa();
-
         //Caso lista vacia
         listChargers = new ArrayList<Charger>();
         IRepository repositoryVacio = Repositories.getFake(listChargers);
@@ -67,18 +68,29 @@ public class InitCorrectoTest {
         verify(mView).showLoadCorrect(captorNumCargadores.capture());
         assertTrue(captorCargadores.getValue().isEmpty());
         assertEquals(captorNumCargadores.getValue(), (Integer)0);
+    }
 
-
-
-        //Caso lista 1 cargador
+    @Test
+    public void listaUnEltoTest() {
+        inicializa();
+        listChargers = new ArrayList<Charger>();
         listChargers.add(c1);
         IRepository repositoryUnElto = Repositories.getFake(listChargers);
 
         when(mView.getRepository()).thenReturn(repositoryUnElto);
         sut.init(mView);
+        verify(mView).showChargers(captorCargadores.capture());
+        verify(mView).showLoadCorrect(captorNumCargadores.capture());
+        assertFalse(captorCargadores.getValue().isEmpty());
+        assertEquals(captorNumCargadores.getValue(), (Integer)1);
+    }
 
+    @Test
+    public void listaVariosElto() {
+        inicializa();
+        listChargers = new ArrayList<Charger>();
 
-        //Caso lista varios cargadores
+        listChargers.add(c1);
         listChargers.add(c2);
         listChargers.add(c3);
         listChargers.add(c4);
@@ -86,8 +98,10 @@ public class InitCorrectoTest {
 
         when(mView.getRepository()).thenReturn(repositoryVariosEltos);
         sut.init(mView);
-
-
-
+        verify(mView).showChargers(captorCargadores.capture());
+        verify(mView).showLoadCorrect(captorNumCargadores.capture());
+        assertFalse(captorCargadores.getValue().isEmpty());
+        assertEquals(captorNumCargadores.getValue(), (Integer)4);
     }
+
 }
