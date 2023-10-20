@@ -32,6 +32,16 @@ public class Charger {
         return lista;
     }
 
+    public boolean comprobarDiponibilidad(){
+        List<String> lista = new ArrayList<>();
+        for (Connection c:connections){
+            if (c.statusType.isOperational == true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();

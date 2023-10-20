@@ -29,6 +29,7 @@ public class Connection {
     @SerializedName("ConnectionType")       public ConnectionType connectionType;
     @SerializedName("PowerKW")              public double powerKW;
     @SerializedName("Title")                public String title;
+    @SerializedName("StatusType")           public StatusType statusType;
 
     public Connection() {
         this.connectionType = new ConnectionType();

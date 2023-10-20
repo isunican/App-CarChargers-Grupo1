@@ -36,6 +36,8 @@ public class DetailsView extends AppCompatActivity {
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
 
+        TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
+
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
 
@@ -43,20 +45,21 @@ public class DetailsView extends AppCompatActivity {
         int resourceId = EOperator.fromId(charger.operator.id).logo;
         ivLogo.setImageResource(resourceId);
 
-        // Set Infos
-        // Validar y establecer el texto para tcTitle
+        // Mostrar detalles del punto de carga
         validarYEstablecerTextView(tvTitle, charger.operator.title);
-        //Validar y establecer el texto para tvInfo
         validarYEstablecerTextView(tvInfo, charger.operator.website);
-        // Validar y establecer el texto para tvId
         validarYEstablecerTextView(tvId, charger.id);
-        // Validar y establecer el texto para tvProvincia
         validarYEstablecerTextView(tvProvincia, charger.address.province);
-        // Validar y establecer el texto para tvCiudad
         validarYEstablecerTextView(tvCiudad, charger.address.title);
-        // Validar y establecer el texto para tvPrecio
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
-        
+
+
+        if(charger.comprobarDiponibilidad() == true) {
+            tvDisponibilidad.setText("Disponible");
+        } else {
+            tvDisponibilidad.setText("Ocupado");
+        }
+
         //Mostrar LOGO-CONECTOR
         ImageView[] logos = new ImageView[3];
         logos[0] = findViewById(R.id.logo1);
@@ -85,11 +88,21 @@ public class DetailsView extends AppCompatActivity {
                 case "CEE 74 - Schuko - Type F":
                     logos[i].setImageResource(R.drawable.schuko);
                     break;
+                case "Type 1 (J1772)":
+                    logos[i].setImageResource(R.drawable.type1j1772);
+                    break;
+                case "Type 2 (Socket Only)":
+                    logos[i].setImageResource(R.drawable.type2socket);
+                    break;
+                case "Type 2 (Tethered Connector)":
+                    logos[i].setImageResource(R.drawable.type2tethered);
+                    break;
                 default:
                     logos[i].setImageResource(R.drawable.unknown);
             }
         }
 }
+
     private void validarYEstablecerTextView(TextView textView, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
             textView.setText("-");
@@ -97,5 +110,6 @@ public class DetailsView extends AppCompatActivity {
             textView.setText(valor);
         }
     }
+
 
 }
