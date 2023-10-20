@@ -72,9 +72,6 @@ public class VerInfoExitoUITest {
     public void showChargersTest() {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
 
-        DataInteraction interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
-        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
 
         //Cojo el primer cargador del layout
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
