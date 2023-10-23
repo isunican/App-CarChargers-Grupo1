@@ -48,16 +48,6 @@ public class FiltrarConectorValidoUITest {
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-    @BeforeClass
-    public static void setupClass() {
-        // Al usar un repository fake (que no accede por HTTP) no necesitamos activar este Idling Resource.
-        HTTPIdlingResource.getInstance().init();
-    }
-
-    @AfterClass
-    public static void teardownClass() {
-        HTTPIdlingResource.getInstance().finish();
-    }
 
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
@@ -91,6 +81,8 @@ public class FiltrarConectorValidoUITest {
         // Click en aceptar
         onView(withText("Aceptar")).perform(click());
 
+        //lvChargers es un listView
+        // TODO: Hacer matcher para el filtrado por tipo de conector
         onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
 
     }
