@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
@@ -23,6 +24,10 @@ public class MainPresenter implements IMainContract.Presenter {
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
     private List<Charger> chargersFiltrados;
+
+    /** Filtros activos */
+    List<Double> potenciasFiltro = new ArrayList<>();
+    List<ConnectionType> conectoresFiltro = new ArrayList<>();
 
     @Override
     public void init(IMainContract.View view) {
@@ -78,37 +83,61 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
-    public void onAceptarFiltroPotenciaClicked(List<Double> potencias) {
+    public List<Charger> filtrarOriginalesPorPotencia(List<Double> potencias) {
 
         //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
-        if (potencias.isEmpty()) {
-            listaOriginal();
-            return;
+        if (potenciasFiltro.isEmpty()) {
+            return shownChargers;
         }
 
         //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
-        chargersFiltrados = new ArrayList<>();
+        List<Charger> resultadoFiltro = new ArrayList<>();
 
         for (Charger charger : shownChargers) {
             for (Double potencia : potencias) {
                 if (charger.contienePotencia(potencia)) {
-                    chargersFiltrados.add(charger);
+                    resultadoFiltro.add(charger);
                 }
             }
         }
 
-        if(chargersFiltrados.isEmpty()) {
-            view.showLoadSinCargadores("No se han encontrado cargadores que se ajusten a tu busqueda");
-            view.showChargers(MainPresenter.this.chargersFiltrados);
-            view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
-            return;
+        if(resultadoFiltro.isEmpty()) {
+            //Para indicar que este filtro te deja sin puntos
+            return null;
+        } else {
+            return resultadoFiltro;
         }
 
-        view.showChargers(MainPresenter.this.chargersFiltrados);
-        view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
+        //view.showChargers(MainPresenter.this.chargersFiltrados);
+        //view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
 
     }
 
+    public void onAceptarFiltroConectoresClicked(List<ConnectionType> conectores) {
+        conectoresFiltro = conectores;
+    }
+
+    private void aplicarFiltros() {
+        //
+        //listA.retainAll(listB);
+        // listA now contains only the elements which are also contained in listB.
+
+        //coger lista og
+        chargersFiltrados = shownChargers;
+
+        //ir aplicandoles todos los filtros que se indican con un switch
+
+        if (!potenciasFiltro.isEmpty()) {
+            //aplicar a chargersFiltrados el filtro
+        }
+        if (!conectoresFiltro.isEmpty()) {
+            //aplicar a chargersFiltrados el filtro
+        }
+
+        //mostrar el resultado
+        view.showChargers(MainPresenter.this.chargersFiltrados);
+        view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
+    }
 
     public void listaOriginal() {
         view.showChargers(MainPresenter.this.shownChargers);

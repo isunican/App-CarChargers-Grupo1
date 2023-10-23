@@ -144,7 +144,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 }
             }
 
-            presenter.onAceptarFiltroPotenciaClicked(potenciasSeleccionadas);
+            presenter.filtrarOriginalesPorPotencia(potenciasSeleccionadas);
         });
 
         //Al pulsar cancelar
