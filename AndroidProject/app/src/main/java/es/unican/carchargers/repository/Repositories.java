@@ -48,9 +48,18 @@ public class Repositories {
     }
 
 
+    /**
+     *  Realiza un comportamiento esperado de la base de datos en base a una lista de cargadores.
+     * @param data lista de cargadores a simular
+     * @return repositorio de datos
+     */
     public static IRepository getSyncFake(List<Charger> data) {
         return SyncRepository.buildFake(data);}
 
+    /**
+     * Simula el fallo de sincronizacion con los datos del repositorio.
+     * @return repositorio fallido
+     */
     public static IRepository getSyncFail() {
         return SyncRepository.buildFail();}
 

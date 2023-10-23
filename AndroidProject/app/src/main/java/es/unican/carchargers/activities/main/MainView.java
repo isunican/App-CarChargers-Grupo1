@@ -107,6 +107,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialogFiltros.show();
     }
 
+    /**
+     * Muestra un dialog con los checkboxs a seleccionar en base a las distintas
+     * potencias disponibles.
+     */
     public void filtradoPotenciaDialog() {
 
         AlertDialog.Builder builder =
@@ -184,12 +188,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     /**
-     * Crea un alertDialog que avisa de un error determinado
-<<<<<<< HEAD
-     * Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
-=======
-     * @param error mensaje que rellena el campo de setMessage con el string de parametro
->>>>>>> feature/484709-FiltrarPotencia
+     * Crea un alertDialog que avisa de un error determinado.
+     * @param error mensaje que rellena el campo de setMessage con el string de parametro.
      */
     public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,6 +206,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialog.show();
     }
 
+    /**
+     * Gestiona errores cuando no hay cargadores, volviendo a la lista de cargadorres inicial.
+     * @param error mensaje explicativo del error.
+     */
     public void showLoadSinCargadores(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -222,6 +226,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+    /**
+     * Implementacion de gestion de errores general
+     * @param error mensaje explicativo del error.
+     */
     @Override
     public void showLoadError(String error) {
         showLoadErrorDialog(error);

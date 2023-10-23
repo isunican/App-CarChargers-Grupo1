@@ -110,6 +110,9 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
+    /**
+     * Carga la vista con la lista inicial de cargadores.
+     */
     public void listaOriginal() {
         view.showChargers(MainPresenter.this.shownChargers);
         view.showLoadCorrect(MainPresenter.this.shownChargers.size());
