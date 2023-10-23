@@ -19,68 +19,157 @@
             android:layout_gravity="center"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:orientation="horizontal"
             android:layout_marginTop="25dp"
-            android:textColor="#000000"
-            tools:text="Title" />
+            android:layout_marginRight="25dp">
 
-        <TextView
-            android:id="@+id/tvInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="25dp"
-            android:textColor="#000000"
-            tools:text="Info" />
+            <TextView
+                android:id="@+id/etiqTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="• Título:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="25dp"
-            android:textColor="#000000"
-            tools:text="id" />
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_marginLeft="15dp"
+                tools:text="Title" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvProvincia"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:orientation="horizontal"
             android:layout_marginTop="25dp"
-            android:textColor="#000000"
-            tools:text="Provincia" />
+            android:layout_marginRight="25dp">
 
-        <TextView
-            android:id="@+id/tvPrecio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="25dp"
-            android:text="Precio"
-            android:textColor="#000000" />
 
-        <TextView
-            android:id="@+id/tvCiudad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="25dp"
-            android:text="Ciudad"
-            android:textColor="#000000" />
+            <TextView
+                android:id="@+id/etiqURL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="• Información:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvDisponibilidad"
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="#000000"
+                tools:text="Info" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:orientation="horizontal"
             android:layout_marginTop="25dp"
-            android:text="Disponibilidad"
-            android:textColor="#000000" />
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:id="@+id/etiqProvincia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="• Provincia:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvProvincia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="#000000"
+                tools:text="Provincia" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:id="@+id/etiqPrecio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="• Precio:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPrecio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Precio"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:id="@+id/etiqCiudad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="• Ciudad:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCiudad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Ciudad"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:id="@+id/etiqDisp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="• Disponibilidad:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDisponibilidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Disponibilidad"
+                android:textColor="#000000" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout1"
@@ -90,6 +179,14 @@
             android:layout_marginTop="25dp"
             android:layout_marginRight="50dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/etiqCanectores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="• Conectores:"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
 
 
             <LinearLayout
@@ -167,10 +264,6 @@
                     android:gravity="center_vertical"
                     android:textColor="#000000" />
             </LinearLayout>
-
-
         </LinearLayout>
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
