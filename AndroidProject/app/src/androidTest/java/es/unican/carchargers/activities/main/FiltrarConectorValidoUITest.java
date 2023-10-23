@@ -8,17 +8,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
-
 
 import android.content.Context;
 
-
-
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -42,7 +37,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class FiltrarPotenciaValidoUITest {
+public class FiltrarConectorValidoUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -55,8 +50,7 @@ public class FiltrarPotenciaValidoUITest {
 
     @BeforeClass
     public static void setupClass() {
-        // si usamos un repository fake que realmente no accede por HTTP, no necesitamos
-        // activar este Idling Resource. Lo dejo para tener una referencia.
+        // Al usar un repository fake (que no accede por HTTP) no necesitamos activar este Idling Resource.
         HTTPIdlingResource.getInstance().init();
     }
 
@@ -72,26 +66,29 @@ public class FiltrarPotenciaValidoUITest {
 
     @Test
     public void filtrosDialogTest() {
-        // CASO VALIDO
+        // Caso valido
 
-        // Verifica que el elemento de menú filtro
+        // Click en el elemento "filtro" del menu
         onView(withId(R.id.filtro)).perform(click());
 
-        // Verifica que el elemento de filtrar por potencia se muestra
+        // Click en el boton para filtrar por tipo de conector
+        // TODO : Cambiar btnPotencia por el boton para filtrar por conector
         onView(withId(R.id.btnPotencia)).perform(click());
 
-        // Verifica que el diálogo se muestra
+        // Verifica que se muestra el texto
         onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
 
         // Realiza una selección de elementos en el diálogo de selección múltiple
+        // TODO : Selecciono dos tipos de conectores
         onView(withText("43kW")).perform(click());
         onView(withText("7.4kW")).perform(click());
 
-        // Verifica que las selecciones se realizaron correctamente
+        // Verifica se han seleccionado los tipos de conectores
+        // TODO : Verifico que se han seleccionado los dos tipos de conectores
         onView(withText("43kW")).check(matches(isChecked()));
         onView(withText("7.4kW")).check(matches(isChecked()));
 
-        // Acepta el diálogo
+        // Click en aceptar
         onView(withText("Aceptar")).perform(click());
 
         onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
