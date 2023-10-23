@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.service.APIArguments;
 import es.unican.carchargers.repository.service.IOpenChargeMapAPI;
@@ -40,6 +41,9 @@ class Repository implements IRepository {
                     }
                 });
     }
+
+
+
 
     /**
      * Cleans the argument map. This mas is used by the QueryMap feature of Retrofit.

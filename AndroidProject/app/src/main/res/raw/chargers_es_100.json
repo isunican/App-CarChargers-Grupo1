@@ -7407,7 +7407,7 @@
         },
         "Amps": null,
         "Voltage": null,
-        "PowerKW": 2.3,
+        "PowerKW": 50,
         "CurrentTypeID": 10,
         "CurrentType": {
           "Description": "Alternating Current - Single Phase",
