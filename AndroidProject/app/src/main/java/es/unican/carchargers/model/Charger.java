@@ -1,5 +1,7 @@
 package es.unican.carchargers.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -19,11 +21,16 @@ public class Charger {
     @SerializedName("ID")                   public String id;
     @SerializedName("NumberOfPoints")       public int numberOfPoints;
     @SerializedName("UsageCost")            public String usageCost;
+
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
 
     @SerializedName("Connections")          public List<Connection> connections;
 
+    /**
+     * Lista los nombres de los tipos de conector
+     * @return List<String>
+     */
     public List<String> listarTiposConector(){
         List<String> lista = new ArrayList<>();
         for (Connection c:connections){
@@ -33,10 +40,15 @@ public class Charger {
     }
 
 
+
+    /**
+     * Comprueba la disponibilidad de los cargadores de un punto de carga.
+     * @return true si esta disponible o el statusType es null.
+     */
     public boolean comprobarDiponibilidad(){
         List<String> lista = new ArrayList<>();
         for (Connection c:connections){
-            if (c.statusType.isOperational == true) {
+            if (c.statusType == null || c.statusType.isOperational == true) {
                 return true;
             }
         }
@@ -44,7 +56,11 @@ public class Charger {
     }
 
 
-    // Devuelve true si alguno de los cargadores en este punto tiene la potencia indicada.
+    /**
+     * Comprueba si un cargador contiene la potencia indicada.
+     * @param potencia potencia a comprobar
+     * @return true si el cargador contiene la potencia indicada
+     */
     public boolean contienePotencia(double potencia) {
 
         //Comprobar si alguno de sus valores Power (dentro de sus connections es el indicado)
