@@ -243,11 +243,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     /**
      * Crea un alertDialog que avisa de un error determinado
-<<<<<<< HEAD
-     * Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
-=======
      * @param error mensaje que rellena el campo de setMessage con el string de parametro
->>>>>>> feature/484709-FiltrarPotencia
      */
     public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

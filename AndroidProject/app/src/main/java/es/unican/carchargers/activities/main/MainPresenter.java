@@ -156,6 +156,7 @@ public class MainPresenter implements IMainContract.Presenter {
         chargersFiltrados.retainAll(filtrarOriginalesPorPotencia());
         if (chargersFiltrados.isEmpty()) {
             // TODO tratar lista vacia con error y volver atras
+            show
         }
 
         chargersFiltrados.retainAll(filtrarOriginalesPorConector());
