@@ -1,6 +1,8 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.Context;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,7 +152,7 @@ public class MainPresenter implements IMainContract.Presenter {
     private void aplicarFiltros() {
 
         // Coger lista og
-        chargersFiltrados = shownChargers;
+        chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
 
