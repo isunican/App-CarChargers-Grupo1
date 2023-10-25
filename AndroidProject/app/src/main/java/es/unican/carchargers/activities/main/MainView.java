@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     //Para elegir filtros
     AlertDialog dialogFiltros;
+
+    AlertDialog ordenDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -74,6 +77,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 // inicializar el dialogo de filtros
                 filtrosDialog();
                 return true;
+
+            case R.id.orden:
+                // inicializar el dialogo de filtros
+                ordenDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -105,6 +113,27 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialogFiltros = builder.create();
         // Mostrar el AlertDialog para elegir filtros
         dialogFiltros.show();
+    }
+
+    public void ordenDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.activity_menu_orden, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        CheckBox chkPrecio = (CheckBox)view.findViewById(R.id.checkbox_precio);
+        chkPrecio.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+            //filtradoPotenciaDialog();
+        });
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Orden");
+        // Mostrar el AlertDialog
+        ordenDialog = builder.create();
+        // Mostrar el AlertDialog para elegir filtros
+        ordenDialog.show();
     }
 
     public void filtradoPotenciaDialog() {
