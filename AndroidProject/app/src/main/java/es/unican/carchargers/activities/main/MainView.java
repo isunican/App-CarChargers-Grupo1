@@ -27,7 +27,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.Connection;
+import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.IRepository;
 
 @AndroidEntryPoint
@@ -171,17 +174,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //True = Si pinchas fuera se cierra la ventana
         builder.setCancelable(true);
 
-        /**
-        //Lista con los valores de potencias, igual que potencias
-        double[] potenciasEnteras = new double[] {
-                2, 7.4, 22, 43, 50
-        };
-        */
-
-        String[] conectores = new String[] {
-                "Chademo", "Schuko", "TeslaX", "Type1", "Type1j1772", "Type2",
-                "Type2Socket", "Type3c"
-        };
+        String[] conectores = EConnectionType.obtenerNombres();
 
         //Por defecto no estará seleccionada ninguna opción
         boolean[] checkItemsConector = new boolean[] {
@@ -197,14 +190,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //Al pulsar aceptar
         builder.setPositiveButton("Aceptar", (dialog, which) -> {
 
-            List<Double> potenciasSeleccionadas = new ArrayList<>();
-            for (int i = 0; i < checkItems.length; i++) {
-                if (checkItems[i]) {
-                    potenciasSeleccionadas.add(potenciasEnteras[i]);
+            List<EConnectionType> conectoresSeleccionados = new ArrayList<>();
+
+            for (int i = 0; i < checkItemsConector.length; i++) {
+                if (checkItemsConector[i]) {
+                    conectoresSeleccionados.add(EConnectionType.obtenerConnectionTypePorPos(i));
                 }
             }
 
-            presenter.onAceptarFiltroPotenciaClicked(potenciasSeleccionadas);
+            presenter.onAceptarFiltroConectoresClicked(conectoresSeleccionados);
         });
 
         //Al pulsar cancelar
