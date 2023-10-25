@@ -95,6 +95,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtradoPotenciaDialog();
         });
 
+        Button btnConector = (Button)view.findViewById(R.id.btnConector);
+        btnConector.setOnClickListener(v -> {
+            dialogFiltros.dismiss();
+            filtradoConectorDialog();
+        });
+
         Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
@@ -155,7 +161,59 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
+    public void filtradoConectorDialog() {
 
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(MainView.this, R.style.AlertDialogTema);
+        builder.setTitle("Marque las casillas que más se adapten a su búsqueda:");
+        builder.setIcon(R.drawable.icono_filtro);
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        /**
+        //Lista con los valores de potencias, igual que potencias
+        double[] potenciasEnteras = new double[] {
+                2, 7.4, 22, 43, 50
+        };
+        */
+
+        String[] conectores = new String[] {
+                "Chademo", "Schuko", "TeslaX", "Type1", "Type1j1772", "Type2",
+                "Type2Socket", "Type3c"
+        };
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItemsConector = new boolean[] {
+                false, false, false, false, false, false, false, false, false
+        };
+
+
+        builder.setMultiChoiceItems(conectores, checkItemsConector, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItemsConector[which] = isChecked;
+        });
+
+        //Al pulsar aceptar
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            List<Double> potenciasSeleccionadas = new ArrayList<>();
+            for (int i = 0; i < checkItems.length; i++) {
+                if (checkItems[i]) {
+                    potenciasSeleccionadas.add(potenciasEnteras[i]);
+                }
+            }
+
+            presenter.onAceptarFiltroPotenciaClicked(potenciasSeleccionadas);
+        });
+
+        //Al pulsar cancelar
+        builder.setNegativeButton("Cancelar", (dialog, which) -> filtrosDialog());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
     @Override
     public void init() {
