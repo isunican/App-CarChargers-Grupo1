@@ -110,6 +110,33 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
+    public List<Charger> filtrarOriginalesPorConector() {
+
+        //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
+        if (conectoresFiltro.isEmpty()) {
+            return shownChargers;
+        }
+
+        //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
+        List<Charger> resultadoFiltro = new ArrayList<>();
+
+        for (Charger charger : shownChargers) {
+            for (ConnectionType conector : conectoresFiltro) {
+                if (charger.contieneConector(conector)) {
+                    resultadoFiltro.add(charger);
+                }
+            }
+        }
+
+        if(resultadoFiltro.isEmpty()) {
+            //Para indicar que este filtro te deja sin puntos
+            return Collections.emptyList();
+        } else {
+            return resultadoFiltro;
+        }
+
+    }
+
     public void onAceptarFiltroConectoresClicked(List<ConnectionType> conectores) {
         conectoresFiltro = conectores;
         aplicarFiltros();
@@ -121,14 +148,17 @@ public class MainPresenter implements IMainContract.Presenter {
 
     private void aplicarFiltros() {
 
-        //coger lista og
+        // Coger lista og
         chargersFiltrados = shownChargers;
 
-        //ir aplicandoles todos los filtros que se indican con un switch
+        // Ir aplicandoles todos los filtros que se haya.
+
         chargersFiltrados.retainAll(filtrarOriginalesPorPotencia());
         if (chargersFiltrados.isEmpty()) {
             // TODO tratar lista vacia con error y volver atras
         }
+
+        chargersFiltrados.retainAll(filtrarOriginalesPorConector());
         if (!conectoresFiltro.isEmpty()) {
             // TODO tratar lista vacia y volver atras
         }
