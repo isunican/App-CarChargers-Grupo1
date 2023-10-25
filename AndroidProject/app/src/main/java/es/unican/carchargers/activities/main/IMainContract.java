@@ -37,12 +37,14 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void filtrarOriginalesPorPotencia(List<Double> potenciasSeleccionadas);
+        List<Charger> filtrarOriginalesPorPotencia();
 
         /**
          * Muestra lista original con todos los cargadores.
          */
         void listaOriginal();
+
+        void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
     }
 
     /**

@@ -83,7 +83,7 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
-    public List<Charger> filtrarOriginalesPorPotencia(List<Double> potencias) {
+    public List<Charger> filtrarOriginalesPorPotencia() {
 
         //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
         if (potenciasFiltro.isEmpty()) {
@@ -94,7 +94,7 @@ public class MainPresenter implements IMainContract.Presenter {
         List<Charger> resultadoFiltro = new ArrayList<>();
 
         for (Charger charger : shownChargers) {
-            for (Double potencia : potencias) {
+            for (Double potencia : potenciasFiltro) {
                 if (charger.contienePotencia(potencia)) {
                     resultadoFiltro.add(charger);
                 }
@@ -103,35 +103,34 @@ public class MainPresenter implements IMainContract.Presenter {
 
         if(resultadoFiltro.isEmpty()) {
             //Para indicar que este filtro te deja sin puntos
-            return null;
+            return Collections.emptyList();
         } else {
             return resultadoFiltro;
         }
-
-        //view.showChargers(MainPresenter.this.chargersFiltrados);
-        //view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
 
     }
 
     public void onAceptarFiltroConectoresClicked(List<ConnectionType> conectores) {
         conectoresFiltro = conectores;
+        aplicarFiltros();
+    }
+    public void onAceptarFiltroPotenciaClicked(List<Double> potencias) {
+        potenciasFiltro = potencias;
+        aplicarFiltros();
     }
 
     private void aplicarFiltros() {
-        //
-        //listA.retainAll(listB);
-        // listA now contains only the elements which are also contained in listB.
 
         //coger lista og
         chargersFiltrados = shownChargers;
 
         //ir aplicandoles todos los filtros que se indican con un switch
-
-        if (!potenciasFiltro.isEmpty()) {
-            //aplicar a chargersFiltrados el filtro
+        chargersFiltrados.retainAll(filtrarOriginalesPorPotencia());
+        if (chargersFiltrados.isEmpty()) {
+            // TODO tratar lista vacia con error y volver atras
         }
         if (!conectoresFiltro.isEmpty()) {
-            //aplicar a chargersFiltrados el filtro
+            // TODO tratar lista vacia y volver atras
         }
 
         //mostrar el resultado
