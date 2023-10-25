@@ -57,6 +57,19 @@ public class Charger {
         return false;
     }
 
+    // Devuelve true si alguno de los cargadores en este punto tiene el tipo de conector indicado.
+    public boolean contieneConector(ConnectionType conector) {
+
+        //Comprobar si alguno de sus valores Power (dentro de sus connections es el indicado)
+        for (Connection c : connections) {
+            if (c.connectionType == conector) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
