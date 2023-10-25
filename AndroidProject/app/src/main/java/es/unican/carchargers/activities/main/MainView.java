@@ -114,7 +114,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // Mostrar el AlertDialog para elegir filtros
         dialogFiltros.show();
     }
-    
+
     public void ordenDialog() {
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.activity_menu_orden, null);
