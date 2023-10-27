@@ -37,6 +37,37 @@ public class Matchers {
         };
     }
 
+    public static Matcher<View> isFilteredByConector() {
+        return new TypeSafeMatcher<View>() {
+            @Override public boolean matchesSafely (final View item) {
+                ListView lv = (ListView) item;
+                ListAdapter adapter = lv.getAdapter();
+                if (adapter instanceof ChargersArrayAdapter) {
+                    ChargersArrayAdapter chargersAdapter = (ChargersArrayAdapter) adapter;
+                    List<Charger> chargers = new ArrayList<>();
+                    for (int i = 0; i < adapter.getCount(); i++) {
+                        chargers.add(chargersAdapter.getItem(i));
+                    }
+
+                    boolean isCharger1IdEqual = chargers.get(0).id.equals("213038");
+                    boolean isCharger27IdEqual = chargers.get(27).id.equals("212923");
+                /*
+                String a = chargers.get(0).id;
+                String b = chargers.get(27).id;
+                Log.d("MiTag", "Este es un mensaje de depuración."+ a + " " + b);
+                */
+                    return chargers.size() == 28 && isCharger1IdEqual && isCharger27IdEqual;
+                }
+                return false;
+            }
+
+            @Override public void describeTo (final Description description) {
+                description.appendText ("ListView should be filtered by power");
+            }
+        };
+    }
+
+
     public static Matcher<View> isFilteredByPower() {
         return new TypeSafeMatcher<View>() {
             @Override public boolean matchesSafely (final View view) {

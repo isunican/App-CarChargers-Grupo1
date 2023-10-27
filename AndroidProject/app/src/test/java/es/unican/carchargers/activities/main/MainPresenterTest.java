@@ -1,4 +1,4 @@
-package es.unican.carchargers;
+package es.unican.carchargers.activities.main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.activities.main.MainPresenter;
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 import es.unican.carchargers.repository.IRepository;
@@ -47,6 +50,7 @@ public class MainPresenterTest {
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
 
+    List<EConnectionType> conectores;
 
     @Before
     public void setup(){
@@ -72,7 +76,36 @@ public class MainPresenterTest {
 
 
     }
+    /*
+    @Test
+    public void filtrarPorConectorTest(){
+        //filtrare por CCS_Type_1
+        conectores.add(CCS_Type_1);
+        //creo los conectores
+        Connection c1 = new Connection();
+        c1.connectionType.id = EConnectionType.CCS_Type_1.getId();
+        //c1.id = 1;
+        Connection c2 = new Connection();
+        c1.connectionType.id = EConnectionType.CCS_Type_2.getId();
+        //c1.id = 2;
+        Connection c3 = new Connection();
+        c1.connectionType.id = EConnectionType.CCS_Type_1.getId();
+        //c1.id = 3;
+        //creo los puntos de carga
+        Charger a = new Charger();
+        a.connections.add(c1);
+        Charger b = new Charger();
+        b.connections.add(c2);
+        Charger c = new Charger();
+        c.connections.add(c3);
+        //añado los cargadores
+        chargers.add(a);
+        chargers.add(b);
+        chargers.add(c);
 
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+    }*/
 
     @Test
     public void filtrarPorPotTestCasoA() {
@@ -215,6 +248,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
+
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));

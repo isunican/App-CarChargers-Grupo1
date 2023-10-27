@@ -25,10 +25,11 @@ public class MainPresenter implements IMainContract.Presenter {
     /** the view controlled by this presenter */
     private IMainContract.View view;
 
-    /** a cached list of charging stations currently shown */
+    // Lista que obtenemos al llamar a la API
     private List<Charger> shownChargers;
+
+    // Lista que mostramos al user.
     private List<Charger> chargersActuales;
-    private List<Charger> chargersFiltrados;
 
     /** Filtros activos */
     List<Double> potenciasFiltro = new ArrayList<>();
@@ -65,8 +66,8 @@ public class MainPresenter implements IMainContract.Presenter {
                 // que tambien queremos conservar.
                 chargersActuales = new ArrayList<>(shownChargers);
 
-                view.showChargers(MainPresenter.this.shownChargers);
-                view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+                view.showChargers(MainPresenter.this.chargersActuales);
+                view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
             }
 
             @Override
@@ -83,8 +84,8 @@ public class MainPresenter implements IMainContract.Presenter {
 
     @Override
     public void onChargerClicked(int index) {
-        if (shownChargers != null && index < shownChargers.size()) {
-            Charger charger = shownChargers.get(index);
+        if (chargersActuales != null && index < chargersActuales.size()) {
+            Charger charger = chargersActuales.get(index);
             view.showChargerDetails(charger);
         }
     }
@@ -160,7 +161,7 @@ public class MainPresenter implements IMainContract.Presenter {
     private void aplicarFiltros() {
 
         // Coger lista og
-        chargersFiltrados = new ArrayList<>(shownChargers);
+        List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
 
@@ -184,8 +185,8 @@ public class MainPresenter implements IMainContract.Presenter {
         // Mostrar el resultado y guardarlo por separado, en caso de que la
         // proxima llamada de este método acabe con una lista vacia.
         chargersActuales = new ArrayList<>(chargersFiltrados);
-        view.showChargers(MainPresenter.this.chargersFiltrados);
-        view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
+        view.showChargers(MainPresenter.this.chargersActuales);
+        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
 
     //Ordena la lista en funcion de un parametro
