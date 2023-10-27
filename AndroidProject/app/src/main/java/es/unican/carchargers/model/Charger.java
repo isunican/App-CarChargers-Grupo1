@@ -82,7 +82,7 @@ public class Charger {
     // Ya que el precio habitual podria ser de 0.3€/kWh a 0.7€/kWh si detectamos algo como
     // 10€, que se referira al parking, le ponemos el nº mas alto posible.
     // Si se da lo anterior y nº validos, cogemos el valido.
-    public double extraerCosteCharger() {
+    public double extraerCosteChargerAsc() {
 
         // Define el patrón regex para buscar un número con decimales en el String.
         Pattern pattern = Pattern.compile("\\d[,.]\\d\\d€/kWh");

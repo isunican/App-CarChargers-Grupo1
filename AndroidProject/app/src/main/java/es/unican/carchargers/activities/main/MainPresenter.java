@@ -111,11 +111,11 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     //Ordena la lista en funcion de un parametro
-    public void ordenarCargaresMostrados(String parameter) {
+    public void onClickedAceptarOrdenacion(String criterioOrdenacion, int ascendente) {
 
-        switch (parameter) {
+        switch (criterioOrdenacion) {
             case "Precio":
-                shownChargers.sort(Comparator.comparingDouble(Charger::extraerCosteCharger));
+                shownChargers.sort(Comparator.comparingDouble(Charger::extraerCosteChargerAsc));
                 break;
             default:
                 break;
