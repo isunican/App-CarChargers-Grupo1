@@ -169,6 +169,7 @@ public class MainPresenter implements IMainContract.Presenter {
             view.showLoadSinCargadores("No hay cargadores para esta selección. " +
                     "Al cerrar este mensaje se volverá a la selección anterior.");
             return;
+
         }
 
         chargersFiltrados.retainAll(filtrarOriginalesPorConector());

@@ -1,5 +1,8 @@
 package es.unican.carchargers.common;
 
+import android.app.AlertDialog;
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,5 +31,8 @@ public class Utils {
         } catch (IOException e) {}
         return null;
     }
+
+
+
 
 }
