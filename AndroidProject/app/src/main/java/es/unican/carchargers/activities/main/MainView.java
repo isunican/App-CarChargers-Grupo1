@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import static es.unican.carchargers.common.AndroidUtils.showLoadErrorDialog;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -241,29 +243,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Crea un alertDialog que avisa de un error determinado
-<<<<<<< HEAD
-     * Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
-=======
-     * @param error mensaje que rellena el campo de setMessage con el string de parametro
->>>>>>> feature/484709-FiltrarPotencia
-     */
-    public void showLoadErrorDialog(String error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Error");
-        builder.setMessage(error);
-
-        // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", (dialog, which) -> dialog.dismiss());
-
-        // Mostrar el AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
     public void showLoadSinCargadores(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -282,7 +261,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showLoadError(String error) {
-        showLoadErrorDialog(error);
+        showLoadErrorDialog(error, this);
     }
 
 
