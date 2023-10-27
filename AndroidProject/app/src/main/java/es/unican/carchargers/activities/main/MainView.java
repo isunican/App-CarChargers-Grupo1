@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -119,17 +121,59 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.activity_menu_orden, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
         builder.setView(view);
 
-        CheckBox chkPrecio = (CheckBox)view.findViewById(R.id.checkbox_precio);
-        chkPrecio.setOnClickListener(v -> {
-            ordenDialog.dismiss();
-            //filtradoPotenciaDialog();
+        RadioButton radioButtonAsc;
+        RadioButton radioButtonDesc;
+        radioButtonAsc = findViewById(R.id.radioButtonAsc);
+        radioButtonDesc = findViewById(R.id.radioButtonDesc);
+/*
+        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Acciones a realizar cuando se hace clic en el RadioButton
+                if (radioButtonAsc.isChecked()) {
+                    // El RadioButton ha sido seleccionado
+                    // Realiza acciones relacionadas con la selección
+                    filtradoPotenciaDialog();
+                } else {
+                    // El RadioButton ha sido deseleccionado
+                    // Realiza acciones relacionadas con la deselección
+                }
+            }
         });
 
+        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Acciones a realizar cuando se hace clic en el RadioButton
+                if (radioButtonDesc.isChecked()) {
+                    // El RadioButton ha sido seleccionado
+                    // Realiza acciones relacionadas con la selección
+                    filtradoPotenciaDialog();
+
+                } else {
+                    // El RadioButton ha sido deseleccionado
+                    // Realiza acciones relacionadas con la deselección
+                }
+            }
+        });
+*/
+        Button btnAceptarOrden = (Button)view.findViewById(R.id.btnAceptarOrden);
+        btnAceptarOrden.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+            filtradoPotenciaDialog();
+        });
+
+        Button btnCancelarOrden = (Button)view.findViewById(R.id.btnCancelarOrden);
+        btnCancelarOrden.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+        });
+
+
         // Configurar el título y el mensaje de error
-        builder.setTitle("Orden");
+        builder.setTitle("Ordenar");
         // Mostrar el AlertDialog
         ordenDialog = builder.create();
         // Mostrar el AlertDialog para elegir filtros

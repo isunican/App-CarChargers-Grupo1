@@ -7,8 +7,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,7 +36,7 @@ public class InitCorrectoTest {
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
 
-    @BeforeEach
+    @Before
     public void inicializa() {
         MockitoAnnotations.openMocks(this); // Creación de los mocks definidos anteriormente con @Mock
 
