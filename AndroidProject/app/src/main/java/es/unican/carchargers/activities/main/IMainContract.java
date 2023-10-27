@@ -4,7 +4,6 @@ import java.util.List;
 
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.IRepository;
 
 /**
@@ -44,7 +43,7 @@ public interface IMainContract {
         /**
          * Muestra lista original con todos los cargadores.
          */
-        void listaOriginal();
+        void listaActual();
 
         void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
 
