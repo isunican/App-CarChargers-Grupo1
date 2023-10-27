@@ -1,12 +1,15 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.Context;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
@@ -27,7 +30,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /** Filtros activos */
     List<Double> potenciasFiltro = new ArrayList<>();
-    List<ConnectionType> conectoresFiltro = new ArrayList<>();
+    List<EConnectionType> conectoresFiltro = new ArrayList<>();
 
     @Override
     public void init(IMainContract.View view) {
@@ -121,7 +124,7 @@ public class MainPresenter implements IMainContract.Presenter {
         List<Charger> resultadoFiltro = new ArrayList<>();
 
         for (Charger charger : shownChargers) {
-            for (ConnectionType conector : conectoresFiltro) {
+            for (EConnectionType conector : conectoresFiltro) {
                 if (charger.contieneConector(conector)) {
                     resultadoFiltro.add(charger);
                 }
@@ -137,7 +140,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
-    public void onAceptarFiltroConectoresClicked(List<ConnectionType> conectores) {
+    public void onAceptarFiltroConectoresClicked(List<EConnectionType> conectores) {
         conectoresFiltro = conectores;
         aplicarFiltros();
     }
@@ -149,7 +152,7 @@ public class MainPresenter implements IMainContract.Presenter {
     private void aplicarFiltros() {
 
         // Coger lista og
-        chargersFiltrados = shownChargers;
+        chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
 
