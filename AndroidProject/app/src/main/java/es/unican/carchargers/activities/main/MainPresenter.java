@@ -4,6 +4,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.unican.carchargers.R;
@@ -109,6 +110,20 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
+    //Ordena la lista en funcion de un parametro
+    public void ordenarCargaresMostrados(String parameter) {
+
+        switch (parameter) {
+            case "Precio":
+                shownChargers.sort(Comparator.comparingDouble(Charger::extraerCosteCharger));
+                break;
+            default:
+                break;
+        }
+
+        view.showChargers(MainPresenter.this.shownChargers);
+        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+    }
 
     /**
      * Carga la vista con la lista inicial de cargadores.
