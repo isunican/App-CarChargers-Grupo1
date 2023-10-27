@@ -70,18 +70,18 @@ public class FiltrarConectorValidoUITest {
 
         // Realiza una selección de elementos en el diálogo de selección múltiple
         // TODO : Selecciono dos tipos de conectores
-        onView(withText("43kW")).perform(click());
-        onView(withText("7.4kW")).perform(click());
+        onView(withText("CCS (Type 1)")).perform(click());
+        onView(withText("CCS (Type 2)")).perform(click());
 
         // Verifica se han seleccionado los tipos de conectores
         // TODO : Verifico que se han seleccionado los dos tipos de conectores
-        onView(withText("43kW")).check(matches(isChecked()));
-        onView(withText("7.4kW")).check(matches(isChecked()));
+        onView(withText("CCS (Type 1)")).check(matches(isChecked()));
+        onView(withText("CCS (Type 2)")).check(matches(isChecked()));
 
         // Click en aceptar
         onView(withText("Aceptar")).perform(click());
 
-        //lvChargers es un listView
+        //lvChargers es un listView del layout
         // TODO: Hacer matcher para el filtrado por tipo de conector
         onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
 
