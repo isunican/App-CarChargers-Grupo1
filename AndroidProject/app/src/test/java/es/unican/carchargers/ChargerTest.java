@@ -11,6 +11,8 @@ import es.unican.carchargers.model.Connection;
 
 public class ChargerTest {
 
+    
+
     @Test
     public void listarTiposConectorTest() {
         // caso sin conectores

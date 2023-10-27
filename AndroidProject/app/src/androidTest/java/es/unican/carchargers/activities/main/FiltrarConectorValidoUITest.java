@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static es.unican.carchargers.utils.Matchers.isFilteredByConector;
 import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
 
 import android.content.Context;
@@ -55,7 +56,7 @@ public class FiltrarConectorValidoUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
     @Test
-    public void filtrosDialogTest() {
+    public void filtrosConectorDialogTest() {
         // Caso valido
 
         // Click en el elemento "filtro" del menu
@@ -83,7 +84,7 @@ public class FiltrarConectorValidoUITest {
 
         //lvChargers es un listView del layout
         // TODO: Hacer matcher para el filtrado por tipo de conector
-        onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
+        onView(withId(R.id.lvChargers)).check(matches(isFilteredByConector()));
 
     }
 
