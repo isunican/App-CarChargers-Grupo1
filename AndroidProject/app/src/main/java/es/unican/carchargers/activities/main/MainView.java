@@ -27,7 +27,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.Connection;
+import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.IRepository;
 
 @AndroidEntryPoint
@@ -95,6 +98,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtradoPotenciaDialog();
         });
 
+        Button btnConector = (Button)view.findViewById(R.id.btnConector);
+        btnConector.setOnClickListener(v -> {
+            dialogFiltros.dismiss();
+            filtradoConectorDialog();
+        });
+
         Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
@@ -155,7 +164,50 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
+    public void filtradoConectorDialog() {
 
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(MainView.this, R.style.AlertDialogTema);
+        builder.setTitle("Marque las casillas que más se adapten a su búsqueda:");
+        builder.setIcon(R.drawable.icono_filtro);
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        String[] conectores = EConnectionType.obtenerNombres();
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItemsConector = new boolean[] {
+                false, false, false, false, false, false, false, false, false
+        };
+
+
+        builder.setMultiChoiceItems(conectores, checkItemsConector, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItemsConector[which] = isChecked;
+        });
+
+        //Al pulsar aceptar
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            List<EConnectionType> conectoresSeleccionados = new ArrayList<>();
+
+            for (int i = 0; i < checkItemsConector.length; i++) {
+                if (checkItemsConector[i]) {
+                    conectoresSeleccionados.add(EConnectionType.obtenerConnectionTypePorPos(i));
+                }
+            }
+
+            presenter.onAceptarFiltroConectoresClicked(conectoresSeleccionados);
+        });
+
+        //Al pulsar cancelar
+        builder.setNegativeButton("Cancelar", (dialog, which) -> filtrosDialog());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
     @Override
     public void init() {

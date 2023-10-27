@@ -7,6 +7,8 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unican.carchargers.constants.EConnectionType;
+
 /**
  * A charging station according to the OpenChargeMap API
  * Documentation: https://openchargemap.org/site/develop/api#/operations/get-poi
@@ -50,6 +52,19 @@ public class Charger {
         //Comprobar si alguno de sus valores Power (dentro de sus connections es el indicado)
         for (Connection c : connections) {
             if (c.powerKW == potencia) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Devuelve true si alguno de los cargadores en este punto tiene el tipo de conector indicado.
+    public boolean contieneConector(EConnectionType conector) {
+
+        //Comprobar si alguno de sus valores Power (dentro de sus connections es el indicado)
+        for (Connection c : connections) {
+            if (c.connectionType.id == conector.getId()) {
 
                 return true;
             }
