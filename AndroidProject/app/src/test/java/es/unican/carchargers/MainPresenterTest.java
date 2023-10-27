@@ -1,6 +1,7 @@
 package es.unican.carchargers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -37,6 +38,16 @@ public class MainPresenterTest {
     List<Double> potencias;
     List<Charger> captados;
 
+    //Variables pruebas Samuel
+    ArgumentCaptor<Charger> captorCharger;
+    Charger c1, c2, c3, c4;
+    @Mock
+    IMainContract.View mView;
+    List<Charger> listChargers;
+    ArgumentCaptor<List<Charger>> captorCargadores;
+    ArgumentCaptor<Integer> captorNumCargadores;
+
+
     @Before
     public void setup(){
         MockitoAnnotations.openMocks(this);
@@ -46,6 +57,20 @@ public class MainPresenterTest {
         sut = new MainPresenter();
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
+
+        captorCargadores = ArgumentCaptor.forClass(List.class);
+        captorNumCargadores = ArgumentCaptor.forClass(Integer.class);
+        captorCharger = ArgumentCaptor.forClass(Charger.class);
+        c1 = new Charger();
+        c1.operator.title = "Zunder";
+        c2 = new Charger();
+        c2.operator.title = "Repsol";
+        c3 = new Charger();
+        c3.operator.title = "Iberdrola";
+        c4 = new Charger();
+        c4.operator.title = "Particular";
+
+
     }
 
 
@@ -79,7 +104,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtrarOriginalesPorPotencia(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -120,7 +145,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtrarOriginalesPorPotencia(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -162,9 +187,9 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtrarOriginalesPorPotencia(potencias);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
-        captados = captor.getValue();
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        verify(mv,atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+                "Al cerrar este mensaje se volverá a la selección anterior.");
 
         // Verifica que el resultado sea el esperado
         assertEquals(captados.size(), 0);
@@ -189,7 +214,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtrarOriginalesPorPotencia(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -228,7 +253,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtrarOriginalesPorPotencia(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -266,7 +291,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.filtrarOriginalesPorPotencia(potencias);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
@@ -275,4 +300,73 @@ public class MainPresenterTest {
         // Verifica que el resultado sea el esperado
         assertEquals(captados.size(), 2);
     }
+
+
+
+
+
+
+    @Test
+    public void listaVaciaTest() {
+        //Caso lista vacia
+        listChargers = new ArrayList<Charger>();
+        IRepository repositoryVacio = Repositories.getFake(listChargers);
+
+        when(mView.getRepository()).thenReturn(repositoryVacio);
+        sut.init(mView);
+        verify(mView).showChargers(captorCargadores.capture());
+        verify(mView).showLoadCorrect(captorNumCargadores.capture());
+        assertTrue(captorCargadores.getValue().isEmpty());
+        assertEquals(captorNumCargadores.getValue(), (Integer)0);
+    }
+
+    @Test
+    public void listaUnEltoTest() {
+        listChargers = new ArrayList<Charger>();
+        listChargers.add(c1);
+        IRepository repositoryUnElto = Repositories.getFake(listChargers);
+
+        when(mView.getRepository()).thenReturn(repositoryUnElto);
+        sut.init(mView);
+        verify(mView).showChargers(captorCargadores.capture());
+        verify(mView).showLoadCorrect(captorNumCargadores.capture());
+        assertFalse(captorCargadores.getValue().isEmpty());
+        assertEquals(captorNumCargadores.getValue(), (Integer)1);
+    }
+
+    @Test
+    public void listaVariosElto() {
+        listChargers = new ArrayList<Charger>();
+
+        listChargers.add(c1);
+        listChargers.add(c2);
+        listChargers.add(c3);
+        listChargers.add(c4);
+        IRepository repositoryVariosEltos = Repositories.getFake(listChargers);
+
+        when(mView.getRepository()).thenReturn(repositoryVariosEltos);
+        sut.init(mView);
+        verify(mView).showChargers(captorCargadores.capture());
+        verify(mView).showLoadCorrect(captorNumCargadores.capture());
+        assertFalse(captorCargadores.getValue().isEmpty());
+        assertEquals(captorNumCargadores.getValue(), (Integer)4);
+    }
+
+    @Test
+    public void testOnChargerClickedIndiceValidoTest() {
+        List<Charger> chargers = new ArrayList<Charger>();
+        chargers.add(c1);
+        chargers.add(c2);
+
+        int indiceValid = 1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+        sut.onChargerClicked(indiceValid);
+
+        verify(mv).showChargerDetails(captorCharger.capture());
+        assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
+    }
+
 }

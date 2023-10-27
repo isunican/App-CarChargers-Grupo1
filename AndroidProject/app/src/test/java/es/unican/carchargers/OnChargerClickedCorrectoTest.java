@@ -24,13 +24,11 @@ public class OnChargerClickedCorrectoTest {
 
     @Mock
     IMainContract.View view;
-
     ArgumentCaptor<Charger> captorCharger;
-
-
     IMainContract.Presenter presenter;
-        Charger c1, c2, c3, c4;
+    Charger c1, c2, c3, c4;
 
+        @Before
         public void setup() {
             MockitoAnnotations.openMocks(this); // Creación de los mocks definidos anteriormente con @Mock
 
@@ -48,7 +46,6 @@ public class OnChargerClickedCorrectoTest {
 
         @Test
         public void testOnChargerClickedIndiceValidoTest() {
-            setup();
             List<Charger> chargers = new ArrayList<Charger>();
             chargers.add(c1);
             chargers.add(c2);
