@@ -26,6 +26,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
+    private List<Charger> chargersActuales;
     private List<Charger> chargersFiltrados;
 
     /** Filtros activos */
@@ -57,6 +58,12 @@ public class MainPresenter implements IMainContract.Presenter {
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
+
+                // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
+                // y tener que volver atrás no depender de la llamada original a la API
+                // que tambien queremos conservar.
+                chargersActuales = new ArrayList<>(shownChargers);
+
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -158,22 +165,30 @@ public class MainPresenter implements IMainContract.Presenter {
 
         chargersFiltrados.retainAll(filtrarOriginalesPorPotencia());
         if (chargersFiltrados.isEmpty()) {
-            // TODO tratar lista vacia con error y volver atras
+            // tratar lista vacia con error y volver atras
+            view.showLoadSinCargadores("No hay cargadores para esta selección. " +
+                    "Al cerrar este mensaje se volverá a la selección anterior.");
+            return;
         }
 
         chargersFiltrados.retainAll(filtrarOriginalesPorConector());
-        if (!conectoresFiltro.isEmpty()) {
-            // TODO tratar lista vacia y volver atras
+        if (chargersFiltrados.isEmpty()) {
+            // tratar lista vacia y volver atras
+            view.showLoadSinCargadores("No hay cargadores para esta selección. " +
+                    "Al cerrar este mensaje se volverá a la selección anterior.");
+            return;
         }
 
-        //mostrar el resultado
+        // Mostrar el resultado y guardarlo por separado, en caso de que la
+        // proxima llamada de este método acabe con una lista vacia.
+        chargersActuales = new ArrayList<>(chargersFiltrados);
         view.showChargers(MainPresenter.this.chargersFiltrados);
         view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
     }
 
-    public void listaOriginal() {
-        view.showChargers(MainPresenter.this.shownChargers);
-        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+    public void listaActual() {
+        view.showChargers(MainPresenter.this.chargersActuales);
+        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
 
 }

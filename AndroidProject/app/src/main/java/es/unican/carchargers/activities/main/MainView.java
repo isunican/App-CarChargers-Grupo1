@@ -29,8 +29,6 @@ import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.Connection;
-import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.IRepository;
 
 @AndroidEntryPoint
@@ -266,7 +264,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setMessage(error);
 
         // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaOriginal());
+        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaActual());
 
         // Mostrar el AlertDialog
         AlertDialog dialog = builder.create();
