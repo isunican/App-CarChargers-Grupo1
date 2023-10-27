@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import java.util.List;
 
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -37,12 +38,16 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
+        List<Charger> filtrarOriginalesPorPotencia();
 
         /**
          * Muestra lista original con todos los cargadores.
          */
-        void listaOriginal();
+        void listaActual();
+
+        void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
+
+        void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
     }
 
     /**
