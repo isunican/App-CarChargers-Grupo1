@@ -2,7 +2,9 @@ package es.unican.carchargers.activities.main;
 
 import java.util.List;
 
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.IRepository;
 
 /**
@@ -45,6 +47,8 @@ public interface IMainContract {
         void listaOriginal();
 
         void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
+
+        void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
     }
 
     /**
