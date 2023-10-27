@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import static es.unican.carchargers.common.AndroidUtils.showLoadErrorDialog;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -28,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -101,6 +104,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         btnPotencia.setOnClickListener(v -> {
             dialogFiltros.dismiss();
             filtradoPotenciaDialog();
+        });
+
+        Button btnConector = (Button)view.findViewById(R.id.btnConector);
+        btnConector.setOnClickListener(v -> {
+            dialogFiltros.dismiss();
+            filtradoConectorDialog();
         });
 
         Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
@@ -188,7 +197,50 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
+    public void filtradoConectorDialog() {
 
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(MainView.this, R.style.AlertDialogTema);
+        builder.setTitle("Marque las casillas que más se adapten a su búsqueda:");
+        builder.setIcon(R.drawable.icono_filtro);
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        String[] conectores = EConnectionType.obtenerNombres();
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItemsConector = new boolean[] {
+                false, false, false, false, false, false, false, false, false
+        };
+
+
+        builder.setMultiChoiceItems(conectores, checkItemsConector, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItemsConector[which] = isChecked;
+        });
+
+        //Al pulsar aceptar
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            List<EConnectionType> conectoresSeleccionados = new ArrayList<>();
+
+            for (int i = 0; i < checkItemsConector.length; i++) {
+                if (checkItemsConector[i]) {
+                    conectoresSeleccionados.add(EConnectionType.obtenerConnectionTypePorPos(i));
+                }
+            }
+
+            presenter.onAceptarFiltroConectoresClicked(conectoresSeleccionados);
+        });
+
+        //Al pulsar cancelar
+        builder.setNegativeButton("Cancelar", (dialog, which) -> filtrosDialog());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
     @Override
     public void init() {
@@ -216,24 +268,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Crea un alertDialog que avisa de un error determinado.
-     * @param error mensaje que rellena el campo de setMessage con el string de parametro.
-     */
-    public void showLoadErrorDialog(String error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Error");
-        builder.setMessage(error);
-
-        // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", (dialog, which) -> dialog.dismiss());
-
-        // Mostrar el AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     /**
      * Gestiona errores cuando no hay cargadores, volviendo a la lista de cargadorres inicial.
@@ -247,7 +282,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setMessage(error);
 
         // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaOriginal());
+        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaActual());
 
         // Mostrar el AlertDialog
         AlertDialog dialog = builder.create();
@@ -256,12 +291,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     /**
-     * Implementacion de gestion de errores general
+     * Implementacion de gestion de errores general.
      * @param error mensaje explicativo del error.
      */
     @Override
     public void showLoadError(String error) {
-        showLoadErrorDialog(error);
+        showLoadErrorDialog(error, this);
     }
 
 

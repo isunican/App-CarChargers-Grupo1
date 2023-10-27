@@ -1,12 +1,16 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.Context;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.constants.EConnectionType;
+import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
@@ -22,7 +26,12 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
+    private List<Charger> chargersActuales;
     private List<Charger> chargersFiltrados;
+
+    /** Filtros activos */
+    List<Double> potenciasFiltro = new ArrayList<>();
+    List<EConnectionType> conectoresFiltro = new ArrayList<>();
 
     @Override
     public void init(IMainContract.View view) {
@@ -49,6 +58,12 @@ public class MainPresenter implements IMainContract.Presenter {
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
+
+                // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
+                // y tener que volver atrás no depender de la llamada original a la API
+                // que tambien queremos conservar.
+                chargersActuales = new ArrayList<>(shownChargers);
+
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -78,44 +93,107 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
-    public void onAceptarFiltroPotenciaClicked(List<Double> potencias) {
+    public List<Charger> filtrarOriginalesPorPotencia() {
 
         //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
-        if (potencias.isEmpty()) {
-            listaOriginal();
-            return;
+        if (potenciasFiltro.isEmpty()) {
+            return shownChargers;
         }
 
         //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
-        chargersFiltrados = new ArrayList<>();
+        List<Charger> resultadoFiltro = new ArrayList<>();
 
         for (Charger charger : shownChargers) {
-            for (Double potencia : potencias) {
+            for (Double potencia : potenciasFiltro) {
                 if (charger.contienePotencia(potencia)) {
-                    chargersFiltrados.add(charger);
+                    resultadoFiltro.add(charger);
                 }
             }
         }
 
-        if(chargersFiltrados.isEmpty()) {
-            view.showLoadSinCargadores("No se han encontrado cargadores que se ajusten a tu busqueda");
-            view.showChargers(MainPresenter.this.chargersFiltrados);
-            view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
+        if(resultadoFiltro.isEmpty()) {
+            //Para indicar que este filtro te deja sin puntos
+            return Collections.emptyList();
+        } else {
+            return resultadoFiltro;
+        }
+
+    }
+
+    public List<Charger> filtrarOriginalesPorConector() {
+
+        //Si el usuario no elige potencias y da a aceptar, interpretamos que no quiere filtrar y mostramos todos.
+        if (conectoresFiltro.isEmpty()) {
+            return shownChargers;
+        }
+
+        //Si alguna de las potencias que se pasan esta, se busca si un Charger la tiene.
+        List<Charger> resultadoFiltro = new ArrayList<>();
+
+        for (Charger charger : shownChargers) {
+            for (EConnectionType conector : conectoresFiltro) {
+                if (charger.contieneConector(conector)) {
+                    resultadoFiltro.add(charger);
+                }
+            }
+        }
+
+        if(resultadoFiltro.isEmpty()) {
+            //Para indicar que este filtro te deja sin puntos
+            return Collections.emptyList();
+        } else {
+            return resultadoFiltro;
+        }
+
+    }
+
+    public void onAceptarFiltroConectoresClicked(List<EConnectionType> conectores) {
+        conectoresFiltro = conectores;
+        aplicarFiltros();
+    }
+    public void onAceptarFiltroPotenciaClicked(List<Double> potencias) {
+        potenciasFiltro = potencias;
+        aplicarFiltros();
+    }
+
+    private void aplicarFiltros() {
+
+        // Coger lista og
+        chargersFiltrados = new ArrayList<>(shownChargers);
+
+        // Ir aplicandoles todos los filtros que se haya.
+
+        chargersFiltrados.retainAll(filtrarOriginalesPorPotencia());
+        if (chargersFiltrados.isEmpty()) {
+            // tratar lista vacia con error y volver atras
+            view.showLoadSinCargadores("No hay cargadores para esta selección. " +
+                    "Al cerrar este mensaje se volverá a la selección anterior.");
+            return;
+
+        }
+
+        chargersFiltrados.retainAll(filtrarOriginalesPorConector());
+        if (chargersFiltrados.isEmpty()) {
+            // tratar lista vacia y volver atras
+            view.showLoadSinCargadores("No hay cargadores para esta selección. " +
+                    "Al cerrar este mensaje se volverá a la selección anterior.");
             return;
         }
 
+        // Mostrar el resultado y guardarlo por separado, en caso de que la
+        // proxima llamada de este método acabe con una lista vacia.
+        chargersActuales = new ArrayList<>(chargersFiltrados);
         view.showChargers(MainPresenter.this.chargersFiltrados);
         view.showLoadCorrect(MainPresenter.this.chargersFiltrados.size());
-
     }
 
 
     /**
      * Carga la vista con la lista inicial de cargadores.
      */
-    public void listaOriginal() {
-        view.showChargers(MainPresenter.this.shownChargers);
-        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+    public void listaActual() {
+        view.showChargers(MainPresenter.this.chargersActuales);
+        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
 
 }
