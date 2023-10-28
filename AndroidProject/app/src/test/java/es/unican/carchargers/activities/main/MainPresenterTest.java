@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
+import static es.unican.carchargers.constants.EConnectionType.*;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +34,7 @@ import es.unican.carchargers.repository.Repositories;
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTest {
 
+    //Variables Perez
     @Mock
     IMainContract.View mv;
     ArgumentCaptor<List<Charger>> captor;
@@ -41,7 +44,16 @@ public class MainPresenterTest {
     List<Double> potencias;
     List<Charger> captados;
 
-    //Variables pruebas Samuel
+    //Variables Jesus
+    @Mock
+    IMainContract.View mainV;
+    ArgumentCaptor<List<Charger>> listCaptor;
+    List<Charger> listCharger;
+    IRepository repo;
+    List<Charger> capturados;
+    List<EConnectionType> conectores;
+
+    //Variables Samuel
     ArgumentCaptor<Charger> captorCharger;
     Charger c1, c2, c3, c4;
     @Mock
@@ -50,18 +62,19 @@ public class MainPresenterTest {
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
 
-    List<EConnectionType> conectores;
-
     @Before
     public void setup(){
         MockitoAnnotations.openMocks(this);
+        sut = new MainPresenter();
+
+        //Perez
         captor = ArgumentCaptor.forClass(List.class);
         chargers = new ArrayList<>();
         repository = Repositories.getSyncFake(chargers);
-        sut = new MainPresenter();
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
 
+        //Samuel
         captorCargadores = ArgumentCaptor.forClass(List.class);
         captorNumCargadores = ArgumentCaptor.forClass(Integer.class);
         captorCharger = ArgumentCaptor.forClass(Charger.class);
@@ -74,38 +87,80 @@ public class MainPresenterTest {
         c4 = new Charger();
         c4.operator.title = "Particular";
 
-
+        //Jesus
+        listCaptor = ArgumentCaptor.forClass(List.class);
+        listCharger = new ArrayList<>();
+        repo = Repositories.getSyncFake(listCharger);
+        conectores = new ArrayList<>();
+        capturados = new ArrayList<>();
     }
-    /*
+
     @Test
     public void filtrarPorConectorTest(){
-        //filtrare por CCS_Type_1
+
+        // CASO 1: Filtrado con varios puntos de carga y un tipo de conector.
+
+        // Filtraré por CCS_Type_1
         conectores.add(CCS_Type_1);
-        //creo los conectores
+
+        // Creo los conectores
         Connection c1 = new Connection();
-        c1.connectionType.id = EConnectionType.CCS_Type_1.getId();
-        //c1.id = 1;
+        c1.connectionType.id = CCS_Type_1.getId();
         Connection c2 = new Connection();
-        c1.connectionType.id = EConnectionType.CCS_Type_2.getId();
-        //c1.id = 2;
+        c2.connectionType.id = CCS_Type_2.getId();
         Connection c3 = new Connection();
-        c1.connectionType.id = EConnectionType.CCS_Type_1.getId();
-        //c1.id = 3;
-        //creo los puntos de carga
+        c3.connectionType.id = CCS_Type_1.getId();
+
+        // Creo los puntos de carga
         Charger a = new Charger();
         a.connections.add(c1);
         Charger b = new Charger();
         b.connections.add(c2);
         Charger c = new Charger();
         c.connections.add(c3);
-        //añado los cargadores
-        chargers.add(a);
-        chargers.add(b);
-        chargers.add(c);
 
-        when(mv.getRepository()).thenReturn(repository);
-        sut.init(mv);
-    }*/
+        // Añado los puntos de carga a la lista
+        listCharger.add(a);
+        listCharger.add(b);
+        listCharger.add(c);
+
+        // Configuro el comportamiento del mock
+        when(mainV.getRepository()).thenReturn(repo);
+        sut.init(mainV);
+
+        // Llamo al metodo a probar y verifico que se ha llamado
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mainV,atLeast(1)).showChargers(captor.capture());
+
+        // Verifico que los elementos filtrados son los correctos
+        capturados = captor.getValue();
+        assertEquals(capturados.get(0), a);
+        assertEquals(capturados.get(1), c);
+
+        // Verifico la longitud de la lista
+        assertEquals(capturados.size(), 2);
+
+        // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
+        conectores.add(CCS_Type_2);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mainV,atLeast(1)).showChargers(captor.capture());
+        capturados = captor.getValue();
+        assertEquals(capturados.get(0), a);
+        assertEquals(capturados.get(1), b);
+        assertEquals(capturados.get(2), c);
+        assertEquals(capturados.size(), 3);
+
+        // CASO 3: Filtrado en que no existen puntos de carga con ese conector.
+        conectores.clear();
+        conectores.add(CEE_74_Schuko_Type_F);
+        listCharger.remove(c);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        //verify(mainV,never()).showChargers(captor.capture());
+        verify(mainV,atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+                "Al cerrar este mensaje se volverá a la selección anterior.");
+        capturados = captor.getValue();
+        assertEquals(capturados.size(), 0);
+    }
 
     @Test
     public void filtrarPorPotTestCasoA() {
