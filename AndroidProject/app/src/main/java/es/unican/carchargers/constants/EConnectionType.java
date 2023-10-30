@@ -41,7 +41,8 @@ public enum EConnectionType {
         EConnectionType[] valores = EConnectionType.values();
         String[] nombres = new String[valores.length];
 
-        for (int i = 0; i < valores.length; i++) {
+        // No retorna el genérico.
+        for (int i = 0; i < valores.length - 1; i++) {
             nombres[i] = valores[i].getNombre();
         }
 
