@@ -39,6 +39,8 @@ public interface IMainContract {
 
         public void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
 
+        public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente);
+
         /**
          * Muestra lista original con todos los cargadores.
          */

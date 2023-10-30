@@ -26,33 +26,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Marque las casillas que más se adapten\n a su búsqueda:"
+            android:text="Marque las casillas que más se adapten a su búsqueda:"
             android:textColor="#201515"
             android:textSize="16sp"></TextView>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/rectangulo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+    <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/rectangulo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            android:checkedButton="@id/checkbox_precio">
 
         <CheckBox
             android:id="@+id/checkbox_precio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:buttonTint="#303030"
-            android:checked="false"
-            android:onClick="onCheckboxClicked"
+            android:backgroundTint="@color/dialogColor"
             android:text="Precio"
             android:textSize="16sp" />
-    </LinearLayout>
+    </RadioGroup>
+
 
     <View
         android:id="@+id/rectangulo"
@@ -76,7 +77,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rectangulo" />
 
-    <LinearLayout
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center|center_horizontal"
@@ -91,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:button="@drawable/radio_boton"
+            android:checked="true"
             android:text="Ascendente"
             android:textColor="#000000"
             android:textSize="16sp" />
@@ -101,11 +104,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:button="@drawable/radio_boton"
             android:text="Descendente"
             android:textColor="#000000"
             android:textSize="16sp" />
-    </LinearLayout>
+    </RadioGroup>
 
     <LinearLayout
         android:id="@+id/linearLayout"
