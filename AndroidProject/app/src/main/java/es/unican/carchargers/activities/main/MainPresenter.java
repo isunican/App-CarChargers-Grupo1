@@ -114,6 +114,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 ordenaChargersPrecio(ascendente);
                 break;
             default:
+                // TODO usar el dialog error de android.utils para indicar error.
                 break;
         }
 
