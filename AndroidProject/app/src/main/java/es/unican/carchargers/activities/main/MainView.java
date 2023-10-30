@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -104,7 +105,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtradoConectorDialog();
         });
 
-        Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
+        TextView btnCancelar = (TextView) view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
         // Configurar el título y el mensaje de error
