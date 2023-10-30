@@ -32,19 +32,22 @@ public class Charger {
         return lista;
     }
 
-<<<<<<< HEAD
+
     // Devuelve true si alguno de los cargadores en este punto tiene la potencia indicada.
     public boolean contienePotencia(double potencia) {
 
         //Comprobar si alguno de sus valores Power (dentro de sus connections es el indicado)
         for (Connection c : connections) {
             if (c.powerKW == potencia) {
-=======
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean comprobarDiponibilidad(){
         List<String> lista = new ArrayList<>();
         for (Connection c:connections){
             if (c.statusType.isOperational == true) {
->>>>>>> 70a850fc3613dfb8e16baed5896dff1075f07477
                 return true;
             }
         }
