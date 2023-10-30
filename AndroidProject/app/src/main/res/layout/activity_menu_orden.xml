@@ -32,15 +32,17 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/rectangulo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+    <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/rectangulo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            android:checkedButton="@id/checkbox_precio">
 
         <CheckBox
             android:id="@+id/checkbox_precio"
@@ -50,7 +52,8 @@
             android:backgroundTint="@color/dialogColor"
             android:text="Precio"
             android:textSize="16sp" />
-    </LinearLayout>
+    </RadioGroup>
+
 
     <View
         android:id="@+id/rectangulo"

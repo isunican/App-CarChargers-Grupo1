@@ -152,7 +152,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             checkItems[0] = isChecked;
         });
 
-        final int[] tipoOrdenAscDesc = {1};
+        final boolean[] tipoOrdenAscDesc = {false};
 
         builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado
@@ -166,27 +166,27 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         radioButtonAsc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tipoOrdenAscDesc[0] = 1;
+                tipoOrdenAscDesc[0] = true;
             }
         });
 
         radioButtonDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tipoOrdenAscDesc[0] = 0;
+                tipoOrdenAscDesc[0] = false;
             }
         });
 
 
         Button btnAceptarOrden = (Button)view.findViewById(R.id.btnAceptarOrden);
         btnAceptarOrden.setOnClickListener(v -> {
-            //TODO aqui metemos el metodo de ordenar
+            String orden = null;
             for (int i = 0; i < checkItems.length; i++) {
                 if (checkItems[i]) {
-                    //Toast.makeText(MainView.this, "CheckBox " + (i + 1) + " seleccionado", Toast.LENGTH_SHORT).show();
+                    orden = tiposOrden[i];
                 }
             }
-            //Toast.makeText(MainView.this, "0 des y 1 asc: " + tipoOrdenAscDesc[0], Toast.LENGTH_SHORT).show();
+            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
             ordenDialog.dismiss();
         });
 
