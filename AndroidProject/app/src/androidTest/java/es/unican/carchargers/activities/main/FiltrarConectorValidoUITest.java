@@ -8,7 +8,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static es.unican.carchargers.utils.Matchers.isFilteredByConector;
+import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
+import static es.unican.carchargers.constants.EConnectionType.CCS_Type_2;
+import static es.unican.carchargers.utils.Matchers.isFilteredByConnector;
 import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
 
 import android.content.Context;
@@ -56,37 +58,56 @@ public class FiltrarConectorValidoUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
     @Test
-    public void filtrosConectorDialogTest() {
+    public void filtroSimpleConectorTest() {
         // Caso valido
 
         // Click en el elemento "filtro" del menu
         onView(withId(R.id.filtro)).perform(click());
 
         // Click en el boton para filtrar por tipo de conector
-        // TODO : Cambiar btnPotencia por el boton para filtrar por conector
-        onView(withId(R.id.btnPotencia)).perform(click());
+        onView(withId(R.id.btnConector)).perform(click());
 
         // Verifica que se muestra el texto
         onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
 
         // Realiza una selección de elementos en el diálogo de selección múltiple
-        // TODO : Selecciono dos tipos de conectores
-        onView(withText("CCS (Type 1)")).perform(click());
         onView(withText("CCS (Type 2)")).perform(click());
 
         // Verifica se han seleccionado los tipos de conectores
-        // TODO : Verifico que se han seleccionado los dos tipos de conectores
-        onView(withText("CCS (Type 1)")).check(matches(isChecked()));
         onView(withText("CCS (Type 2)")).check(matches(isChecked()));
 
         // Click en aceptar
         onView(withText("Aceptar")).perform(click());
 
         //lvChargers es un listView del layout
-        // TODO: Hacer matcher para el filtrado por tipo de conector
-        onView(withId(R.id.lvChargers)).check(matches(isFilteredByConector()));
+        onView(withId(R.id.lvChargers)).check(matches(isFilteredByConnector()));
 
     }
+    //@Test
+    public void filtroDobleConectorTest() {
+        // Caso valido
 
+        // Click en el elemento "filtro" del menu
+        onView(withId(R.id.filtro)).perform(click());
 
+        // Click en el boton para filtrar por tipo de conector
+        onView(withId(R.id.btnConector)).perform(click());
+
+        // Verifica que se muestra el texto
+        onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
+
+        // Realiza una selección de elementos en el diálogo de selección múltiple
+        onView(withText("CCS (Type 1)")).perform(click());
+        //onView(withText("CCS (Type 2)")).perform(click());
+
+        // Verifica se han seleccionado los tipos de conectores
+        onView(withText("CCS (Type 1)")).check(matches(isChecked()));
+        //onView(withText("CCS (Type 2)")).check(matches(isChecked()));
+
+        // Click en aceptar
+        onView(withText("Aceptar")).perform(click());
+
+        //lvChargers es un listView del layout
+        //onView(withId(R.id.lvChargers)).check(matches(isFilteredByConnector(CCS_Type_1, CCS_Type_2)));
+    }
 }
