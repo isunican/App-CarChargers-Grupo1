@@ -74,8 +74,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rectangulo" />
 
-    <LinearLayout
-        android:id="@+id/radioLayout"
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center|center_horizontal"
@@ -90,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:button="@drawable/radio_boton"
+            android:checked="true"
             android:text="Ascendente"
             android:textColor="#000000"
             android:textSize="16sp" />
@@ -100,11 +101,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:button="@drawable/radio_boton"
             android:text="Descendente"
             android:textColor="#000000"
             android:textSize="16sp" />
-    </LinearLayout>
+    </RadioGroup>
 
     <LinearLayout
         android:id="@+id/linearLayout"
