@@ -29,12 +29,13 @@ public class DetailsView extends AppCompatActivity {
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
-        TextView tvId = findViewById(R.id.tvId);
 
         TextView tvProvincia = findViewById(R.id.tvProvincia);
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
+
+        TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -46,11 +47,18 @@ public class DetailsView extends AppCompatActivity {
         // Mostrar detalles del punto de carga
         validarYEstablecerTextView(tvTitle, charger.operator.title);
         validarYEstablecerTextView(tvInfo, charger.operator.website);
-        validarYEstablecerTextView(tvId, charger.id);
         validarYEstablecerTextView(tvProvincia, charger.address.province);
         validarYEstablecerTextView(tvCiudad, charger.address.title);
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
+
+        if(charger.comprobarDiponibilidad() == true) {
+            tvDisponibilidad.setText("Disponible");
+        } else {
+            tvDisponibilidad.setText("Ocupado");
+        }
+
+        //Mostrar LOGO-CONECTOR
         ImageView[] logos = new ImageView[3];
         logos[0] = findViewById(R.id.logo1);
         logos[1] = findViewById(R.id.logo2);
@@ -92,6 +100,7 @@ public class DetailsView extends AppCompatActivity {
             }
         }
 }
+
     private void validarYEstablecerTextView(TextView textView, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
             textView.setText("-");
@@ -99,5 +108,6 @@ public class DetailsView extends AppCompatActivity {
             textView.setText(valor);
         }
     }
+
 
 }

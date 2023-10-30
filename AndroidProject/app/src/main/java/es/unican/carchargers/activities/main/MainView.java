@@ -192,7 +192,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     /**
      * Crea un alertDialog que avisa de un error determinado
+<<<<<<< HEAD
      * @param error mensaje que rellena el campo de setMessage con el string de parametro
+=======
+>>>>>>> 70a850fc3613dfb8e16baed5896dff1075f07477
      */
     public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
