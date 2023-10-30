@@ -36,7 +36,7 @@ public class InitCorrectoTest {
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
 
-    @BeforeEach
+    @Before
     public void inicializa() {
         MockitoAnnotations.openMocks(this); // Creación de los mocks definidos anteriormente con @Mock
 
