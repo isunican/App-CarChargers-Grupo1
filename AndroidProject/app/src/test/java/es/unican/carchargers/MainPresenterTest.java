@@ -433,7 +433,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        
+
         //Comprobar si salta el mensaje de error
 
     }
