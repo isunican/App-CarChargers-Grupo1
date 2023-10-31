@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,15 +48,20 @@ public class Charger {
      * Comprueba la disponibilidad de los cargadores de un punto de carga.
      * @return true si esta disponible o el statusType es null.
      */
-    public boolean comprobarDiponibilidad(){
-        List<String> lista = new ArrayList<>();
-        for (Connection c:connections){
-            if (c.statusType == null || c.statusType.isOperational == true) {
+    public boolean comprobarDisponibilidad() {
+        Iterator<Connection> iterator = connections.iterator();
+
+        while (iterator.hasNext()) {
+            Connection c = iterator.next();
+            if (c.statusType == null) {
+                return false;
+            } else if (c.statusType.isOperational) {
                 return true;
             }
         }
         return false;
     }
+
 
 
     /**
