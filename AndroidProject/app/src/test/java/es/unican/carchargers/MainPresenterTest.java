@@ -311,8 +311,9 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-
+        verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
+
 
         //Comprobacion de los resultados esperados
         assertTrue(captados.get(0).equals(c3));
@@ -348,7 +349,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-
+        verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
@@ -378,7 +379,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-
+        verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
@@ -405,7 +406,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-
+        verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
@@ -432,7 +433,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-
+        
         //Comprobar si salta el mensaje de error
 
     }
