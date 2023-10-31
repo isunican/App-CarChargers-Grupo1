@@ -64,6 +64,8 @@ public class OnChargerClickedCorrectoTest {
             assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
         }
 
+
+
 }
 
 

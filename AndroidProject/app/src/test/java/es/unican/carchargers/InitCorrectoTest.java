@@ -7,8 +7,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,7 +36,7 @@ public class InitCorrectoTest {
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
 
-    @BeforeEach
+    @Before
     public void inicializa() {
         MockitoAnnotations.openMocks(this); // Creación de los mocks definidos anteriormente con @Mock
 
@@ -57,7 +57,6 @@ public class InitCorrectoTest {
 
     @Test
     public void listaVaciaTest() {
-        inicializa();
         //Caso lista vacia
         listChargers = new ArrayList<Charger>();
         IRepository repositoryVacio = Repositories.getFake(listChargers);
@@ -72,7 +71,6 @@ public class InitCorrectoTest {
 
     @Test
     public void listaUnEltoTest() {
-        inicializa();
         listChargers = new ArrayList<Charger>();
         listChargers.add(c1);
         IRepository repositoryUnElto = Repositories.getFake(listChargers);
@@ -95,6 +93,7 @@ public class InitCorrectoTest {
         listChargers.add(c3);
         listChargers.add(c4);
         IRepository repositoryVariosEltos = Repositories.getFake(listChargers);
+        //Para el init sin conex: IRepository repositoryVariosEltos1 = Repositories.getFail();
 
         when(mView.getRepository()).thenReturn(repositoryVariosEltos);
         sut.init(mView);
