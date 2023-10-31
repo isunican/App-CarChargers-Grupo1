@@ -85,6 +85,7 @@ public class FiltrarPotenciaValidoUITest {
 
         onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
 
+
     }
 
 
