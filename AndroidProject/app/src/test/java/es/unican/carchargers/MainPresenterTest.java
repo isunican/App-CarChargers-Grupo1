@@ -37,6 +37,12 @@ public class MainPresenterTest {
     List<Double> potencias;
     List<Charger> captados;
 
+    List<Charger> cargadores;
+
+    String criterioOrd;
+    boolean asc;
+
+
     @Before
     public void setup(){
         MockitoAnnotations.openMocks(this);
@@ -46,6 +52,8 @@ public class MainPresenterTest {
         sut = new MainPresenter();
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
+
+        cargadores = new ArrayList<Charger>();
     }
 
 
@@ -275,4 +283,154 @@ public class MainPresenterTest {
         // Verifica que el resultado sea el esperado
         assertEquals(captados.size(), 2);
     }
+
+    //TEST: OnClickedAceptarOrdenacion
+
+    //CASO 1:
+    public void OnClickedAceptarOrdenacionTestCaso1() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+        Charger c4 = new Charger();
+        c1.usageCost = "0,35€/kWh";
+        c2.usageCost = "0,43€/kWh";
+        c3.usageCost = "0,30€/kWh";
+        c4.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+        cargadores.add(c3);
+        cargadores.add(c4);
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertTrue(captados.get(0).equals(c3));
+        assertTrue(captados.get(1).equals(c1));
+        assertTrue(captados.get(2).equals(c2));
+        assertEquals(captados.size(), 3);
+
+
+    }
+
+    //CASO 2:
+    public void OnClickedAceptarOrdenacionTestCaso2() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+        Charger c4 = new Charger();
+        c1.usageCost = "0,35€/kWh";
+        c2.usageCost = "0,43€/kWh";
+        c3.usageCost = "0,30€/kWh";
+        c4.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+        cargadores.add(c3);
+        cargadores.add(c4);
+
+        criterioOrd = "Precio";
+        asc = false;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertTrue(captados.get(0).equals(c2));
+        assertTrue(captados.get(1).equals(c1));
+        assertTrue(captados.get(2).equals(c3));
+        assertEquals(captados.size(), 3);
+
+    }
+
+    //CASO 3:
+    public void OnClickedAceptarOrdenacionTestCaso3() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = null;
+        c2.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(captados.size(), 0);
+
+    }
+
+    //CASO 4:
+    public void OnClickedAceptarOrdenacionTestCaso4() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = null;
+        c2.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+
+        criterioOrd = "Precio";
+        asc = false;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(captados.size(), 0);
+
+    }
+
+    //CASO 5:
+    public void OnClickedAceptarOrdenacionTestCaso5() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = "0,76€/kWh";
+        c2.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+
+        criterioOrd = "hola";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        //Comprobar si salta el mensaje de error
+
+    }
+
+
 }

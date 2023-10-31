@@ -49,6 +49,18 @@ public class Charger {
      * @return true si esta disponible o el statusType es null.
      */
     public boolean comprobarDisponibilidad() {
+        int cont = 0;
+        for (Connection c : connections) {
+            if (c.statusType == null || !c.statusType.isOperational) {
+                cont++;
+                if (cont == connections.size()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+        /*
         Iterator<Connection> iterator = connections.iterator();
 
         while (iterator.hasNext()) {
@@ -58,7 +70,8 @@ public class Charger {
             }
         }
         return true;
-    }
+        }
+         */
 
 
 

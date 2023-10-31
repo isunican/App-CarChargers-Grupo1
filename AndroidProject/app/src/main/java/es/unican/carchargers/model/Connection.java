@@ -33,7 +33,9 @@ public class Connection {
 
 
     public Connection() {
+        this.statusType = new StatusType();
         this.connectionType = new ConnectionType();
     }
+
 
 }
