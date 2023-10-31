@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -338,10 +340,11 @@ public class MainPresenterTest {
 
 
 
+    //Test Samuel Castro
 
-
+    //init()
     @Test
-    public void listaVaciaTest() {
+    public void initTestCasoListaVaciaTest() {
         //Caso lista vacia
         listChargers = new ArrayList<Charger>();
         IRepository repositoryVacio = Repositories.getFake(listChargers);
@@ -355,7 +358,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void listaUnEltoTest() {
+    public void initTestCasoListaUnEltoTest() {
         listChargers = new ArrayList<Charger>();
         listChargers.add(c1);
         IRepository repositoryUnElto = Repositories.getFake(listChargers);
@@ -369,7 +372,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void listaVariosElto() {
+    public void initTestCasoListaVariosElto() {
         listChargers = new ArrayList<Charger>();
 
         listChargers.add(c1);
@@ -387,7 +390,75 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void testOnChargerClickedIndiceValidoTest() {
+    public void initTestCasoB() {
+        listChargers = new ArrayList<Charger>();
+
+        listChargers.add(c1);
+        listChargers.add(c2);
+        listChargers.add(c3);
+        listChargers.add(c4);
+        IRepository repositoryVariosEltos = Repositories.getFake(listChargers);
+
+        when(mView.getRepository()).thenReturn(repositoryVariosEltos);
+        sut.init(mView);
+        verify(mView).showChargers(captorCargadores.capture());
+        verify(mView).showLoadCorrect(captorNumCargadores.capture());
+        assertFalse(captorCargadores.getValue().isEmpty());
+        assertEquals(captorNumCargadores.getValue(), (Integer)4);
+    }
+
+    //OnChargedClicked(int indice)
+    @Test
+    public void onChargerClickedTestCasoA() {
+        List<Charger> chargers = new ArrayList<Charger>();
+        chargers.add(c1);
+        chargers.add(c2);
+
+        int indiceValid = 1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+        sut.onChargerClicked(indiceValid);
+
+        verify(mv).showChargerDetails(captorCharger.capture());
+        assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
+    }
+
+    @Test
+    public void onChargerClickedTestCasoB() {
+        List<Charger> chargers = new ArrayList<Charger>();
+
+        int indiceValid = 1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+        sut.onChargerClicked(indiceValid);
+
+        verify(mv, never()).showChargerDetails(captorCharger.capture());
+
+    }
+
+    //TODO: Seguir aqui
+    @Test
+    public void onChargerClickedTestCasoC() {
+        List<Charger> chargers = new ArrayList<Charger>();
+
+        int indiceInvalid = -1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+        // Simular el lanzamiento de una IndexOutOfBoundsException al llamar al método onChargerClicked con un índice válido
+        doThrow(new IndexOutOfBoundsException()).when(sut).onChargerClicked(indiceInvalid);
+
+        verify(mv, never()).showChargerDetails(captorCharger.capture());
+
+    }
+
+    @Test
+    public void onChargerClickedTestCasoD() {
         List<Charger> chargers = new ArrayList<Charger>();
         chargers.add(c1);
         chargers.add(c2);
