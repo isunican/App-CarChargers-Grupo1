@@ -53,11 +53,13 @@ public class Charger {
 
         while (iterator.hasNext()) {
             Connection c = iterator.next();
-            if (c.statusType == null || !c.statusType.isOperational) {
+            if (c.statusType == null) {
                 return false;
+            } else if (c.statusType.isOperational) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 
