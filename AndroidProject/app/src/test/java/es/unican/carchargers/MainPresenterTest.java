@@ -287,6 +287,7 @@ public class MainPresenterTest {
     //TEST: OnClickedAceptarOrdenacion
 
     //CASO 1:
+    @Test
     public void OnClickedAceptarOrdenacionTestCaso1() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
@@ -323,6 +324,7 @@ public class MainPresenterTest {
     }
 
     //CASO 2:
+    @Test
     public void OnClickedAceptarOrdenacionTestCaso2() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
@@ -358,6 +360,7 @@ public class MainPresenterTest {
     }
 
     //CASO 3:
+    @Test
     public void OnClickedAceptarOrdenacionTestCaso3() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
@@ -384,6 +387,7 @@ public class MainPresenterTest {
     }
 
     //CASO 4:
+    @Test
     public void OnClickedAceptarOrdenacionTestCaso4() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
@@ -410,6 +414,7 @@ public class MainPresenterTest {
     }
 
     //CASO 5:
+    @Test
     public void OnClickedAceptarOrdenacionTestCaso5() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
