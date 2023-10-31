@@ -3,12 +3,16 @@ package es.unican.carchargers;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
+import es.unican.carchargers.repository.IRepository;
+import es.unican.carchargers.repository.Repositories;
 
 public class ChargerTest {
 
@@ -43,17 +47,25 @@ public class ChargerTest {
 
     }
 
+    @Mock
+    IMainContract.View mv;
+    IRepository repository;
     @Test
     public void comprobarDiponibilidadTest() {
+
         Charger sut = new Charger();
-        List<Connection> res = new ArrayList<Connection>();
+        List<Charger> cargadores = new ArrayList<Charger>();
+        cargadores.add(sut);
         boolean r;
         Connection c1 = new Connection();
         Connection c2 = new Connection();
         Connection c3 = new Connection();
-        res.add(c1);
-        res.add(c2);
-        res.add(c3);
+
+        sut.connections.add(c1);
+        sut.connections.add(c2);
+        sut.connections.add(c3);;
+
+        repository = Repositories.getSyncFake(cargadores);
 
         //Al menos un conector esta disponible
         c1.statusType.isOperational = false;
