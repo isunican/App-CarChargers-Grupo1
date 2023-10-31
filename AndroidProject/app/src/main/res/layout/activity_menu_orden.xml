@@ -6,131 +6,126 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/icono_filtro"
-            android:layout_marginRight="16dp"/>
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-        <TextView
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/icono_filtro" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Marque las casillas que más se adapten a su búsqueda:"
+                android:textColor="#201515"
+                android:textSize="16sp"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/checkbox_precio"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox_precio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/dialogColor"
+                    android:text="Precio"
+                    android:textSize="16sp" />
+            </RadioGroup>
+
+            <View
+                android:id="@+id/rectangulo"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.75"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.539" />
+
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center|center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonAsc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginRight="16dp"
+                    android:checked="true"
+                    android:text="Ascendente"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Descendente"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Marque las casillas que más se adapten a su búsqueda:"
-            android:textColor="#201515"
-            android:textSize="16sp"></TextView>
-
-    </LinearLayout>
-
-
-    <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_gravity="right"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/rectangulo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            android:checkedButton="@id/checkbox_precio">
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="20dp">
 
-        <CheckBox
-            android:id="@+id/checkbox_precio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/dialogColor"
-            android:text="Precio"
-            android:textSize="16sp" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/btnCancelarOrden"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="CANCELAR" />
 
-
-    <View
-        android:id="@+id/rectangulo"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.539" />
-
-    <View
-        android:id="@+id/rectangulo2"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rectangulo" />
-
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center|center_horizontal"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/rectangulo2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rectangulo">
-
-        <RadioButton
-            android:id="@+id/radioButtonAsc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:checked="true"
-            android:text="Ascendente"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radioButtonDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Descendente"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-    </RadioGroup>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="bottom|center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rectangulo2">
-
-        <Button
-            android:id="@+id/btnCancelarOrden"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancelar" />
-
-        <Button
-            android:id="@+id/btnAceptarOrden"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Aceptar" />
+            <TextView
+                android:id="@+id/btnAceptarOrden"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="20dp"
+                android:text="ACEPTAR" />
+        </LinearLayout>
     </LinearLayout>
 
 

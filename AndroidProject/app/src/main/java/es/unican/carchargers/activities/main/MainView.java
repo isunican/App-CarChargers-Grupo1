@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -178,7 +179,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
 
 
-        Button btnAceptarOrden = (Button)view.findViewById(R.id.btnAceptarOrden);
+        TextView btnAceptarOrden = (TextView)view.findViewById(R.id.btnAceptarOrden);
         btnAceptarOrden.setOnClickListener(v -> {
             String orden = null;
             for (int i = 0; i < checkItems.length; i++) {
@@ -190,7 +191,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             ordenDialog.dismiss();
         });
 
-        Button btnCancelarOrden = (Button)view.findViewById(R.id.btnCancelarOrden);
+        TextView btnCancelarOrden = (TextView) view.findViewById(R.id.btnCancelarOrden);
         btnCancelarOrden.setOnClickListener(v -> {
             ordenDialog.dismiss();
         });
