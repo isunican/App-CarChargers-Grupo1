@@ -10,7 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +45,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     //Para elegir filtros
     AlertDialog dialogFiltros;
+
+    AlertDialog ordenDialog;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -73,6 +81,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.filtro:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
+                return true;
+
+            case R.id.orden:
+                // inicializar el dialogo de filtros
+                ordenDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -107,6 +120,86 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialogFiltros.show();
     }
 
+    public void ordenDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.activity_menu_orden, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
+        builder.setView(view);
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Ordenar");
+        // Mostrar el AlertDialog
+        ordenDialog = builder.create();
+        // Mostrar el AlertDialog para elegir filtros
+        ordenDialog.show();
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        CheckBox checkBox1 = view.findViewById(R.id.checkbox_precio);
+        String[] tiposOrden = new String[] {
+                "Precio"
+        };
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItems = new boolean[] {
+                false
+        };
+
+        // Configurar los OnCheckedChangeListener para cada CheckBox
+        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkItems[0] = isChecked;
+        });
+
+        final boolean[] tipoOrdenAscDesc = {false};
+
+        builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItems[which] = isChecked;
+        });
+
+
+        RadioButton radioButtonAsc = view.findViewById(R.id.radioButtonAsc);
+        RadioButton radioButtonDesc = view.findViewById(R.id.radioButtonDesc);
+
+        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipoOrdenAscDesc[0] = true;
+            }
+        });
+
+        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipoOrdenAscDesc[0] = false;
+            }
+        });
+
+
+        Button btnAceptarOrden = (Button)view.findViewById(R.id.btnAceptarOrden);
+        btnAceptarOrden.setOnClickListener(v -> {
+            String orden = null;
+            for (int i = 0; i < checkItems.length; i++) {
+                if (checkItems[i]) {
+                    orden = tiposOrden[i];
+                }
+            }
+            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
+            ordenDialog.dismiss();
+        });
+
+        Button btnCancelarOrden = (Button)view.findViewById(R.id.btnCancelarOrden);
+        btnCancelarOrden.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+        });
+    }
+
+    /**
+     * Muestra un dialog con los checkboxs a seleccionar en base a las distintas
+     * potencias disponibles.
+     */
     public void filtradoPotenciaDialog() {
 
         AlertDialog.Builder builder =
@@ -184,12 +277,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     /**
-     * Crea un alertDialog que avisa de un error determinado
-<<<<<<< HEAD
-     * Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
-=======
-     * @param error mensaje que rellena el campo de setMessage con el string de parametro
->>>>>>> feature/484709-FiltrarPotencia
+     * Crea un alertDialog que avisa de un error determinado.
+     * @param error mensaje que rellena el campo de setMessage con el string de parametro.
      */
     public void showLoadErrorDialog(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,6 +295,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialog.show();
     }
 
+    /**
+     * Gestiona errores cuando no hay cargadores, volviendo a la lista de cargadorres inicial.
+     * @param error mensaje explicativo del error.
+     */
     public void showLoadSinCargadores(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -222,6 +315,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+    /**
+     * Implementacion de gestion de errores general
+     * @param error mensaje explicativo del error.
+     */
     @Override
     public void showLoadError(String error) {
         showLoadErrorDialog(error);

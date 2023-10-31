@@ -54,10 +54,10 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-        if(charger.comprobarDiponibilidad() == true) {
+        if(charger.comprobarDisponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {
-            tvDisponibilidad.setText("Ocupado");
+            tvDisponibilidad.setText("No Disponible");
         }
 
         //Mostrar LOGO-CONECTOR
@@ -103,6 +103,11 @@ public class DetailsView extends AppCompatActivity {
         }
 }
 
+    /**
+     *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
+     * @param textView campo de la vista a detalle a establecer valor.
+     * @param valor valor a establecer en el campo de la vista a detalle.
+     */
     private void validarYEstablecerTextView(TextView textView, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
             textView.setText("-");

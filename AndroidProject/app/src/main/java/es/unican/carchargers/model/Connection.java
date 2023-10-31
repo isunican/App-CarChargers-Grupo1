@@ -31,6 +31,7 @@ public class Connection {
     @SerializedName("Title")                public String title;
     @SerializedName("StatusType")           public StatusType statusType;
 
+
     public Connection() {
         this.connectionType = new ConnectionType();
     }
