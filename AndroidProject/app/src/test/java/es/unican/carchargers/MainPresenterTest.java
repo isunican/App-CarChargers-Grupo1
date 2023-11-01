@@ -306,7 +306,7 @@ public class MainPresenterTest {
 
         sut.init(mv);
 
-        sut.onAceptarFiltroPotenciaClicked(potencias);
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
