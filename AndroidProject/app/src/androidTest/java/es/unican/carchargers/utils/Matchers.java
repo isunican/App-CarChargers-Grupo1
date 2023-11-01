@@ -1,12 +1,18 @@
 package es.unican.carchargers.utils;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 26eacf45cf17d37faa3a8ecfa71773f690738c0f
 import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
 import static es.unican.carchargers.constants.EConnectionType.CCS_Type_2;
 
 import android.util.Log;
+<<<<<<< HEAD
 =======
 >>>>>>> feature/479502-OrdenarPrecio
+=======
+>>>>>>> 26eacf45cf17d37faa3a8ecfa71773f690738c0f
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;

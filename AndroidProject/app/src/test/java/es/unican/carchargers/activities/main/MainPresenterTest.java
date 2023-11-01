@@ -43,7 +43,6 @@ public class MainPresenterTest {
     IMainContract.Presenter sut;
     List<Double> potencias;
     List<Charger> captados;
-<<<<<<< HEAD
 
 
     //Variables Jesus
@@ -65,8 +64,6 @@ public class MainPresenterTest {
 
     List<Charger> cargadores;
 
-=======
->>>>>>> feature/479502-OrdenarPrecio
     String criterioOrd;
     boolean asc;
 
@@ -81,7 +78,6 @@ public class MainPresenterTest {
         repository = Repositories.getSyncFake(chargers);
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
-<<<<<<< HEAD
 
         cargadores = new ArrayList<Charger>();
 
@@ -103,8 +99,7 @@ public class MainPresenterTest {
         repo = Repositories.getSyncFake(listCharger);
         conectores = new ArrayList<>();
         capturados = new ArrayList<>();
-=======
->>>>>>> feature/479502-OrdenarPrecio
+
     }
 
     @Test
