@@ -431,6 +431,7 @@ public class MainPresenterTest {
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
 
         //Comprobar si salta el mensaje de error
+        assertTrue("Esta ordenación no existe. Contacte con soporte para ver que ha ocurrido.", true);
 
     }
 
