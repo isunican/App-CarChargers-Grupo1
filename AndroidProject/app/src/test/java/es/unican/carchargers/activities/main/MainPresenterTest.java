@@ -66,9 +66,9 @@ public class MainPresenterTest {
 
     String criterioOrd;
     boolean asc;
-    
+
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.openMocks(this);
         sut = new MainPresenter();
 
@@ -102,7 +102,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void filtrarPorConectorTest(){
+    public void filtrarPorConectorTest() {
         // CASO 1: Filtrado con varios puntos de carga y un tipo de conector.
 
         // Filtraré por CCS_Type_1
@@ -135,7 +135,7 @@ public class MainPresenterTest {
 
         // Llamo al metodo a probar y verifico que se ha llamado
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(1)).showChargers(captor.capture());
+        verify(mainV, atLeast(1)).showChargers(captor.capture());
 
         // Verifico que los elementos filtrados son los correctos
         capturados = captor.getValue();
@@ -148,7 +148,7 @@ public class MainPresenterTest {
         // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
         conectores.add(CCS_Type_2);
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(2)).showChargers(captor.capture());
+        verify(mainV, atLeast(2)).showChargers(captor.capture());
         capturados = captor.getValue();
         assertEquals(capturados.get(0), a);
         assertEquals(capturados.get(1), b);
@@ -162,7 +162,7 @@ public class MainPresenterTest {
         listCharger.remove(c);
         sut.onAceptarFiltroConectoresClicked(conectores);
         //Compruebo la salida
-        verify(mainV,atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+        verify(mainV, atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
                 "Al cerrar este mensaje se volverá a la selección anterior.");
 
         capturados = captor.getValue();
@@ -173,7 +173,7 @@ public class MainPresenterTest {
         conectores.add(CCS_Type_1);
         conectores.add(CEE_74_Schuko_Type_F);
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(4)).showChargers(captor.capture());
+        verify(mainV, atLeast(4)).showChargers(captor.capture());
         capturados = captor.getValue();
         assertEquals(capturados.get(0), a);
         assertEquals(capturados.size(), 1);
@@ -182,7 +182,7 @@ public class MainPresenterTest {
         listCharger.remove(b);
         a.connections.add(c2);
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(5)).showChargers(captor.capture());
+        verify(mainV, atLeast(5)).showChargers(captor.capture());
         capturados = captor.getValue();
         assertEquals(capturados.get(0), a);
         assertEquals(capturados.size(), 1);
@@ -192,7 +192,7 @@ public class MainPresenterTest {
         conectores.add(CCS_Type_1);
         conectores.add(CCS_Type_2);
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(6)).showChargers(captor.capture());
+        verify(mainV, atLeast(6)).showChargers(captor.capture());
         capturados = captor.getValue();
         assertEquals(capturados.get(0), a);
         assertEquals(capturados.size(), 1);
@@ -210,7 +210,7 @@ public class MainPresenterTest {
         listCharger.add(c);
         conectores.clear();
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(7)).showChargers(captor.capture());
+        verify(mainV, atLeast(7)).showChargers(captor.capture());
         capturados = captor.getValue();
         assertEquals(capturados.get(0), a);
         assertEquals(capturados.get(1), b);
@@ -222,7 +222,7 @@ public class MainPresenterTest {
         capturados.clear();
         conectores.add(CCS_Type_1);
         sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mainV,atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+        verify(mainV, atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
                 "Al cerrar este mensaje se volverá a la selección anterior.");
         capturados = captor.getValue();
         assertEquals(capturados.size(), 0);
@@ -259,7 +259,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
         assertTrue(captados.get(1).equals(a3));
@@ -300,7 +300,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
         assertTrue(captados.get(1).equals(a2));
@@ -342,7 +342,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+        verify(mv, atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
                 "Al cerrar este mensaje se volverá a la selección anterior.");
 
         // Verifica que el resultado sea el esperado
@@ -370,13 +370,14 @@ public class MainPresenterTest {
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
 
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
 
         // Verifica que el resultado sea el esperado
         assertEquals(captados.size(), 1);
     }
+
     @Test
     public void filtrarPorPotTestCasoE() {
         //Caso con 1 cargador y varias potencias
@@ -409,7 +410,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
 
@@ -447,7 +448,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
         assertTrue(captados.get(0).equals(a));
         assertTrue(captados.get(1).equals(a2));
@@ -455,11 +456,6 @@ public class MainPresenterTest {
         // Verifica que el resultado sea el esperado
         assertEquals(captados.size(), 2);
     }
-
-
-
-
-
 
 
     @Test
@@ -473,7 +469,7 @@ public class MainPresenterTest {
         verify(mView).showChargers(captorCargadores.capture());
         verify(mView).showLoadCorrect(captorNumCargadores.capture());
         assertTrue(captorCargadores.getValue().isEmpty());
-        assertEquals(captorNumCargadores.getValue(), (Integer)0);
+        assertEquals(captorNumCargadores.getValue(), (Integer) 0);
     }
 
     @Test
@@ -487,7 +483,7 @@ public class MainPresenterTest {
         verify(mView).showChargers(captorCargadores.capture());
         verify(mView).showLoadCorrect(captorNumCargadores.capture());
         assertFalse(captorCargadores.getValue().isEmpty());
-        assertEquals(captorNumCargadores.getValue(), (Integer)1);
+        assertEquals(captorNumCargadores.getValue(), (Integer) 1);
     }
 
     @Test
@@ -505,7 +501,7 @@ public class MainPresenterTest {
         verify(mView).showChargers(captorCargadores.capture());
         verify(mView).showLoadCorrect(captorNumCargadores.capture());
         assertFalse(captorCargadores.getValue().isEmpty());
-        assertEquals(captorNumCargadores.getValue(), (Integer)4);
+        assertEquals(captorNumCargadores.getValue(), (Integer) 4);
     }
 
     @Test
@@ -525,7 +521,7 @@ public class MainPresenterTest {
         assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
     }
 
-=======
+
     //TEST: OnClickedAceptarOrdenacion
 
     //CASO 1:
@@ -553,7 +549,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
 
@@ -591,7 +587,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
@@ -621,7 +617,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
@@ -648,7 +644,7 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv,atLeast(1)).showChargers(captor.capture());
+        verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
@@ -680,3 +676,4 @@ public class MainPresenterTest {
 
     }
 
+}

@@ -5,12 +5,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
+import es.unican.carchargers.repository.IRepository;
+import es.unican.carchargers.repository.Repositories;
 
 public class ChargerTest {
     @Test
@@ -73,5 +78,59 @@ public class ChargerTest {
         assertEquals(res.get(1), c2.connectionType.title);
         assertEquals(res.get(2), c3.connectionType.title);
 
+    }
+
+
+    @Test
+    public void comprobarDiponibilidadTest() {
+
+        Charger sut = new Charger();
+        List<Charger> cargadores = new ArrayList<Charger>();
+        cargadores.add(sut);
+        boolean r;
+        Connection c1 = new Connection();
+        Connection c2 = new Connection();
+        Connection c3 = new Connection();
+
+        sut.connections.add(c1);
+        sut.connections.add(c2);
+        sut.connections.add(c3);;
+
+        //Al menos un conector esta disponible
+        c1.statusType.isOperational = false;
+        c2.statusType.isOperational = true;
+        c3.statusType.isOperational = false;
+        r = sut.comprobarDisponibilidad();
+        assertEquals(r, true);
+
+        //Todos los conectores estan disponibles
+        c1.statusType.isOperational = true;
+        c2.statusType.isOperational = true;
+        c3.statusType.isOperational = true;
+        r = sut.comprobarDisponibilidad();
+        assertEquals(r, true);
+
+        //Ningun conector esta disponible
+        c1.statusType.isOperational = false;
+        c2.statusType.isOperational = false;
+        c3.statusType.isOperational = false;
+        r = sut.comprobarDisponibilidad();
+        assertEquals(r, false);
+
+
+        //Todos los conectores tienen disponibilidad false o se desconoce la disponibilidad
+        c1.statusType = null;
+        c2.statusType = null;
+        c3.statusType.isOperational = false;
+        r = sut.comprobarDisponibilidad();
+        assertEquals(r, false);
+
+
+        //No se conoce la disponibilidad de ingun conector
+        c1.statusType = null;
+        c2.statusType = null;
+        c3.statusType = null;
+        r = sut.comprobarDisponibilidad();
+        assertEquals(r, false);
     }
 }
