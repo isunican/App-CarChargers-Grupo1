@@ -41,7 +41,6 @@ public class MainPresenterTest {
     List<Double> potencias;
     List<Charger> captados;
 
-<<<<<<< HEAD:AndroidProject/app/src/test/java/es/unican/carchargers/activities/main/MainPresenterTest.java
     //Variables pruebas Samuel
     ArgumentCaptor<Charger> captorCharger;
     Charger c1, c2, c3, c4;
@@ -50,15 +49,14 @@ public class MainPresenterTest {
     List<Charger> listChargers;
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
-
     List<EConnectionType> conectores;
-=======
-    List<Charger> cargadores;
 
+    //Variables pruebas ...
+    List<Charger> cargadores;
     String criterioOrd;
     boolean asc;
 
->>>>>>> feature/479502-OrdenarPrecio:AndroidProject/app/src/test/java/es/unican/carchargers/MainPresenterTest.java
+
 
     @Before
     public void setup(){
@@ -69,12 +67,7 @@ public class MainPresenterTest {
         sut = new MainPresenter();
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
-<<<<<<< HEAD:AndroidProject/app/src/test/java/es/unican/carchargers/activities/main/MainPresenterTest.java
-=======
-
         cargadores = new ArrayList<Charger>();
-    }
->>>>>>> feature/479502-OrdenarPrecio:AndroidProject/app/src/test/java/es/unican/carchargers/MainPresenterTest.java
 
         captorCargadores = ArgumentCaptor.forClass(List.class);
         captorNumCargadores = ArgumentCaptor.forClass(Integer.class);
@@ -90,6 +83,7 @@ public class MainPresenterTest {
 
 
     }
+
     /*
     @Test
     public void filtrarPorConectorTest(){
@@ -349,11 +343,10 @@ public class MainPresenterTest {
         assertEquals(captados.size(), 2);
     }
 
-<<<<<<< HEAD:AndroidProject/app/src/test/java/es/unican/carchargers/activities/main/MainPresenterTest.java
 
 
 
-
+    //Test Samuel (Incompleto)
 
     @Test
     public void listaVaciaTest() {
@@ -418,7 +411,6 @@ public class MainPresenterTest {
         assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
     }
 
-=======
     //TEST: OnClickedAceptarOrdenacion
 
     //CASO 1:
@@ -574,5 +566,4 @@ public class MainPresenterTest {
     }
 
 
->>>>>>> feature/479502-OrdenarPrecio:AndroidProject/app/src/test/java/es/unican/carchargers/MainPresenterTest.java
 }
