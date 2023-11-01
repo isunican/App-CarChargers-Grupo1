@@ -314,7 +314,7 @@ public class MainPresenterTest {
         assertEquals(captados.get(0),c3);
         assertEquals(captados.get(1),c1);
         assertEquals(captados.get(2),c2);
-        assertEquals(captados.size(), 3);
+        assertEquals(3, captados.size());
 
     }
 
@@ -351,14 +351,14 @@ public class MainPresenterTest {
         assertEquals(captados.get(0),c2);
         assertEquals(captados.get(1),c1);
         assertEquals(captados.get(2),c3);
-        assertEquals(captados.size(), 3);
+        assertEquals(3, captados.size());
 
     }
 
 
     //CASO 3:
     @Test
-    public void OnClickedAceptarOrdenacionAscSinPrecioTest() {
+    public void OnClickedAceptarOrdenacionAscSinPreciosTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
@@ -379,13 +379,13 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
 
     }
 
     //CASO 4:
     @Test
-    public void OnClickedAceptarOrdenacionDesSinPrecioTest() {
+    public void OnClickedAceptarOrdenacionDesSinPreciosTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
@@ -406,7 +406,7 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
 
     }
 
