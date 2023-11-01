@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +120,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtradoConectorDialog();
         });
 
-        Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
+        TextView btnCancelar = (TextView) view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
         // Configurar el título y el mensaje de error
