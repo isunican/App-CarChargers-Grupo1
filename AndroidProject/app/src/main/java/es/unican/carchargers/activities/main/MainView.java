@@ -13,7 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +53,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     AlertDialog dialogFiltros;
 
     AlertDialog ordenDialog;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -129,21 +136,76 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.activity_menu_orden, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
         builder.setView(view);
 
-        CheckBox chkPrecio = (CheckBox)view.findViewById(R.id.checkbox_precio);
-        chkPrecio.setOnClickListener(v -> {
-            ordenDialog.dismiss();
-            //filtradoPotenciaDialog();
-        });
-
         // Configurar el título y el mensaje de error
-        builder.setTitle("Orden");
+        builder.setTitle("Ordenar");
         // Mostrar el AlertDialog
         ordenDialog = builder.create();
         // Mostrar el AlertDialog para elegir filtros
         ordenDialog.show();
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        CheckBox checkBox1 = view.findViewById(R.id.checkbox_precio);
+        String[] tiposOrden = new String[] {
+                "Precio"
+        };
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItems = new boolean[] {
+                false
+        };
+
+        // Configurar los OnCheckedChangeListener para cada CheckBox
+        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkItems[0] = isChecked;
+        });
+
+        final boolean[] tipoOrdenAscDesc = {true};
+
+        builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItems[which] = isChecked;
+        });
+
+
+        RadioButton radioButtonAsc = view.findViewById(R.id.radioButtonAsc);
+        RadioButton radioButtonDesc = view.findViewById(R.id.radioButtonDesc);
+
+        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipoOrdenAscDesc[0] = true;
+            }
+        });
+
+        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipoOrdenAscDesc[0] = false;
+            }
+        });
+
+
+        TextView btnAceptarOrden = (TextView)view.findViewById(R.id.btnAceptarOrden);
+        btnAceptarOrden.setOnClickListener(v -> {
+            String orden = null;
+            for (int i = 0; i < checkItems.length; i++) {
+                if (checkItems[i]) {
+                    orden = tiposOrden[i];
+                }
+            }
+            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
+            ordenDialog.dismiss();
+        });
+
+        TextView btnCancelarOrden = (TextView) view.findViewById(R.id.btnCancelarOrden);
+        btnCancelarOrden.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+        });
     }
 
     /**

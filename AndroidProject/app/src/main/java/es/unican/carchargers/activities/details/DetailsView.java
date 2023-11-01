@@ -54,10 +54,10 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-        if(charger.comprobarDiponibilidad() == true) {
+        if(charger.comprobarDisponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {
-            tvDisponibilidad.setText("Ocupado");
+            tvDisponibilidad.setText("No Disponible");
         }
 
         //Mostrar LOGO-CONECTOR
