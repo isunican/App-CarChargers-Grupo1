@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -27,8 +28,12 @@
                     android:id="@+id/btnPotencia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="Potencia" />
+                    android:text="Potencia"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <LinearLayout
@@ -40,21 +45,30 @@
                     android:id="@+id/btnConector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="Tipo de conector" />
+                    android:text="Tipo de conector"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="right"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="15dp">
 
-                <Button
+                <TextView
                     android:id="@+id/btnCancelar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelar" />
+                    android:layout_marginRight="30dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:text="CANCELAR" />
             </LinearLayout>
 
         </LinearLayout>
