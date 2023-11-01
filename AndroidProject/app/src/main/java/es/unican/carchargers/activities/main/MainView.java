@@ -153,7 +153,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             checkItems[0] = isChecked;
         });
 
-        final boolean[] tipoOrdenAscDesc = {false};
+        final boolean[] tipoOrdenAscDesc = {true};
 
         builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado
