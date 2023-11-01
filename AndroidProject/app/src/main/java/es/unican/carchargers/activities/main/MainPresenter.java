@@ -114,8 +114,9 @@ public class MainPresenter implements IMainContract.Presenter {
                 ordenaChargersPrecio(ascendente);
                 break;
             default:
-                // TODO usar el dialog error de android.utils para indicar error.
-                break;
+                // usar el dialog error de android.utils para indicar error.
+                view.showLoadError("Esta ordenación no existe. Contacte con soporte para ver que ha ocurrido.");
+                return;
         }
 
         view.showChargers(MainPresenter.this.shownChargers);
@@ -136,7 +137,7 @@ public class MainPresenter implements IMainContract.Presenter {
         };
 
         // Usamos Collections.sort() para ordenar la lista
-        Collections.sort(shownChargers, comparadorPrecio);
+        shownChargers.sort(comparadorPrecio);
         view.showChargers(MainPresenter.this.shownChargers);
         view.showLoadCorrect(MainPresenter.this.shownChargers.size());
     }
