@@ -76,7 +76,7 @@ public class OrdenarPorPrecioUITest {
         // Acepta el dialog
         onView(withText("ACEPTAR")).perform(click());
 
-        //COMPROBAR QUE EL MATCHER ESTA BIEN HECHO
+        //Verifica que la lista esta correctamente ordenada de manera ascendente
         onView(withId(R.id.lvChargers)).check(matches(isListAscending()));
 
  //----------------------------------------------------------------------------//
@@ -99,7 +99,7 @@ public class OrdenarPorPrecioUITest {
         // Acepta el dialog
         onView(withText("ACEPTAR")).perform(click());
 
-        //COMPROBAR QUE EL MATCHER ESTA BIEN HECHO
+        //Verifica que la lista esta correctamente ordenada de manera descendente
         onView(withId(R.id.lvChargers)).check(matches(isListDescending()));
 
     }

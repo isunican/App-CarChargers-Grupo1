@@ -36,9 +36,6 @@ public class MainPresenterTest {
     IMainContract.Presenter sut;
     List<Double> potencias;
     List<Charger> captados;
-
-    List<Charger> cargadores;
-
     String criterioOrd;
     boolean asc;
 
@@ -52,8 +49,6 @@ public class MainPresenterTest {
         sut = new MainPresenter();
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
-
-        cargadores = new ArrayList<Charger>();
     }
 
 
@@ -293,34 +288,33 @@ public class MainPresenterTest {
         Charger c2 = new Charger();
         Charger c3 = new Charger();
         Charger c4 = new Charger();
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+        chargers.add(c4);
+
         c1.usageCost = "0,35€/kWh";
         c2.usageCost = "0,43€/kWh";
         c3.usageCost = "0,30€/kWh";
         c4.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
-        cargadores.add(c3);
-        cargadores.add(c4);
-
-        criterioOrd = "Precio";
-        asc = true;
-
         when(mv.getRepository()).thenReturn(repository);
 
         sut.init(mv);
 
-        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
-
         //Comprobacion de los resultados esperados
-        assertTrue(captados.get(0).equals(c3));
-        assertTrue(captados.get(1).equals(c1));
-        assertTrue(captados.get(2).equals(c2));
+        assertEquals(captados.get(0),c3);
+        assertEquals(captados.get(1),c1);
+        assertEquals(captados.get(2),c2);
         assertEquals(captados.size(), 3);
-
 
     }
 
@@ -331,15 +325,16 @@ public class MainPresenterTest {
         Charger c2 = new Charger();
         Charger c3 = new Charger();
         Charger c4 = new Charger();
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+        chargers.add(c4);
+
         c1.usageCost = "0,35€/kWh";
         c2.usageCost = "0,43€/kWh";
         c3.usageCost = "0,30€/kWh";
         c4.usageCost = null;
-
-        cargadores.add(c1);
-        cargadores.add(c2);
-        cargadores.add(c3);
-        cargadores.add(c4);
 
         criterioOrd = "Precio";
         asc = false;
@@ -353,12 +348,13 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertTrue(captados.get(0).equals(c2));
-        assertTrue(captados.get(1).equals(c1));
-        assertTrue(captados.get(2).equals(c3));
+        assertEquals(captados.get(0),c2);
+        assertEquals(captados.get(1),c1);
+        assertEquals(captados.get(2),c3);
         assertEquals(captados.size(), 3);
 
     }
+
 
     //CASO 3:
     @Test
@@ -368,8 +364,8 @@ public class MainPresenterTest {
         c1.usageCost = null;
         c2.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
+        chargers.add(c1);
+        chargers.add(c2);
 
         criterioOrd = "Precio";
         asc = true;
@@ -395,8 +391,8 @@ public class MainPresenterTest {
         c1.usageCost = null;
         c2.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
+        chargers.add(c1);
+        chargers.add(c2);
 
         criterioOrd = "Precio";
         asc = false;
@@ -422,8 +418,8 @@ public class MainPresenterTest {
         c1.usageCost = "0,76€/kWh";
         c2.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
+        chargers.add(c1);
+        chargers.add(c2);
 
         criterioOrd = "hola";
         asc = true;
