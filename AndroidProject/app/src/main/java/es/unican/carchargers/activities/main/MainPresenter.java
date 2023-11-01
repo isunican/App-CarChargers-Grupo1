@@ -234,7 +234,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
         // Equivalente a recorrer todos los objetos charger y quitarlos con el criterio de la lambda
         // Sugerenci de sonar.
-        shownChargers.removeIf(c -> c.extraerCosteCharger() == -1);
+        chargersActuales.removeIf(c -> c.extraerCosteCharger() == -1);
 
         // Usamos Collections.sort() para ordenar la lista
         chargersActuales.sort(comparadorPrecio);
