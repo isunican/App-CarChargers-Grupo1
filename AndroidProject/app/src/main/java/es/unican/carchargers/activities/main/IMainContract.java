@@ -40,6 +40,8 @@ public interface IMainContract {
 
         List<Charger> filtrarOriginalesPorPotencia();
 
+        public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente);
+
         /**
          * Muestra lista original con todos los cargadores.
          */

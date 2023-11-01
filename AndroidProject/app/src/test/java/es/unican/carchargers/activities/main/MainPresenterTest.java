@@ -41,6 +41,7 @@ public class MainPresenterTest {
     List<Double> potencias;
     List<Charger> captados;
 
+<<<<<<< HEAD:AndroidProject/app/src/test/java/es/unican/carchargers/activities/main/MainPresenterTest.java
     //Variables pruebas Samuel
     ArgumentCaptor<Charger> captorCharger;
     Charger c1, c2, c3, c4;
@@ -51,6 +52,13 @@ public class MainPresenterTest {
     ArgumentCaptor<Integer> captorNumCargadores;
 
     List<EConnectionType> conectores;
+=======
+    List<Charger> cargadores;
+
+    String criterioOrd;
+    boolean asc;
+
+>>>>>>> feature/479502-OrdenarPrecio:AndroidProject/app/src/test/java/es/unican/carchargers/MainPresenterTest.java
 
     @Before
     public void setup(){
@@ -61,6 +69,12 @@ public class MainPresenterTest {
         sut = new MainPresenter();
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
+<<<<<<< HEAD:AndroidProject/app/src/test/java/es/unican/carchargers/activities/main/MainPresenterTest.java
+=======
+
+        cargadores = new ArrayList<Charger>();
+    }
+>>>>>>> feature/479502-OrdenarPrecio:AndroidProject/app/src/test/java/es/unican/carchargers/MainPresenterTest.java
 
         captorCargadores = ArgumentCaptor.forClass(List.class);
         captorNumCargadores = ArgumentCaptor.forClass(Integer.class);
@@ -335,6 +349,7 @@ public class MainPresenterTest {
         assertEquals(captados.size(), 2);
     }
 
+<<<<<<< HEAD:AndroidProject/app/src/test/java/es/unican/carchargers/activities/main/MainPresenterTest.java
 
 
 
@@ -403,4 +418,161 @@ public class MainPresenterTest {
         assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
     }
 
+=======
+    //TEST: OnClickedAceptarOrdenacion
+
+    //CASO 1:
+    @Test
+    public void OnClickedAceptarOrdenacionTestCaso1() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+        Charger c4 = new Charger();
+        c1.usageCost = "0,35€/kWh";
+        c2.usageCost = "0,43€/kWh";
+        c3.usageCost = "0,30€/kWh";
+        c4.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+        cargadores.add(c3);
+        cargadores.add(c4);
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+
+        //Comprobacion de los resultados esperados
+        assertTrue(captados.get(0).equals(c3));
+        assertTrue(captados.get(1).equals(c1));
+        assertTrue(captados.get(2).equals(c2));
+        assertEquals(captados.size(), 3);
+
+
+    }
+
+    //CASO 2:
+    @Test
+    public void OnClickedAceptarOrdenacionTestCaso2() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+        Charger c4 = new Charger();
+        c1.usageCost = "0,35€/kWh";
+        c2.usageCost = "0,43€/kWh";
+        c3.usageCost = "0,30€/kWh";
+        c4.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+        cargadores.add(c3);
+        cargadores.add(c4);
+
+        criterioOrd = "Precio";
+        asc = false;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertTrue(captados.get(0).equals(c2));
+        assertTrue(captados.get(1).equals(c1));
+        assertTrue(captados.get(2).equals(c3));
+        assertEquals(captados.size(), 3);
+
+    }
+
+    //CASO 3:
+    @Test
+    public void OnClickedAceptarOrdenacionTestCaso3() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = null;
+        c2.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(captados.size(), 0);
+
+    }
+
+    //CASO 4:
+    @Test
+    public void OnClickedAceptarOrdenacionTestCaso4() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = null;
+        c2.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+
+        criterioOrd = "Precio";
+        asc = false;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(captados.size(), 0);
+
+    }
+
+    //CASO 5:
+    @Test
+    public void OnClickedAceptarOrdenacionTestCaso5() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = "0,76€/kWh";
+        c2.usageCost = null;
+
+        cargadores.add(c1);
+        cargadores.add(c2);
+
+        criterioOrd = "hola";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        //Comprobar si salta el mensaje de error
+
+    }
+
+
+>>>>>>> feature/479502-OrdenarPrecio:AndroidProject/app/src/test/java/es/unican/carchargers/MainPresenterTest.java
 }

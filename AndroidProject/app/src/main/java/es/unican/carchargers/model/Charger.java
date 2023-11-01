@@ -1,12 +1,11 @@
 package es.unican.carchargers.model;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,15 +48,20 @@ public class Charger {
      * Comprueba la disponibilidad de los cargadores de un punto de carga.
      * @return true si esta disponible o el statusType es null.
      */
-    public boolean comprobarDiponibilidad(){
-        List<String> lista = new ArrayList<>();
-        for (Connection c:connections){
-            if (c.statusType == null || c.statusType.isOperational == true) {
+    public boolean comprobarDisponibilidad() {
+        Iterator<Connection> iterator = connections.iterator();
+
+        while (iterator.hasNext()) {
+            Connection c = iterator.next();
+            if (c.statusType == null) {
+                return false;
+            } else if (c.statusType.isOperational) {
                 return true;
             }
         }
         return false;
     }
+
 
 
     /**
@@ -91,32 +95,39 @@ public class Charger {
     }
     // Este metodo hace un best effort para extraer del string libre usageCost el coste de
     // uso del punto de carga.
-    // Si no se puede extraer le ponemos el nº mas alto posible.
-    // Si leemos varios precios usamos el mas alto.
-    // Ya que el precio habitual podria ser de 0.3€/kWh a 0.7€/kWh si detectamos algo como
-    // 10€, que se referira al parking, le ponemos el nº mas alto posible.
-    // Si se da lo anterior y nº validos, cogemos el valido.
-    public double extraerCosteChargerAsc() {
+    public double extraerCosteCharger(boolean ascendente) {
 
-        // Define el patrón regex para buscar un número con decimales en el String.
-        Pattern pattern = Pattern.compile("\\d[,.]\\d\\d€/kWh");
-        Matcher matcher = pattern.matcher(usageCost);
+        if (usageCost != null) {
 
-        if (matcher.find()) {
-            // Si se encuentra un número, lo extraemos y lo parseamos a double.
-            String numberStr = matcher.group(1);
-            double number = Double.parseDouble(numberStr);
-            return number;
-        } else {
+            Pattern pattern = Pattern.compile("(\\d[,.]\\d{1,2})€/kWh");
+            Matcher matcher = pattern.matcher(usageCost);
 
-            return Double.MAX_VALUE; // Valor por defecto mas caro posible
+            if (matcher.find()) {
+                // Si se encuentra un número, lo extraemos y lo parseamos a double.
+                String numberStr = matcher.group(1);
+
+                // Reemplaza la coma por un punto en la cadena
+                numberStr = numberStr.replace(",", ".");
+
+                return Double.parseDouble(numberStr);
+
+            }
+
         }
+
+        if (ascendente) {
+            return Double.MAX_VALUE; // Valor por defecto mas caro posible
+        } else { // !ascendente
+            return Double.MIN_VALUE; // Valor por defecto mas caro posible
+        }
+
     }
 
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
         this.connections = new ArrayList<>();
+
     }
 
 

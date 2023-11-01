@@ -1,5 +1,6 @@
 package es.unican.carchargers.activities.main;
 
+
 import android.content.Context;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -9,13 +10,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.ConnectionType;
+
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
-import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
@@ -190,19 +192,42 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     //Ordena la lista en funcion de un parametro
-    public void onClickedAceptarOrdenacion(String criterioOrdenacion, int ascendente) {
+    public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente) {
 
         switch (criterioOrdenacion) {
             case "Precio":
-                shownChargers.sort(Comparator.comparingDouble(Charger::extraerCosteChargerAsc));
+                ordenaChargersPrecio(ascendente);
                 break;
             default:
-                break;
+                // usar el dialog error de android.utils para indicar error.
+                view.showLoadError("Esta ordenación no existe. Contacte con soporte para ver que ha ocurrido.");
+                return;
         }
 
         view.showChargers(MainPresenter.this.shownChargers);
         view.showLoadCorrect(MainPresenter.this.shownChargers.size());
     }
+
+    public void ordenaChargersPrecio(boolean ascendente) {
+        // Creamos un comparador personalizado para ordenar por el precio
+        Comparator<Charger> comparadorPrecio = (charger1, charger2) -> {
+            double precio1 = charger1.extraerCosteCharger(ascendente);
+            double precio2 = charger2.extraerCosteCharger(ascendente);
+            if (ascendente) {
+                return Double.compare(precio1, precio2);
+            } else {
+                return Double.compare(precio2, precio1);
+            }
+
+        };
+
+        // Usamos Collections.sort() para ordenar la lista
+        shownChargers.sort(comparadorPrecio);
+        view.showChargers(MainPresenter.this.shownChargers);
+        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+    }
+
+
 
     /**
      * Carga la vista con la lista inicial de cargadores.
@@ -211,5 +236,7 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
+
+
 
 }
