@@ -81,6 +81,7 @@ public class ChargerTest {
     }
 
 
+    IRepository repository;
     @Test
     public void comprobarDiponibilidadTest() {
 
