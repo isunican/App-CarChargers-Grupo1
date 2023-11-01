@@ -204,8 +204,8 @@ public class MainPresenter implements IMainContract.Presenter {
                 return;
         }
 
-        view.showChargers(MainPresenter.this.shownChargers);
-        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+        view.showChargers(MainPresenter.this.chargersActuales);
+        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
 
     public void ordenaChargersPrecio(boolean ascendente) {
@@ -222,9 +222,7 @@ public class MainPresenter implements IMainContract.Presenter {
         };
 
         // Usamos Collections.sort() para ordenar la lista
-        shownChargers.sort(comparadorPrecio);
-        view.showChargers(MainPresenter.this.shownChargers);
-        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+        chargersActuales.sort(comparadorPrecio);
     }
 
 
