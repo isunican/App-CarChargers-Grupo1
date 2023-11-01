@@ -283,7 +283,7 @@ public class MainPresenterTest {
 
     //CASO 1:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso1() {
+    public void OnClickedAceptarOrdenacionCorrectaAscendenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         Charger c3 = new Charger();
@@ -320,7 +320,7 @@ public class MainPresenterTest {
 
     //CASO 2:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso2() {
+    public void OnClickedAceptarOrdenacionCorrectaDescendenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         Charger c3 = new Charger();
@@ -358,7 +358,7 @@ public class MainPresenterTest {
 
     //CASO 3:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso3() {
+    public void OnClickedAceptarOrdenacionAscSinPrecioTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
@@ -385,7 +385,7 @@ public class MainPresenterTest {
 
     //CASO 4:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso4() {
+    public void OnClickedAceptarOrdenacionDesSinPrecioTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
@@ -412,7 +412,7 @@ public class MainPresenterTest {
 
     //CASO 5:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso5() {
+    public void OnClickedAceptarOrdenacionCriterioInexistenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = "0,76€/kWh";
