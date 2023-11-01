@@ -55,10 +55,11 @@ public class Matchers {
                         chargers.add(chargersAdapter.getItem(i));
                     }
                     // Compara los conectores de los cargadores con los esperados
-                    boolean isConnector1Equal = chargers.get(0).id.equals("354848");
-                    boolean isConnector32Equal = chargers.get(31).id.equals("354645");
+                    boolean isConnector1Equal = chargers.get(0).id.equals("213054");
+                    boolean isConnector26Equal = chargers.get(25).id.equals("212978");
+                    boolean isConnector52Equal = chargers.get(51).id.equals("212922");
 
-                    return chargers.size() == 32 && isConnector1Equal && isConnector32Equal;
+                    return chargers.size() == 52 && isConnector1Equal && isConnector52Equal && isConnector26Equal;
                 }
                 return false;
             }
@@ -69,9 +70,6 @@ public class Matchers {
             }
         };
     }
-
-
-
 
     public static Matcher<View> isFilteredByPower() {
         return new TypeSafeMatcher<View>() {
