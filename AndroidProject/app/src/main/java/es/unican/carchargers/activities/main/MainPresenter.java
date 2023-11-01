@@ -111,6 +111,8 @@ public class MainPresenter implements IMainContract.Presenter {
             for (Double potencia : potenciasFiltro) {
                 if (charger.contienePotencia(potencia)) {
                     resultadoFiltro.add(charger);
+                    //En cuanto sabemos que un charger vale, no seguimos comprobando.
+                    break;
                 }
             }
         }
@@ -138,6 +140,8 @@ public class MainPresenter implements IMainContract.Presenter {
             for (EConnectionType conector : conectoresFiltro) {
                 if (charger.contieneConector(conector)) {
                     resultadoFiltro.add(charger);
+                    //En cuanto sabemos que un charger vale, no seguimos comprobando.
+                    break;
                 }
             }
         }
