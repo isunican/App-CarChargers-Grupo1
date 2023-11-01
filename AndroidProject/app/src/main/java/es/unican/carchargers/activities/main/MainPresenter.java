@@ -123,10 +123,10 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     public void ordenaChargersPrecio(boolean ascendente) {
-        // Creamos un comparador personalizado para ordenar por la puntuación de sabor
-        Comparator<Charger> comparadorAscPrecio = (charger1, charger2) -> {
-            double precio1 = charger1.extraerCosteChargerAsc();
-            double precio2 = charger2.extraerCosteChargerAsc();
+        // Creamos un comparador personalizado para ordenar por el precio
+        Comparator<Charger> comparadorPrecio = (charger1, charger2) -> {
+            double precio1 = charger1.extraerCosteCharger(ascendente);
+            double precio2 = charger2.extraerCosteCharger(ascendente);
             if (ascendente) {
                 return Double.compare(precio1, precio2);
             } else {
@@ -136,7 +136,9 @@ public class MainPresenter implements IMainContract.Presenter {
         };
 
         // Usamos Collections.sort() para ordenar la lista
-        Collections.sort(shownChargers, comparadorAscPrecio);
+        Collections.sort(shownChargers, comparadorPrecio);
+        view.showChargers(MainPresenter.this.shownChargers);
+        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
     }
 
 

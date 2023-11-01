@@ -1,7 +1,5 @@
 package es.unican.carchargers.model;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -83,16 +81,11 @@ public class Charger {
 
     // Este metodo hace un best effort para extraer del string libre usageCost el coste de
     // uso del punto de carga.
-    // Si no se puede extraer le ponemos el nº mas alto posible.
-    // Si leemos varios precios usamos el mas alto.
-    // Ya que el precio habitual podria ser de 0.3€/kWh a 0.7€/kWh si detectamos algo como
-    // 10€, que se referira al parking, le ponemos el nº mas alto posible.
-    // Si se da lo anterior y nº validos, cogemos el valido.
-    public double extraerCosteChargerAsc() {
+    public double extraerCosteCharger(boolean ascendente) {
 
         if (usageCost != null) {
 
-            Pattern pattern = Pattern.compile("(\\d[,.]\\d\\d)€/kWh");
+            Pattern pattern = Pattern.compile("(\\d[,.]\\d{1,2})€/kWh");
             Matcher matcher = pattern.matcher(usageCost);
 
             if (matcher.find()) {
@@ -108,8 +101,11 @@ public class Charger {
 
         }
 
-        // TODO quiza, en funcion de algun parámetro, cambiar esto al minimo para cuando lo quiera descendente.
-        return Double.MAX_VALUE; // Valor por defecto mas caro posible
+        if (ascendente) {
+            return Double.MAX_VALUE; // Valor por defecto mas caro posible
+        } else { // !ascendente
+            return Double.MIN_VALUE; // Valor por defecto mas caro posible
+        }
 
     }
 
