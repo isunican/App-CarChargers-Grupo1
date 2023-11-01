@@ -1,4 +1,4 @@
-package es.unican.carchargers;
+package es.unican.carchargers.model;
 
 import static org.junit.Assert.assertEquals;
 
@@ -47,8 +47,6 @@ public class ChargerTest {
 
     }
 
-    @Mock
-    IMainContract.View mv;
     IRepository repository;
     @Test
     public void comprobarDiponibilidadTest() {

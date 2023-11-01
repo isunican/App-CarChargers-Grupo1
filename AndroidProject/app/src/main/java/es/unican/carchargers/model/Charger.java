@@ -83,7 +83,7 @@ public class Charger {
     // uso del punto de carga.
     public double extraerCosteCharger() {
 
-        if (usageCost != null && !usageCost.isEmpty()) {
+        if (usageCost != null && !usageCost.isEmpty())  {
 
             Pattern pattern = Pattern.compile("(\\d[,.]\\d{1,2})€/kWh");
             Matcher matcher = pattern.matcher(usageCost);
