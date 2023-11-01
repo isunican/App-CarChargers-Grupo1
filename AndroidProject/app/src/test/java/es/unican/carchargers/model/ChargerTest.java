@@ -80,7 +80,11 @@ public class ChargerTest {
 
     }
 
+<<<<<<< HEAD
 
+=======
+    IRepository repository;
+>>>>>>> feature/479502-OrdenarPrecio
     @Test
     public void comprobarDiponibilidadTest() {
 

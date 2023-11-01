@@ -1,9 +1,12 @@
 package es.unican.carchargers.utils;
 
+<<<<<<< HEAD
 import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
 import static es.unican.carchargers.constants.EConnectionType.CCS_Type_2;
 
 import android.util.Log;
+=======
+>>>>>>> feature/479502-OrdenarPrecio
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -13,6 +16,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.unican.carchargers.activities.main.ChargersArrayAdapter;
@@ -100,4 +105,106 @@ public class Matchers {
             }
         };
     }
+    
+    public static Matcher<View> isListAscending() {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public boolean matchesSafely(View view) {
+                ListView lv = (ListView) view;
+                ListAdapter adapter = lv.getAdapter();
+
+                if (adapter instanceof ChargersArrayAdapter) {
+                    ChargersArrayAdapter yourAdapter = (ChargersArrayAdapter) adapter;
+                    List<Charger> chargers = new ArrayList<>();
+
+                    for (int i = 0; i < adapter.getCount(); i++) {
+                        chargers.add(yourAdapter.getItem(i));
+                    }
+
+                    // Ordenar la lista de cargadores en función del atributo usageCost
+                    Collections.sort(chargers, new Comparator<Charger>() {
+                        @Override
+                        public int compare(Charger charger1, Charger charger2) {
+                            // Extrae el coste de uso (usageCost) de cada cargador y compáralos como números.
+                            double cost1 = charger1.extraerCosteCharger(true);
+                            double cost2 = charger2.extraerCosteCharger(true);
+                            return Double.compare(cost1, cost2);
+                        }
+                    });
+
+                    // Verificar si la lista de cargadores original está ordenada de manera ascendente
+                    return isSortedAscending(chargers);
+                }
+                return false;
+            }
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("ListView should be sorted by usageCost in ascending order");
+            }
+            private boolean isSortedAscending(List<Charger> chargers) {
+                for (int i = 1; i < chargers.size(); i++) {
+                    double cost1 = chargers.get(i - 1).extraerCosteCharger(true);
+                    double cost2 = chargers.get(i).extraerCosteCharger(true);
+                    if (cost1 > cost2) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+
+    public static Matcher<View> isListDescending() {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public boolean matchesSafely(View view) {
+                ListView lv = (ListView) view;
+                ListAdapter adapter = lv.getAdapter();
+
+                if (adapter instanceof ChargersArrayAdapter) {
+                    ChargersArrayAdapter yourAdapter = (ChargersArrayAdapter) adapter;
+                    List<Charger> chargers = new ArrayList<>();
+
+                    for (int i = 0; i < adapter.getCount(); i++) {
+                        chargers.add(yourAdapter.getItem(i));
+                    }
+
+                    // Ordenar la lista de cargadores en función del atributo usageCost en orden descendente
+                    Collections.sort(chargers, new Comparator<Charger>() {
+                        @Override
+                        public int compare(Charger charger1, Charger charger2) {
+                            // Extrae el coste de uso (usageCost) de cada cargador y compáralos como números en orden descendente.
+                            double cost1 = charger1.extraerCosteCharger(false);
+                            double cost2 = charger2.extraerCosteCharger(false);
+                            return Double.compare(cost2, cost1);
+                        }
+                    });
+
+                    // Verificar si la lista de cargadores original está ordenada de manera descendente
+                    return isSortedDescending(chargers);
+                }
+                return false;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("ListView should be sorted by usageCost in descending order");
+            }
+
+            private boolean isSortedDescending(List<Charger> chargers) {
+                for (int i = 1; i < chargers.size(); i++) {
+                    double cost1 = chargers.get(i - 1).extraerCosteCharger(false);
+                    double cost2 = chargers.get(i).extraerCosteCharger(false);
+                    if (cost1 < cost2) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+    }
+
+
+
 }

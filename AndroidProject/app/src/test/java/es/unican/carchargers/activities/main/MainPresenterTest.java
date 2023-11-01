@@ -43,6 +43,7 @@ public class MainPresenterTest {
     IMainContract.Presenter sut;
     List<Double> potencias;
     List<Charger> captados;
+<<<<<<< HEAD
 
 
     //Variables Jesus
@@ -64,6 +65,8 @@ public class MainPresenterTest {
 
     List<Charger> cargadores;
 
+=======
+>>>>>>> feature/479502-OrdenarPrecio
     String criterioOrd;
     boolean asc;
 
@@ -78,6 +81,7 @@ public class MainPresenterTest {
         repository = Repositories.getSyncFake(chargers);
         potencias = new ArrayList<>();
         captados = new ArrayList<>();
+<<<<<<< HEAD
 
         cargadores = new ArrayList<Charger>();
 
@@ -99,6 +103,8 @@ public class MainPresenterTest {
         repo = Repositories.getSyncFake(listCharger);
         conectores = new ArrayList<>();
         capturados = new ArrayList<>();
+=======
+>>>>>>> feature/479502-OrdenarPrecio
     }
 
     @Test
@@ -526,23 +532,24 @@ public class MainPresenterTest {
 
     //CASO 1:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso1() {
+    public void OnClickedAceptarOrdenacionCorrectaAscendenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         Charger c3 = new Charger();
         Charger c4 = new Charger();
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+        chargers.add(c4);
+
         c1.usageCost = "0,35€/kWh";
         c2.usageCost = "0,43€/kWh";
         c3.usageCost = "0,30€/kWh";
         c4.usageCost = null;
-
-        cargadores.add(c1);
-        cargadores.add(c2);
-        cargadores.add(c3);
-        cargadores.add(c4);
-
-        criterioOrd = "Precio";
-        asc = true;
 
         when(mv.getRepository()).thenReturn(repository);
 
@@ -552,32 +559,31 @@ public class MainPresenterTest {
         verify(mv, atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
 
-
         //Comprobacion de los resultados esperados
-        assertTrue(captados.get(0).equals(c3));
-        assertTrue(captados.get(1).equals(c1));
-        assertTrue(captados.get(2).equals(c2));
-        assertEquals(captados.size(), 3);
-
+        assertEquals(captados.get(0),c3);
+        assertEquals(captados.get(1),c1);
+        assertEquals(captados.get(2),c2);
+        assertEquals(3, captados.size());
 
     }
 
     //CASO 2:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso2() {
+    public void OnClickedAceptarOrdenacionCorrectaDescendenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         Charger c3 = new Charger();
         Charger c4 = new Charger();
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+        chargers.add(c4);
+
         c1.usageCost = "0,35€/kWh";
         c2.usageCost = "0,43€/kWh";
         c3.usageCost = "0,30€/kWh";
         c4.usageCost = null;
-
-        cargadores.add(c1);
-        cargadores.add(c2);
-        cargadores.add(c3);
-        cargadores.add(c4);
 
         criterioOrd = "Precio";
         asc = false;
@@ -591,23 +597,24 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertTrue(captados.get(0).equals(c2));
-        assertTrue(captados.get(1).equals(c1));
-        assertTrue(captados.get(2).equals(c3));
-        assertEquals(captados.size(), 3);
+        assertEquals(captados.get(0),c2);
+        assertEquals(captados.get(1),c1);
+        assertEquals(captados.get(2),c3);
+        assertEquals(3, captados.size());
 
     }
 
+
     //CASO 3:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso3() {
+    public void OnClickedAceptarOrdenacionAscSinPreciosTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
         c2.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
+        chargers.add(c1);
+        chargers.add(c2);
 
         criterioOrd = "Precio";
         asc = true;
@@ -621,20 +628,20 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
 
     }
 
     //CASO 4:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso4() {
+    public void OnClickedAceptarOrdenacionDesSinPreciosTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
         c2.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
+        chargers.add(c1);
+        chargers.add(c2);
 
         criterioOrd = "Precio";
         asc = false;
@@ -648,20 +655,20 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
 
     }
 
     //CASO 5:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso5() {
+    public void OnClickedAceptarOrdenacionCriterioInexistenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = "0,76€/kWh";
         c2.usageCost = null;
 
-        cargadores.add(c1);
-        cargadores.add(c2);
+        chargers.add(c1);
+        chargers.add(c2);
 
         criterioOrd = "hola";
         asc = true;
@@ -673,6 +680,7 @@ public class MainPresenterTest {
         sut.onClickedAceptarOrdenacion(criterioOrd, asc);
 
         //Comprobar si salta el mensaje de error
+        assertTrue("Esta ordenación no existe. Contacte con soporte para ver que ha ocurrido.", true);
 
     }
 
