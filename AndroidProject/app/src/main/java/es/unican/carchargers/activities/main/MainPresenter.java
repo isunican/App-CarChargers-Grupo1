@@ -194,6 +194,11 @@ public class MainPresenter implements IMainContract.Presenter {
     //Ordena la lista en funcion de un parametro
     public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente) {
 
+        if (criterioOrdenacion == null) {
+            view.showLoadError("No ha seleccionado ningún criterio.");
+            return;
+        }
+
         switch (criterioOrdenacion) {
             case "Precio":
                 ordenaChargersPrecio(ascendente);
