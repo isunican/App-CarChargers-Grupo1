@@ -88,8 +88,8 @@ public class Matchers {
                         @Override
                         public int compare(Charger charger1, Charger charger2) {
                             // Extrae el coste de uso (usageCost) de cada cargador y compáralos como números.
-                            double cost1 = charger1.extraerCosteChargerAsc();
-                            double cost2 = charger2.extraerCosteChargerAsc();
+                            double cost1 = charger1.extraerCosteCharger(true);
+                            double cost2 = charger2.extraerCosteCharger(true);
                             return Double.compare(cost1, cost2);
                         }
                     });
@@ -105,8 +105,8 @@ public class Matchers {
             }
             private boolean isSortedAscending(List<Charger> chargers) {
                 for (int i = 1; i < chargers.size(); i++) {
-                    double cost1 = chargers.get(i - 1).extraerCosteChargerAsc();
-                    double cost2 = chargers.get(i).extraerCosteChargerAsc();
+                    double cost1 = chargers.get(i - 1).extraerCosteCharger(true);
+                    double cost2 = chargers.get(i).extraerCosteCharger(true);
                     if (cost1 > cost2) {
                         return false;
                     }
@@ -137,8 +137,8 @@ public class Matchers {
                         @Override
                         public int compare(Charger charger1, Charger charger2) {
                             // Extrae el coste de uso (usageCost) de cada cargador y compáralos como números en orden descendente.
-                            double cost1 = charger1.extraerCosteChargerAsc();
-                            double cost2 = charger2.extraerCosteChargerAsc();
+                            double cost1 = charger1.extraerCosteCharger(false);
+                            double cost2 = charger2.extraerCosteCharger(false);
                             return Double.compare(cost2, cost1);
                         }
                     });
@@ -156,8 +156,8 @@ public class Matchers {
 
             private boolean isSortedDescending(List<Charger> chargers) {
                 for (int i = 1; i < chargers.size(); i++) {
-                    double cost1 = chargers.get(i - 1).extraerCosteChargerAsc();
-                    double cost2 = chargers.get(i).extraerCosteChargerAsc();
+                    double cost1 = chargers.get(i - 1).extraerCosteCharger(false);
+                    double cost2 = chargers.get(i).extraerCosteCharger(false);
                     if (cost1 < cost2) {
                         return false;
                     }

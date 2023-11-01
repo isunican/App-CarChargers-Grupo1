@@ -74,7 +74,7 @@ public class OrdenarPorPrecioUITest {
         onView(withText("Ascendente")).check(matches(isChecked()));
 
         // Acepta el dialog
-        onView(withText("Aceptar")).perform(click());
+        onView(withText("ACEPTAR")).perform(click());
 
         //COMPROBAR QUE EL MATCHER ESTA BIEN HECHO
         onView(withId(R.id.lvChargers)).check(matches(isListAscending()));
@@ -97,7 +97,7 @@ public class OrdenarPorPrecioUITest {
         onView(withText("Descendente")).check(matches(isChecked()));
 
         // Acepta el dialog
-        onView(withText("Aceptar")).perform(click());
+        onView(withText("ACEPTAR")).perform(click());
 
         //COMPROBAR QUE EL MATCHER ESTA BIEN HECHO
         onView(withId(R.id.lvChargers)).check(matches(isListDescending()));
