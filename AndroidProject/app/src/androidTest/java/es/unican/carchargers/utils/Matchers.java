@@ -68,19 +68,14 @@ public class Matchers {
     }
 
     // matcher que cuenta el numero de cargadores que aparecen por pantalla
-    public static Matcher<View> hasChargersCountAfterFilter(final int expectedChargerCount) {
+    public static Matcher<View> countElements(final int expectedChargerCount) {
         return new TypeSafeMatcher<>() {
             @Override
             public boolean matchesSafely(final View view) {
                 ListView lv = (ListView) view;
                 ListAdapter adapter = lv.getAdapter();
                 if (adapter instanceof ChargersArrayAdapter) {
-                    ChargersArrayAdapter chargersAdapter = (ChargersArrayAdapter) adapter;
-                    List<Charger> chargers = new ArrayList<>();
-                    for (int i = 0; i < adapter.getCount(); i++) {
-                        chargers.add(chargersAdapter.getItem(i));
-                    }
-                    return chargers.size() == expectedChargerCount;
+                    return adapter.getCount() == expectedChargerCount;
                 }
                 return false;
             }

@@ -14,9 +14,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import androidx.test.espresso.DataInteraction;
 
 
-
-import static es.unican.carchargers.utils.Matchers.hasChargersCountAfterFilter;
-
+import static es.unican.carchargers.utils.Matchers.countElements;
 
 import android.content.Context;
 
@@ -102,7 +100,7 @@ public class FiltrarPotenciaValidoUITest {
         ))));
 
         // comprobamos que la lista muestra el numero de puntos que deseamos
-        onView(withId(R.id.lvChargers)).check(matches(hasChargersCountAfterFilter(28)));
+        onView(withId(R.id.lvChargers)).check(matches(countElements(28)));
 
     }
 
