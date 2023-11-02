@@ -10,6 +10,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
+import static es.unican.carchargers.utils.Matchers.isListAscending;
+import static es.unican.carchargers.utils.Matchers.isListDescending;
 
 import android.content.Context;
 
@@ -72,10 +74,10 @@ public class OrdenarPorPrecioUITest {
         onView(withText("Ascendente")).check(matches(isChecked()));
 
         // Acepta el dialog
-        onView(withText("Aceptar")).perform(click());
+        onView(withText("ACEPTAR")).perform(click());
 
-        //FALTA COMPROBACIÓN COMO LO HAGO
-        //onView(withId(R.id.lvChargers)).check(matches()); ESTO ESTA MAL
+        //Verifica que la lista esta correctamente ordenada de manera ascendente
+        onView(withId(R.id.lvChargers)).check(matches(isListAscending()));
 
  //----------------------------------------------------------------------------//
 
@@ -95,10 +97,10 @@ public class OrdenarPorPrecioUITest {
         onView(withText("Descendente")).check(matches(isChecked()));
 
         // Acepta el dialog
-        onView(withText("Aceptar")).perform(click());
+        onView(withText("ACEPTAR")).perform(click());
 
-        //FALTA COMPROBACIÓN COMO LO HAGO
-        //onView(withId(R.id.lvChargers)).check(matches()); ESTO ESTA MAL
+        //Verifica que la lista esta correctamente ordenada de manera descendente
+        onView(withId(R.id.lvChargers)).check(matches(isListDescending()));
 
     }
 

@@ -111,6 +111,8 @@ public class MainPresenter implements IMainContract.Presenter {
             for (Double potencia : potenciasFiltro) {
                 if (charger.contienePotencia(potencia)) {
                     resultadoFiltro.add(charger);
+                    //En cuanto sabemos que un charger vale, no seguimos comprobando.
+                    break;
                 }
             }
         }
@@ -138,6 +140,8 @@ public class MainPresenter implements IMainContract.Presenter {
             for (EConnectionType conector : conectoresFiltro) {
                 if (charger.contieneConector(conector)) {
                     resultadoFiltro.add(charger);
+                    //En cuanto sabemos que un charger vale, no seguimos comprobando.
+                    break;
                 }
             }
         }
@@ -194,6 +198,11 @@ public class MainPresenter implements IMainContract.Presenter {
     //Ordena la lista en funcion de un parametro
     public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente) {
 
+        if (criterioOrdenacion == null) {
+            view.showLoadError("No ha seleccionado ningún criterio.");
+            return;
+        }
+
         switch (criterioOrdenacion) {
             case "Precio":
                 ordenaChargersPrecio(ascendente);
@@ -211,8 +220,10 @@ public class MainPresenter implements IMainContract.Presenter {
     public void ordenaChargersPrecio(boolean ascendente) {
         // Creamos un comparador personalizado para ordenar por el precio
         Comparator<Charger> comparadorPrecio = (charger1, charger2) -> {
-            double precio1 = charger1.extraerCosteCharger(ascendente);
-            double precio2 = charger2.extraerCosteCharger(ascendente);
+
+            double precio1 = charger1.extraerCosteCharger();
+            double precio2 = charger2.extraerCosteCharger();
+
             if (ascendente) {
                 return Double.compare(precio1, precio2);
             } else {
@@ -221,8 +232,13 @@ public class MainPresenter implements IMainContract.Presenter {
 
         };
 
+        // Equivalente a recorrer todos los objetos charger y quitarlos con el criterio de la lambda
+        // Sugerenci de sonar.
+        chargersActuales.removeIf(c -> c.extraerCosteCharger() == -1);
+
         // Usamos Collections.sort() para ordenar la lista
         chargersActuales.sort(comparadorPrecio);
+
     }
 
 
