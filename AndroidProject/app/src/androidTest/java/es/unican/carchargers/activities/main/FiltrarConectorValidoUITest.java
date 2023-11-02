@@ -8,18 +8,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
-import static es.unican.carchargers.constants.EConnectionType.CCS_Type_2;
 import static es.unican.carchargers.utils.Matchers.isFilteredByConnector;
-import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
 
 import android.content.Context;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -31,7 +26,6 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
-import es.unican.carchargers.utils.HTTPIdlingResource;
 
 /**
  * Example UI Test using Hilt dependency injection

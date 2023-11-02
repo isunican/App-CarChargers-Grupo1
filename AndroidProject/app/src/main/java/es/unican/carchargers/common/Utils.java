@@ -10,6 +10,10 @@ import java.io.InputStreamReader;
 
 public class Utils {
 
+    private Utils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Converts the given input stream to a String
      * @param is

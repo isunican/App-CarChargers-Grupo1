@@ -3,12 +3,14 @@ package es.unican.carchargers.activities.details;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Objects;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
@@ -39,7 +41,8 @@ public class DetailsView extends AppCompatActivity {
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
         // Get Charger from the intent that triggered this activity
-        Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
+        Charger charger = Parcels.unwrap(getIntent().getParcelableExtra(INTENT_CHARGER));
+        
 
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
