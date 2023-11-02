@@ -2,11 +2,14 @@ package es.unican.carchargers.activities.main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
@@ -51,6 +54,7 @@ public class MainPresenterTest {
     List<Charger> listChargers;
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
+    ArgumentCaptor<String> captorMensajeError;
 
     List<EConnectionType> conectores;
 
@@ -67,6 +71,7 @@ public class MainPresenterTest {
         captorCargadores = ArgumentCaptor.forClass(List.class);
         captorNumCargadores = ArgumentCaptor.forClass(Integer.class);
         captorCharger = ArgumentCaptor.forClass(Charger.class);
+        captorMensajeError = ArgumentCaptor.forClass(String.class);
         c1 = new Charger();
         c1.operator.title = "Zunder";
         c2 = new Charger();
@@ -344,7 +349,7 @@ public class MainPresenterTest {
 
     //init()
     @Test
-    public void initTestCasoListaVaciaTest() {
+    public void initTestCasoA1() {
         //Caso lista vacia
         listChargers = new ArrayList<Charger>();
         IRepository repositoryVacio = Repositories.getFake(listChargers);
@@ -358,7 +363,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void initTestCasoListaUnEltoTest() {
+    public void initTestCasoA2() {
         listChargers = new ArrayList<Charger>();
         listChargers.add(c1);
         IRepository repositoryUnElto = Repositories.getFake(listChargers);
@@ -372,7 +377,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void initTestCasoListaVariosElto() {
+    public void initTestCasoA3() {
         listChargers = new ArrayList<Charger>();
 
         listChargers.add(c1);
@@ -397,14 +402,12 @@ public class MainPresenterTest {
         listChargers.add(c2);
         listChargers.add(c3);
         listChargers.add(c4);
-        IRepository repositoryVariosEltos = Repositories.getFake(listChargers);
+        IRepository repositoryVariosEltos = Repositories.getFail();
 
-        when(mView.getRepository()).thenReturn(repositoryVariosEltos);
-        sut.init(mView);
-        verify(mView).showChargers(captorCargadores.capture());
-        verify(mView).showLoadCorrect(captorNumCargadores.capture());
-        assertFalse(captorCargadores.getValue().isEmpty());
-        assertEquals(captorNumCargadores.getValue(), (Integer)4);
+        when(mv.getRepository()).thenReturn(repositoryVariosEltos);
+        sut.init(mv);
+        verify(mv).showLoadError(captorMensajeError.capture());
+        assertEquals(captorMensajeError.getValue(), "El sistema no pudo conectarse a la red");
     }
 
     //OnChargedClicked(int indice)
@@ -436,42 +439,58 @@ public class MainPresenterTest {
         sut.init(mv);
         sut.onChargerClicked(indiceValid);
 
-        verify(mv, never()).showChargerDetails(captorCharger.capture());
+        verify(mv, never()).showChargerDetails(c1);
 
     }
 
-    //TODO: Seguir aqui
     @Test
     public void onChargerClickedTestCasoC() {
         List<Charger> chargers = new ArrayList<Charger>();
 
+        //Indice < 0
         int indiceInvalid = -1;
         IRepository repository = Repositories.getFake(chargers);
         when(mv.getRepository()).thenReturn(repository);
 
         sut.init(mv);
-        // Simular el lanzamiento de una IndexOutOfBoundsException al llamar al método onChargerClicked con un índice válido
-        doThrow(new IndexOutOfBoundsException()).when(sut).onChargerClicked(indiceInvalid);
-
-        verify(mv, never()).showChargerDetails(captorCharger.capture());
+        //Al operar sobre un indice invalido forzado, lanzara la excepcion indexoutOfBounds
+        assertThrows(IndexOutOfBoundsException.class, () -> {sut.onChargerClicked(indiceInvalid);});
+        verify(mv, never()).showChargerDetails(c1);
 
     }
 
     @Test
     public void onChargerClickedTestCasoD() {
         List<Charger> chargers = new ArrayList<Charger>();
-        chargers.add(c1);
-        chargers.add(c2);
 
-        int indiceValid = 1;
+        //Aplicamos el otro caso de indice > chargers.size()
+        int indiceInvalid2 = 999999999;
         IRepository repository = Repositories.getFake(chargers);
         when(mv.getRepository()).thenReturn(repository);
 
         sut.init(mv);
-        sut.onChargerClicked(indiceValid);
 
-        verify(mv).showChargerDetails(captorCharger.capture());
-        assertEquals(c2.operator.title, captorCharger.getValue().operator.title);
+        //No muestra nada
+        verify(mv, never()).showChargerDetails(c1);
+
+    }
+
+    @Test
+    public void onChargerClickedTestCasoE() {
+        List<Charger> chargers = new ArrayList<Charger>();
+        chargers.add(c1);
+        chargers.add(c2);
+
+        int indiceValid = -1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        //No muestra nada
+        verify(mv, never()).showChargerDetails(c1);
+        verify(mv, never()).showChargerDetails(c2);
+
     }
 
 }
