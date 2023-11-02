@@ -135,6 +135,7 @@ public class Charger {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Charger charger = (Charger) o;
         return Objects.equals(id, charger.id);

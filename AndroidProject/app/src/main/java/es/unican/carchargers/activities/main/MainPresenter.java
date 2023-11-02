@@ -165,8 +165,7 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     private void aplicarFiltros() {
-
-        // Coger lista og
+// Coger lista og
         List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.

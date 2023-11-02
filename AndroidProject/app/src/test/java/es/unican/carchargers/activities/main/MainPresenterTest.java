@@ -124,6 +124,10 @@ public class MainPresenterTest {
         Charger c = new Charger();
         c.connections.add(c3);
 
+        a.id = "1";
+        b.id = "2";
+        c.id = "3";
+
         // Añado los puntos de carga a la lista
         listCharger.add(a);
         listCharger.add(b);
@@ -245,10 +249,13 @@ public class MainPresenterTest {
 
         Charger a = new Charger();
         a.connections.add(c);
+        a.id = "1";
         Charger a2 = new Charger();
         a2.connections.add(c2);
+        a2.id = "2";
         Charger a3 = new Charger();
         a3.connections.add(c3);
+        a3.id = "3";
 
         chargers.add(a);
         chargers.add(a2);
@@ -293,6 +300,9 @@ public class MainPresenterTest {
         a2.connections.add(c2);
         a3 = new Charger();
         a3.connections.add(c3);
+        a.id = "1";
+        a2.id = "2";
+        a3.id = "3";
 
         chargers.add(a);
         chargers.add(a2);
@@ -338,6 +348,9 @@ public class MainPresenterTest {
         a2.connections.add(c2);
         a3 = new Charger();
         a3.connections.add(c3);
+        a.id = "1";
+        a2.id = "2";
+        a3.id = "3";
 
         chargers.add(a);
         chargers.add(a2);
@@ -348,7 +361,8 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showLoadSinCargadores("No se han encontrado cargadores que se ajusten a tu busqueda");
+        verify(mv,atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+                "Al cerrar este mensaje se volverá a la selección anterior.");
 
         // inicializamos de nuevo
         chargers = new ArrayList<>();
@@ -366,6 +380,7 @@ public class MainPresenterTest {
 
         a = new Charger();
         a.connections.add(c);
+        a.id = "1";
 
         chargers.add(a);
 
@@ -405,9 +420,11 @@ public class MainPresenterTest {
         a.connections.add(c);
         a.connections.add(c2);
         a.connections.add(c3);
-
         a2 = new Charger();
         a2.connections.add(c);
+
+        a.id = "1";
+        a2.id = "2";
 
         chargers.add(a);
         chargers.add(a2);
@@ -449,6 +466,9 @@ public class MainPresenterTest {
         a2 = new Charger();
         a2.connections.add(c);
 
+        a.id = "1";
+        a2.id = "2";
+
         chargers.add(a);
         chargers.add(a2);
 
@@ -480,7 +500,8 @@ public class MainPresenterTest {
         sut.init(mv);
 
         sut.onAceptarFiltroPotenciaClicked(potencias);
-        verify(mv,atLeast(1)).showLoadSinCargadores("No se han encontrado cargadores que se ajusten a tu busqueda");
+        verify(mv,atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+                "Al cerrar este mensaje se volverá a la selección anterior.");
     }
 
 
