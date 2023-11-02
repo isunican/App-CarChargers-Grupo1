@@ -1,15 +1,21 @@
 package es.unican.carchargers.activities.main;
 
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.CoreMatchers.anything;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.espresso.DataInteraction;
 
-import static es.unican.carchargers.utils.Matchers.isFilteredByPower;
+
+
+import static es.unican.carchargers.utils.Matchers.hasChargersCountAfterFilter;
 
 
 import android.content.Context;
@@ -20,6 +26,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 
+import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -31,6 +38,7 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import es.unican.carchargers.R;
 import es.unican.carchargers.common.RepositoriesModule;
+import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.utils.HTTPIdlingResource;
@@ -52,18 +60,6 @@ public class FiltrarPotenciaValidoUITest {
 
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-    @BeforeClass
-    public static void setupClass() {
-        // si usamos un repository fake que realmente no accede por HTTP, no necesitamos
-        // activar este Idling Resource. Lo dejo para tener una referencia.
-        HTTPIdlingResource.getInstance().init();
-    }
-
-    @AfterClass
-    public static void teardownClass() {
-        HTTPIdlingResource.getInstance().finish();
-    }
 
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
@@ -94,7 +90,23 @@ public class FiltrarPotenciaValidoUITest {
         // Acepta el diálogo
         onView(withText("Aceptar")).perform(click());
 
-        onView(withId(R.id.lvChargers)).check(matches(isFilteredByPower()));
+        // comprobamos que el primer punto de carga que aparece es el deseado
+        DataInteraction interaction = onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0);
+        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText(Matchers.anyOf(
+                    Matchers.containsString("Repsol - Ibil (ES)"),
+                    Matchers.containsString("Repsol la Raza")
+                ))));
+
+        // comprobamos que el último punto de carga que aparece es el deseado
+        interaction = onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(27);
+        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText(Matchers.anyOf(
+                    Matchers.containsString("Ayunt. Huelva - Calle Puerto"),
+                    Matchers.containsString("Calle Puerto"),
+                    Matchers.containsString("(Unknown Operator)")
+                ))));
+
+        // comprobamos que la lista muestra el numero de puntos que deseamos
+        onView(withId(R.id.lvChargers)).check(matches(hasChargersCountAfterFilter(28)));
 
     }
 

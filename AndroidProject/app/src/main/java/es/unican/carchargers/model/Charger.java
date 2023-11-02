@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A charging station according to the OpenChargeMap API
@@ -50,5 +51,15 @@ public class Charger {
         this.connections = new ArrayList<>();
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numberOfPoints, usageCost, operator, address, connections);
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Charger charger = (Charger) o;
+        return Objects.equals(id, charger.id);
+    }
 }

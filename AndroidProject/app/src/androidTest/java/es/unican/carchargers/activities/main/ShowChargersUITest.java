@@ -33,6 +33,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  * Example UI Test using Hilt dependency injection
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
+ * TODO: Hacer mock de IMainContract.View view
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
@@ -47,17 +48,6 @@ public class ShowChargersUITest {
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-    @BeforeClass
-    public static void setupClass() {
-        // si usamos un repository fake que realmente no accede por HTTP, no necesitamos
-        // activar este Idling Resource. Lo dejo para tener una referencia.
-        HTTPIdlingResource.getInstance().init();
-    }
-
-    @AfterClass
-    public static void teardownClass() {
-        HTTPIdlingResource.getInstance().finish();
-    }
 
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
@@ -78,5 +68,4 @@ public class ShowChargersUITest {
 
 
     }
-
 }
