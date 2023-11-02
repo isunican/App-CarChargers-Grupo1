@@ -7,6 +7,7 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -127,5 +128,16 @@ public class Charger {
 
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numberOfPoints, usageCost, operator, address, connections);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Charger charger = (Charger) o;
+        return Objects.equals(id, charger.id);
+    }
 
 }
