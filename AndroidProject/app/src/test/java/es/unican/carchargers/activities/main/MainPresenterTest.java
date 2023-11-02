@@ -525,7 +525,7 @@ public class MainPresenterTest {
 
     //TEST: OnClickedAceptarOrdenacion
 
-    //CASO 1:
+    //CASO 1: Ordenacion ascendente correcta
     @Test
     public void OnClickedAceptarOrdenacionCorrectaAscendenteTest() {
         Charger c1 = new Charger();
@@ -562,7 +562,7 @@ public class MainPresenterTest {
 
     }
 
-    //CASO 2:
+    //CASO 2: Ordenacion descendente correcta
     @Test
     public void OnClickedAceptarOrdenacionCorrectaDescendenteTest() {
         Charger c1 = new Charger();
@@ -600,7 +600,7 @@ public class MainPresenterTest {
     }
 
 
-    //CASO 3:
+    //CASO 3: Ordenacion ascendente pero no se muestra ningun punto porque no cuentan con precio
     @Test
     public void OnClickedAceptarOrdenacionAscSinPreciosTest() {
         Charger c1 = new Charger();
@@ -627,7 +627,7 @@ public class MainPresenterTest {
 
     }
 
-    //CASO 4:
+    //CASO 4: Ordenacion descendente pero no se muestra ningun punto porque no cuentan con precio
     @Test
     public void OnClickedAceptarOrdenacionDesSinPreciosTest() {
         Charger c1 = new Charger();
@@ -654,7 +654,7 @@ public class MainPresenterTest {
 
     }
 
-    //CASO 5:
+    //CASO 5: Muestra mensaje de error pues el string pasado por parametro es erroneo
     @Test
     public void OnClickedAceptarOrdenacionCriterioInexistenteTest() {
         Charger c1 = new Charger();
