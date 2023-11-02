@@ -1,9 +1,5 @@
 package es.unican.carchargers.utils;
 
-import static es.unican.carchargers.constants.EConnectionType.CCS_Type_1;
-import static es.unican.carchargers.constants.EConnectionType.CCS_Type_2;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -18,9 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import es.unican.carchargers.activities.main.ChargersArrayAdapter;
-import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.Connection;
 
 public class Matchers {
 

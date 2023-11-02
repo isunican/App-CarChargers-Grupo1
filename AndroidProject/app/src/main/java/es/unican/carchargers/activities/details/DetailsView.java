@@ -10,6 +10,7 @@ import android.widget.TextView;
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Objects;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
@@ -40,8 +41,10 @@ public class DetailsView extends AppCompatActivity {
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
 
+
         //Obtiene el cargador del intent que produjo esta actividad (Obsoleto, requiere api33 para implementar metodo actualizado getParcelable(string, clazz))
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
+
 
 
         // Set logo

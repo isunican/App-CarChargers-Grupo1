@@ -17,6 +17,7 @@ import es.unican.carchargers.model.Connection;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 
+
 public class ChargerTest {
 
     //Comprueba el correcto funcionamiento de el metodo comprobarDisponibilidad()
@@ -80,27 +81,27 @@ public class ChargerTest {
         //caso 1: Tiene varios conectores y uno de ese tipo
         Connection c1 = new Connection();
         Connection c2 = new Connection();
-        c1.connectionType.id = EConnectionType.CCS_Type_1.getId();
-        c2.connectionType.id = EConnectionType.CCS_Type_2.getId();
+        c1.connectionType.id = EConnectionType.CCS_TYPE_1.getId();
+        c2.connectionType.id = EConnectionType.CCS_TYPE_2.getId();
         sut.connections.add(c1);
         sut.connections.add(c2);
-        boolean result = sut.contieneConector(EConnectionType.CCS_Type_1);
+        boolean result = sut.contieneConector(EConnectionType.CCS_TYPE_1);
         assertTrue(result);
 
         //caso 2: No tiene un conector de ese tipo
-        result = sut.contieneConector(EConnectionType.Type_1_J1772);
+        result = sut.contieneConector(EConnectionType.TYPE_1_J1772);
         assertFalse(result);
 
         //caso 3: El punto de carga no tiene conectores
         sut.connections.clear();
-        result = sut.contieneConector(EConnectionType.Type_1_J1772);
+        result = sut.contieneConector(EConnectionType.TYPE_1_J1772);
         assertFalse(result);
 
         //caso 4: Tiene varios conectores iguales y ambos coinciden con el buscado
         sut.connections.add(c1);
-        c2.connectionType.id = EConnectionType.CCS_Type_1.getId();
+        c2.connectionType.id = EConnectionType.CCS_TYPE_1.getId();
         sut.connections.add(c2);
-        result = sut.contieneConector(EConnectionType.CCS_Type_1);
+        result = sut.contieneConector(EConnectionType.CCS_TYPE_1);
         assertTrue(result);
     }
 

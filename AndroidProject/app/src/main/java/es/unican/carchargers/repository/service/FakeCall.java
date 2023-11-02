@@ -63,7 +63,7 @@ public class FakeCall implements Call<List<Charger>> {
 
     @Override
     public void cancel() {
-
+        //Sin implementar demomento.
     }
 
     @Override
