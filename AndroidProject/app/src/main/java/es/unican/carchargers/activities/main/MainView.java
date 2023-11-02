@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     //Para elegir filtros
     AlertDialog dialogFiltros;
 
+    AlertDialog ordenDialog;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.filtro:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
+                return true;
+
+            case R.id.orden:
+                // inicializar el dialogo de filtros
+                ordenDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -117,6 +125,31 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialogFiltros.show();
     }
 
+    public void ordenDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.activity_menu_orden, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        CheckBox chkPrecio = (CheckBox)view.findViewById(R.id.checkbox_precio);
+        chkPrecio.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+            //filtradoPotenciaDialog();
+        });
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Orden");
+        // Mostrar el AlertDialog
+        ordenDialog = builder.create();
+        // Mostrar el AlertDialog para elegir filtros
+        ordenDialog.show();
+    }
+
+    /**
+     * Muestra un dialog con los checkboxs a seleccionar en base a las distintas
+     * potencias disponibles.
+     */
     public void filtradoPotenciaDialog() {
 
         AlertDialog.Builder builder =
@@ -237,6 +270,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+
+    /**
+     * Gestiona errores cuando no hay cargadores, volviendo a la lista de cargadorres inicial.
+     * @param error mensaje explicativo del error.
+     */
     public void showLoadSinCargadores(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -253,6 +291,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+    /**
+     * Implementacion de gestion de errores general.
+     * @param error mensaje explicativo del error.
+     */
     @Override
     public void showLoadError(String error) {
         showLoadErrorDialog(error, this);

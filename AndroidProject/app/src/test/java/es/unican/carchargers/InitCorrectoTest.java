@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.unican.carchargers.R;
@@ -188,6 +189,24 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
 
+    //Ordena la lista en funcion de un parametro
+    public void onClickedAceptarOrdenacion(String criterioOrdenacion, int ascendente) {
+
+        switch (criterioOrdenacion) {
+            case "Precio":
+                shownChargers.sort(Comparator.comparingDouble(Charger::extraerCosteChargerAsc));
+                break;
+            default:
+                break;
+        }
+
+        view.showChargers(MainPresenter.this.shownChargers);
+        view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+    }
+
+    /**
+     * Carga la vista con la lista inicial de cargadores.
+     */
     public void listaActual() {
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
