@@ -1,4 +1,4 @@
-package es.unican.carchargers;
+package es.unican.carchargers.activities.main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -283,7 +283,7 @@ public class MainPresenterTest {
 
     //CASO 1:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso1() {
+    public void OnClickedAceptarOrdenacionCorrectaAscendenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         Charger c3 = new Charger();
@@ -314,13 +314,13 @@ public class MainPresenterTest {
         assertEquals(captados.get(0),c3);
         assertEquals(captados.get(1),c1);
         assertEquals(captados.get(2),c2);
-        assertEquals(captados.size(), 3);
+        assertEquals(3, captados.size());
 
     }
 
     //CASO 2:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso2() {
+    public void OnClickedAceptarOrdenacionCorrectaDescendenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         Charger c3 = new Charger();
@@ -351,14 +351,14 @@ public class MainPresenterTest {
         assertEquals(captados.get(0),c2);
         assertEquals(captados.get(1),c1);
         assertEquals(captados.get(2),c3);
-        assertEquals(captados.size(), 3);
+        assertEquals(3, captados.size());
 
     }
 
 
     //CASO 3:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso3() {
+    public void OnClickedAceptarOrdenacionAscSinPreciosTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
@@ -379,13 +379,13 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
 
     }
 
     //CASO 4:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso4() {
+    public void OnClickedAceptarOrdenacionDesSinPreciosTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = null;
@@ -406,13 +406,13 @@ public class MainPresenterTest {
         captados = captor.getValue();
 
         //Comprobacion de los resultados esperados
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
 
     }
 
     //CASO 5:
     @Test
-    public void OnClickedAceptarOrdenacionTestCaso5() {
+    public void OnClickedAceptarOrdenacionCriterioInexistenteTest() {
         Charger c1 = new Charger();
         Charger c2 = new Charger();
         c1.usageCost = "0,76€/kWh";

@@ -81,9 +81,9 @@ public class Charger {
 
     // Este metodo hace un best effort para extraer del string libre usageCost el coste de
     // uso del punto de carga.
-    public double extraerCosteCharger(boolean ascendente) {
+    public double extraerCosteCharger() {
 
-        if (usageCost != null && !usageCost.isEmpty()) {
+        if (usageCost != null && !usageCost.isEmpty())  {
 
             Pattern pattern = Pattern.compile("(\\d[,.]\\d{1,2})€/kWh");
             Matcher matcher = pattern.matcher(usageCost);
@@ -101,11 +101,8 @@ public class Charger {
 
         }
 
-        if (ascendente) {
-            return Double.MAX_VALUE; // Valor por defecto mas caro posible
-        } else { // !ascendente
-            return Double.MIN_VALUE; // Valor por defecto mas caro posible
-        }
+        // Esto indica que no se puede extraer el precio, para indicar que no se quiere en la lista ordenada.
+        return -1;
 
     }
 
