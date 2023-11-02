@@ -40,9 +40,12 @@ public class DetailsView extends AppCompatActivity {
 
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
-        // Get Charger from the intent that triggered this activity
-        Charger charger = Parcels.unwrap(getIntent().getParcelableExtra(INTENT_CHARGER));
-        
+
+
+        //Obtiene el cargador del intent que produjo esta actividad (Obsoleto, requiere api33 para implementar metodo actualizado getParcelable(string, clazz))
+        Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
+
+
 
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
