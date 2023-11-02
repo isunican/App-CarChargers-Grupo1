@@ -46,6 +46,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** repository is injected with Hilt */
     @Inject IRepository repository;
 
+
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 

@@ -5,6 +5,10 @@ import android.content.Context;
 
 public class AndroidUtils {
 
+    private AndroidUtils(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      *  Muestra un alert dialog producido por un error conocido.
      * @param error Descripcion del error a mostrar.

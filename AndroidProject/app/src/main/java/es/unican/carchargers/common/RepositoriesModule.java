@@ -20,6 +20,10 @@ import es.unican.carchargers.repository.Repositories;
 @InstallIn(ActivityComponent.class)
 public abstract class RepositoriesModule {
 
+    private RepositoriesModule() {
+        throw new IllegalStateException("Utility class");
+    }
+
     @Provides
     public static IRepository provideRepository() {
         return Repositories.getReal();

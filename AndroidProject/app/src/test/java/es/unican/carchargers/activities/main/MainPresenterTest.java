@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,8 +22,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unican.carchargers.activities.main.IMainContract;
-import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
@@ -106,15 +103,15 @@ public class MainPresenterTest {
         // CASO 1: Filtrado con varios puntos de carga y un tipo de conector.
 
         // Filtraré por CCS_Type_1
-        conectores.add(CCS_Type_1);
+        conectores.add(CCS_TYPE_1);
 
         // Creo los conectores
         Connection c1 = new Connection();
-        c1.connectionType.id = CCS_Type_1.getId();
+        c1.connectionType.id = CCS_TYPE_1.getId();
         Connection c2 = new Connection();
-        c2.connectionType.id = CCS_Type_2.getId();
+        c2.connectionType.id = CCS_TYPE_2.getId();
         Connection c3 = new Connection();
-        c3.connectionType.id = CCS_Type_1.getId();
+        c3.connectionType.id = CCS_TYPE_1.getId();
 
         // Creo los puntos de carga
         Charger a = new Charger();
@@ -146,7 +143,7 @@ public class MainPresenterTest {
         assertEquals(capturados.size(), 2);
 
         // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
-        conectores.add(CCS_Type_2);
+        conectores.add(CCS_TYPE_2);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mainV, atLeast(2)).showChargers(captor.capture());
         capturados = captor.getValue();
@@ -158,7 +155,7 @@ public class MainPresenterTest {
         // CASO 3: Filtrado en que no existen puntos de carga con ese conector.
         conectores.clear();
         capturados.clear();
-        conectores.add(CEE_74_Schuko_Type_F);
+        conectores.add(CEE_74_SCHUKO_TYPE_F);
         listCharger.remove(c);
         sut.onAceptarFiltroConectoresClicked(conectores);
         //Compruebo la salida
@@ -170,8 +167,8 @@ public class MainPresenterTest {
 
         //CASO 4: Filtrado con un punto de carga y varios tipos de conector.
         conectores.clear();
-        conectores.add(CCS_Type_1);
-        conectores.add(CEE_74_Schuko_Type_F);
+        conectores.add(CCS_TYPE_1);
+        conectores.add(CEE_74_SCHUKO_TYPE_F);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mainV, atLeast(4)).showChargers(captor.capture());
         capturados = captor.getValue();
@@ -189,8 +186,8 @@ public class MainPresenterTest {
 
         //CASO 6: Filtrado con un punto de carga con dos conectores en el que coinciden los dos tipos.
         conectores.clear();
-        conectores.add(CCS_Type_1);
-        conectores.add(CCS_Type_2);
+        conectores.add(CCS_TYPE_1);
+        conectores.add(CCS_TYPE_2);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mainV, atLeast(6)).showChargers(captor.capture());
         capturados = captor.getValue();
@@ -220,7 +217,7 @@ public class MainPresenterTest {
         //CASO 8: Filtrado en el que la lista de cargadores esta vacía
         listCharger.clear();
         capturados.clear();
-        conectores.add(CCS_Type_1);
+        conectores.add(CCS_TYPE_1);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mainV, atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
                 "Al cerrar este mensaje se volverá a la selección anterior.");
