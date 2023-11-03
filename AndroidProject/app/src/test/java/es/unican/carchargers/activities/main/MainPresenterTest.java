@@ -154,7 +154,7 @@ public class MainPresenterTest {
         assertEquals(capturados.get(1), c);
 
         // Verifico la longitud de la lista
-        assertEquals(capturados.size(), 2);
+        assertEquals(2, capturados.size());
 
         // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
         conectores.add(CCS_TYPE_2);
