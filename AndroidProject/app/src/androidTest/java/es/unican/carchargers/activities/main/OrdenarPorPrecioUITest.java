@@ -8,17 +8,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static es.unican.carchargers.utils.Matchers.isListAscending;
-import static es.unican.carchargers.utils.Matchers.isListDescending;
+import static es.unican.carchargers.utils.Matchers.isListSorted;
 
 import android.content.Context;
-
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 import org.junit.Rule;
 import org.junit.Test;
-
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
@@ -75,9 +71,11 @@ public class OrdenarPorPrecioUITest {
         onView(withText("ACEPTAR")).perform(click());
 
         //Verifica que la lista esta correctamente ordenada de manera ascendente
-        onView(withId(R.id.lvChargers)).check(matches(isListAscending()));
+        onView(withId(R.id.lvChargers)).check(matches(isListSorted(true)));
 
- //----------------------------------------------------------------------------//
+
+
+        //----------------------------------------------------------------------------//
 
         //CASO VALIDO DESCENDENTE
         // Verifica el elemento de menú ordenar
@@ -98,7 +96,7 @@ public class OrdenarPorPrecioUITest {
         onView(withText("ACEPTAR")).perform(click());
 
         //Verifica que la lista esta correctamente ordenada de manera descendente
-        onView(withId(R.id.lvChargers)).check(matches(isListDescending()));
+        onView(withId(R.id.lvChargers)).check(matches(isListSorted(false)));
 
     }
 
