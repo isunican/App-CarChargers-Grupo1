@@ -38,7 +38,7 @@ public class Matchers {
         };
     }
 
-    public static Matcher<View> isFilteredByConnector() {
+    public static Matcher<View> isFilteredByConnector(String idInicial, String idFinal, final int expectedCount) {
         return new TypeSafeMatcher<View>() {
             @Override
             public boolean matchesSafely(final View view) {
@@ -51,11 +51,10 @@ public class Matchers {
                         chargers.add(chargersAdapter.getItem(i));
                     }
                     // Compara los conectores de los cargadores con los esperados
-                    boolean isConnector1Equal = chargers.get(0).id.equals("213054");
-                    boolean isConnector26Equal = chargers.get(25).id.equals("212978");
-                    boolean isConnector52Equal = chargers.get(51).id.equals("212922");
+                    boolean isFirstConnectorEqual = chargers.get(0).id.equals(idInicial);
+                    boolean isLastConnectorEqual = chargers.get(expectedCount-1).id.equals(idFinal);
 
-                    return chargers.size() == 52 && isConnector1Equal && isConnector52Equal && isConnector26Equal;
+                    return chargers.size() == expectedCount && isFirstConnectorEqual && isLastConnectorEqual;
                 }
                 return false;
             }
