@@ -38,8 +38,6 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        List<Charger> filtrarOriginalesPorPotencia();
-
         public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente);
 
         /**
