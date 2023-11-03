@@ -10,6 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static es.unican.carchargers.utils.Matchers.isFilteredByConnector;
 
+
 import android.content.Context;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -74,7 +75,34 @@ public class FiltrarConectorValidoUITest {
         onView(withText("Aceptar")).perform(click());
 
         //lvChargers es un listView del layout
-        onView(withId(R.id.lvChargers)).check(matches(isFilteredByConnector()));
+        onView(withId(R.id.lvChargers)).check(matches(isFilteredByConnector("213054", "212922", 52)));
 
+    }
+    @Test
+    public void filtroDobleConectorDialogTest() {
+        // Caso valido
+
+        // Click en el elemento "filtro" del menu
+        onView(withId(R.id.filtro)).perform(click());
+
+        // Click en el boton para filtrar por tipo de conector
+        onView(withId(R.id.btnConector)).perform(click());
+
+        // Verifica que se muestra el texto
+        onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
+
+        // Realiza una selección de elementos en el diálogo de selección múltiple
+        onView(withText("Type 2 (Socket Only)")).perform(click());
+        onView(withText("CHAdeMO")).perform(click());
+
+        // Verifica se han seleccionado los tipos de conectores
+        onView(withText("Type 2 (Socket Only)")).check(matches(isChecked()));
+        onView(withText("CHAdeMO")).check(matches(isChecked()));
+
+        // Click en aceptar
+        onView(withText("Aceptar")).perform(click());
+
+        //lvChargers es un listView del layout
+        onView(withId(R.id.lvChargers)).check(matches(isFilteredByConnector("213054","212922", 75)));
     }
 }
