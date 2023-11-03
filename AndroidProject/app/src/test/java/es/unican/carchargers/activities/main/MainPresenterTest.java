@@ -2,9 +2,14 @@ package es.unican.carchargers.activities.main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import static es.unican.carchargers.constants.EConnectionType.*;
@@ -59,6 +64,7 @@ public class MainPresenterTest {
     List<Charger> listChargers;
     ArgumentCaptor<List<Charger>> captorCargadores;
     ArgumentCaptor<Integer> captorNumCargadores;
+    ArgumentCaptor<String> captorMensajeError;
 
     //Variables pruebas ...
     List<Charger> cargadores;
@@ -82,6 +88,7 @@ public class MainPresenterTest {
         captorCargadores = ArgumentCaptor.forClass(List.class);
         captorNumCargadores = ArgumentCaptor.forClass(Integer.class);
         captorCharger = ArgumentCaptor.forClass(Charger.class);
+        captorMensajeError = ArgumentCaptor.forClass(String.class);
         c1 = new Charger();
         c1.operator.title = "Zunder";
         c2 = new Charger();
@@ -506,10 +513,13 @@ public class MainPresenterTest {
 
 
 
-    //Test Samuel (Incompleto)
 
+
+    //Test Samuel Castro
+
+    //init()
     @Test
-    public void listaVaciaTest() {
+    public void initTestCasoA1() {
         //Caso lista vacia
         listChargers = new ArrayList<Charger>();
         IRepository repositoryVacio = Repositories.getFake(listChargers);
@@ -523,7 +533,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void listaUnEltoTest() {
+    public void initTestCasoA2() {
         listChargers = new ArrayList<Charger>();
         listChargers.add(c1);
         IRepository repositoryUnElto = Repositories.getFake(listChargers);
@@ -537,7 +547,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void listaVariosElto() {
+    public void initTestCasoA3() {
         listChargers = new ArrayList<Charger>();
 
         listChargers.add(c1);
@@ -555,7 +565,24 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void testOnChargerClickedIndiceValidoTest() {
+    public void initTestCasoB() {
+        listChargers = new ArrayList<Charger>();
+
+        listChargers.add(c1);
+        listChargers.add(c2);
+        listChargers.add(c3);
+        listChargers.add(c4);
+        IRepository repositoryVariosEltos = Repositories.getFail();
+
+        when(mv.getRepository()).thenReturn(repositoryVariosEltos);
+        sut.init(mv);
+        verify(mv).showLoadError(captorMensajeError.capture());
+        assertEquals(captorMensajeError.getValue(), "El sistema no pudo conectarse a la red");
+    }
+
+    //OnChargedClicked(int indice)
+    @Test
+    public void onChargerClickedTestCasoA() {
         List<Charger> chargers = new ArrayList<Charger>();
         chargers.add(c1);
         chargers.add(c2);
@@ -572,161 +599,70 @@ public class MainPresenterTest {
     }
 
 
-    //TEST: OnClickedAceptarOrdenacion
-
-    //CASO 1: Ordenacion ascendente correcta
     @Test
-    public void OnClickedAceptarOrdenacionCorrectaAscendenteTest() {
-        Charger c1 = new Charger();
-        Charger c2 = new Charger();
-        Charger c3 = new Charger();
-        Charger c4 = new Charger();
+    public void onChargerClickedTestCasoB() {
+        List<Charger> chargers = new ArrayList<Charger>();
 
-        criterioOrd = "Precio";
-        asc = true;
+        int indiceValid = 1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
 
-        chargers.add(c1);
-        chargers.add(c2);
-        chargers.add(c3);
-        chargers.add(c4);
+        sut.init(mv);
+        sut.onChargerClicked(indiceValid);
 
-        c1.usageCost = "0,35€/kWh";
-        c2.usageCost = "0,43€/kWh";
-        c3.usageCost = "0,30€/kWh";
-        c4.usageCost = null;
+        verify(mv, never()).showChargerDetails(c1);
 
+    }
+
+    @Test
+    public void onChargerClickedTestCasoC() {
+        List<Charger> chargers = new ArrayList<Charger>();
+
+        //Indice < 0
+        int indiceInvalid = -1;
+        IRepository repository = Repositories.getFake(chargers);
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+        //Al operar sobre un indice invalido forzado, lanzara la excepcion indexoutOfBounds
+        assertThrows(IndexOutOfBoundsException.class, () -> {sut.onChargerClicked(indiceInvalid);});
+        verify(mv, never()).showChargerDetails(c1);
+
+    }
+
+    @Test
+    public void onChargerClickedTestCasoD() {
+        List<Charger> chargers = new ArrayList<Charger>();
+
+        //Aplicamos el otro caso de indice > chargers.size()
+        int indiceInvalid2 = 999999999;
+        IRepository repository = Repositories.getFake(chargers);
         when(mv.getRepository()).thenReturn(repository);
 
         sut.init(mv);
 
-        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv, atLeast(1)).showChargers(captor.capture());
-        captados = captor.getValue();
 
-        //Comprobacion de los resultados esperados
-        assertEquals(captados.get(0),c3);
-        assertEquals(captados.get(1),c1);
-        assertEquals(captados.get(2),c2);
-        assertEquals(3, captados.size());
+        //No muestra nada
+        verify(mv, never()).showChargerDetails(c1);
 
     }
 
-    //CASO 2: Ordenacion descendente correcta
     @Test
-    public void OnClickedAceptarOrdenacionCorrectaDescendenteTest() {
-        Charger c1 = new Charger();
-        Charger c2 = new Charger();
-        Charger c3 = new Charger();
-        Charger c4 = new Charger();
-
+    public void onChargerClickedTestCasoE() {
+        List<Charger> chargers = new ArrayList<Charger>();
         chargers.add(c1);
         chargers.add(c2);
-        chargers.add(c3);
-        chargers.add(c4);
 
-        c1.usageCost = "0,35€/kWh";
-        c2.usageCost = "0,43€/kWh";
-        c3.usageCost = "0,30€/kWh";
-        c4.usageCost = null;
-
-        criterioOrd = "Precio";
-        asc = false;
-
+        int indiceValid = -1;
+        IRepository repository = Repositories.getFake(chargers);
         when(mv.getRepository()).thenReturn(repository);
 
         sut.init(mv);
 
-        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv, atLeast(1)).showChargers(captor.capture());
-        captados = captor.getValue();
-
-        //Comprobacion de los resultados esperados
-        assertEquals(captados.get(0),c2);
-        assertEquals(captados.get(1),c1);
-        assertEquals(captados.get(2),c3);
-        assertEquals(3, captados.size());
+        //No muestra nada
+        verify(mv, never()).showChargerDetails(c1);
+        verify(mv, never()).showChargerDetails(c2);
 
     }
-
-
-    //CASO 3: Ordenacion ascendente pero no se muestra ningun punto porque no cuentan con precio
-    @Test
-    public void OnClickedAceptarOrdenacionAscSinPreciosTest() {
-        Charger c1 = new Charger();
-        Charger c2 = new Charger();
-        c1.usageCost = null;
-        c2.usageCost = null;
-
-        chargers.add(c1);
-        chargers.add(c2);
-
-        criterioOrd = "Precio";
-        asc = true;
-
-        when(mv.getRepository()).thenReturn(repository);
-
-        sut.init(mv);
-
-        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv, atLeast(1)).showChargers(captor.capture());
-        captados = captor.getValue();
-
-        //Comprobacion de los resultados esperados
-        assertEquals(0, captados.size());
-
-    }
-
-    //CASO 4: Ordenacion descendente pero no se muestra ningun punto porque no cuentan con precio
-    @Test
-    public void OnClickedAceptarOrdenacionDesSinPreciosTest() {
-        Charger c1 = new Charger();
-        Charger c2 = new Charger();
-        c1.usageCost = null;
-        c2.usageCost = null;
-
-        chargers.add(c1);
-        chargers.add(c2);
-
-        criterioOrd = "Precio";
-        asc = false;
-
-        when(mv.getRepository()).thenReturn(repository);
-
-        sut.init(mv);
-
-        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-        verify(mv, atLeast(1)).showChargers(captor.capture());
-        captados = captor.getValue();
-
-        //Comprobacion de los resultados esperados
-        assertEquals(0, captados.size());
-
-    }
-
-    //CASO 5: Muestra mensaje de error pues el string pasado por parametro es erroneo
-    @Test
-    public void OnClickedAceptarOrdenacionCriterioInexistenteTest() {
-        Charger c1 = new Charger();
-        Charger c2 = new Charger();
-        c1.usageCost = "0,76€/kWh";
-        c2.usageCost = null;
-
-        chargers.add(c1);
-        chargers.add(c2);
-
-        criterioOrd = "hola";
-        asc = true;
-
-        when(mv.getRepository()).thenReturn(repository);
-
-        sut.init(mv);
-
-        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
-
-        //Comprobar si salta el mensaje de error
-        assertTrue("Esta ordenación no existe. Contacte con soporte para ver que ha ocurrido.", true);
-
-    }
-
 
 }
