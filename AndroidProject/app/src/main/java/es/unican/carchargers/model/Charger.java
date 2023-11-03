@@ -57,6 +57,7 @@ public class Charger {
             if (c.statusType == null) {
                 return false;
             } else if (c.statusType.isOperational) {
+
                 return true;
             }
         }

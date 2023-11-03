@@ -31,7 +31,6 @@ public class DetailsView extends AppCompatActivity {
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
-        TextView tvId = findViewById(R.id.tvId);
 
         TextView tvProvincia = findViewById(R.id.tvProvincia);
         TextView tvCiudad = findViewById(R.id.tvCiudad);
@@ -54,7 +53,6 @@ public class DetailsView extends AppCompatActivity {
         // Mostrar detalles del punto de carga
         validarYEstablecerTextView(tvTitle, charger.operator.title);
         validarYEstablecerTextView(tvInfo, charger.operator.website);
-        validarYEstablecerTextView(tvId, charger.id);
         validarYEstablecerTextView(tvProvincia, charger.address.province);
         validarYEstablecerTextView(tvCiudad, charger.address.title);
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
