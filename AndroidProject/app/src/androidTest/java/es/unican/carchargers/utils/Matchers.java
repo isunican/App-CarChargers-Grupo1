@@ -1,6 +1,5 @@
 package es.unican.carchargers.utils;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -10,7 +9,10 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import es.unican.carchargers.activities.main.ChargersArrayAdapter;
 import es.unican.carchargers.model.Charger;
@@ -37,33 +39,91 @@ public class Matchers {
         };
     }
 
-    public static Matcher<View> isFilteredByPower() {
+    public static Matcher<View> isFilteredByConnector(String idInicial, String idFinal, final int expectedCount) {
         return new TypeSafeMatcher<View>() {
-            @Override public boolean matchesSafely (final View view) {
-            ListView lv = (ListView) view;
-            ListAdapter adapter = lv.getAdapter();
-            if (adapter instanceof ChargersArrayAdapter) {
-                ChargersArrayAdapter chargersAdapter = (ChargersArrayAdapter) adapter;
-                List<Charger> chargers = new ArrayList<>();
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    chargers.add(chargersAdapter.getItem(i));
+            @Override
+            public boolean matchesSafely(final View view) {
+                ListView lv = (ListView) view;
+                ListAdapter adapter = lv.getAdapter();
+                if (adapter instanceof ChargersArrayAdapter) {
+                    ChargersArrayAdapter chargersAdapter = (ChargersArrayAdapter) adapter;
+                    List<Charger> chargers = new ArrayList<>();
+                    for (int i = 0; i < adapter.getCount(); i++) {
+                        chargers.add(chargersAdapter.getItem(i));
+                    }
+                    // Compara los conectores de los cargadores con los esperados
+                    boolean isFirstConnectorEqual = chargers.get(0).id.equals(idInicial);
+                    boolean isLastConnectorEqual = chargers.get(expectedCount-1).id.equals(idFinal);
+
+                    return chargers.size() == expectedCount && isFirstConnectorEqual && isLastConnectorEqual;
                 }
-
-                boolean isCharger1IdEqual = chargers.get(0).id.equals("213038");
-                boolean isCharger27IdEqual = chargers.get(27).id.equals("212923");
-                /*
-                String a = chargers.get(0).id;
-                String b = chargers.get(27).id;
-                Log.d("MiTag", "Este es un mensaje de depuración."+ a + " " + b);
-                */
-                return chargers.size() == 28 && isCharger1IdEqual && isCharger27IdEqual;
+                return false;
             }
-            return false;
-        }
 
-            @Override public void describeTo (final Description description) {
-                description.appendText ("ListView should be filtered by power");
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("ListView should be filtered by connector type");
             }
         };
     }
+
+    // matcher que cuenta el numero de cargadores que aparecen por pantalla
+    public static Matcher<View> countElements(final int expectedChargerCount) {
+        return new TypeSafeMatcher<>() {
+            @Override
+            public boolean matchesSafely(final View view) {
+                ListView lv = (ListView) view;
+                ListAdapter adapter = lv.getAdapter();
+                if (adapter instanceof ChargersArrayAdapter) {
+                    return adapter.getCount() == expectedChargerCount;
+                }
+                return false;
+            }
+
+            @Override
+            public void describeTo(final Description description) {
+                description.appendText("ListView should be filtered by power");
+            }
+        };
+    }
+    public static Matcher<View> isListSorted(boolean ascending) {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof ListView)) return false;
+
+                ChargersArrayAdapter adapter = (ChargersArrayAdapter) ((ListView) view).getAdapter();
+                if (adapter == null) return false;
+
+                List<Charger> chargers = new ArrayList<>();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    chargers.add(adapter.getItem(i));
+                }
+
+                Comparator<Charger> chargerComparator;
+                if (ascending) {
+                    chargerComparator = Comparator.comparing(Charger::extraerCosteCharger);
+                } else {
+                    chargerComparator = (c1, c2) -> Double.compare(c2.extraerCosteCharger(), c1.extraerCosteCharger());
+                }
+
+                Collections.sort(chargers, chargerComparator);
+
+                return IntStream.range(1, chargers.size()).noneMatch(i -> {
+                    double cost1 = chargers.get(i - 1).extraerCosteCharger();
+                    double cost2 = chargers.get(i).extraerCosteCharger();
+                    return ascending ? cost1 > cost2 : cost1 < cost2;
+                });
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("ListView should be sorted by usageCost");
+                description.appendText(ascending ? " in ascending order" : " in descending order");
+            }
+        };
+    }
+
+
+
 }

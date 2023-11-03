@@ -3,12 +3,14 @@ package es.unican.carchargers.activities.details;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Objects;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
@@ -29,7 +31,6 @@ public class DetailsView extends AppCompatActivity {
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
-        TextView tvId = findViewById(R.id.tvId);
 
         TextView tvProvincia = findViewById(R.id.tvProvincia);
         TextView tvCiudad = findViewById(R.id.tvCiudad);
@@ -38,8 +39,12 @@ public class DetailsView extends AppCompatActivity {
 
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
-        // Get Charger from the intent that triggered this activity
+
+
+        //Obtiene el cargador del intent que produjo esta actividad (Obsoleto, requiere api33 para implementar metodo actualizado getParcelable(string, clazz))
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
+
+
 
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
@@ -48,16 +53,15 @@ public class DetailsView extends AppCompatActivity {
         // Mostrar detalles del punto de carga
         validarYEstablecerTextView(tvTitle, charger.operator.title);
         validarYEstablecerTextView(tvInfo, charger.operator.website);
-        validarYEstablecerTextView(tvId, charger.id);
         validarYEstablecerTextView(tvProvincia, charger.address.province);
         validarYEstablecerTextView(tvCiudad, charger.address.title);
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-        if(charger.comprobarDiponibilidad() == true) {
+        if(charger.comprobarDisponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {
-            tvDisponibilidad.setText("Ocupado");
+            tvDisponibilidad.setText("No Disponible");
         }
 
         //Mostrar LOGO-CONECTOR
@@ -103,6 +107,11 @@ public class DetailsView extends AppCompatActivity {
         }
 }
 
+    /**
+     *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
+     * @param textView campo de la vista a detalle a establecer valor.
+     * @param valor valor a establecer en el campo de la vista a detalle.
+     */
     private void validarYEstablecerTextView(TextView textView, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
             textView.setText("-");

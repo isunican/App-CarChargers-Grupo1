@@ -1,11 +1,18 @@
 package es.unican.carchargers.common;
 
+import android.app.AlertDialog;
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Utils {
+
+    private Utils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Converts the given input stream to a String
@@ -28,5 +35,8 @@ public class Utils {
         } catch (IOException e) {}
         return null;
     }
+
+
+
 
 }

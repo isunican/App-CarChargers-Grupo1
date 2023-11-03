@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import static es.unican.carchargers.common.AndroidUtils.showLoadErrorDialog;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -10,7 +12,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -36,11 +46,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** repository is injected with Hilt */
     @Inject IRepository repository;
 
+
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
     //Para elegir filtros
     AlertDialog dialogFiltros;
+
+    AlertDialog ordenDialog;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -74,6 +89,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 // inicializar el dialogo de filtros
                 filtrosDialog();
                 return true;
+
+            case R.id.orden:
+                // inicializar el dialogo de filtros
+                ordenDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -95,7 +115,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtradoPotenciaDialog();
         });
 
-        Button btnCancelar = (Button)view.findViewById(R.id.btnCancelar);
+        Button btnConector = (Button)view.findViewById(R.id.btnConector);
+        btnConector.setOnClickListener(v -> {
+            dialogFiltros.dismiss();
+            filtradoConectorDialog();
+        });
+
+        TextView btnCancelar = (TextView) view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(v -> dialogFiltros.dismiss());
 
         // Configurar el título y el mensaje de error
@@ -107,6 +133,87 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialogFiltros.show();
     }
 
+    public void ordenDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.activity_menu_orden, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
+        builder.setView(view);
+
+        // Configurar el título y el mensaje de error
+        builder.setTitle("Ordenar");
+        // Mostrar el AlertDialog
+        ordenDialog = builder.create();
+        // Mostrar el AlertDialog para elegir filtros
+        ordenDialog.show();
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        CheckBox checkBox1 = view.findViewById(R.id.checkbox_precio);
+        String[] tiposOrden = new String[] {
+                "Precio"
+        };
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItems = new boolean[] {
+                false
+        };
+
+        // Configurar los OnCheckedChangeListener para cada CheckBox
+        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkItems[0] = isChecked;
+        });
+
+        final boolean[] tipoOrdenAscDesc = {true};
+
+        builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItems[which] = isChecked;
+        });
+
+
+        RadioButton radioButtonAsc = view.findViewById(R.id.radioButtonAsc);
+        RadioButton radioButtonDesc = view.findViewById(R.id.radioButtonDesc);
+
+        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipoOrdenAscDesc[0] = true;
+            }
+        });
+
+        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tipoOrdenAscDesc[0] = false;
+            }
+        });
+
+
+        TextView btnAceptarOrden = (TextView)view.findViewById(R.id.btnAceptarOrden);
+        btnAceptarOrden.setOnClickListener(v -> {
+            String orden = null;
+            for (int i = 0; i < checkItems.length; i++) {
+                if (checkItems[i]) {
+                    orden = tiposOrden[i];
+                }
+            }
+            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
+            ordenDialog.dismiss();
+        });
+
+        TextView btnCancelarOrden = (TextView) view.findViewById(R.id.btnCancelarOrden);
+        btnCancelarOrden.setOnClickListener(v -> {
+            ordenDialog.dismiss();
+        });
+
+    }
+
+    /**
+     * Muestra un dialog con los checkboxs a seleccionar en base a las distintas
+     * potencias disponibles.
+     */
     public void filtradoPotenciaDialog() {
 
         AlertDialog.Builder builder =
@@ -155,7 +262,50 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
+    public void filtradoConectorDialog() {
 
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(MainView.this, R.style.AlertDialogTema);
+        builder.setTitle("Marque las casillas que más se adapten a su búsqueda:");
+        builder.setIcon(R.drawable.icono_filtro);
+
+        //True = Si pinchas fuera se cierra la ventana
+        builder.setCancelable(true);
+
+        String[] conectores = EConnectionType.obtenerNombres();
+
+        //Por defecto no estará seleccionada ninguna opción
+        boolean[] checkItemsConector = new boolean[] {
+                false, false, false, false, false, false, false, false, false
+        };
+
+
+        builder.setMultiChoiceItems(conectores, checkItemsConector, (dialog, which, isChecked) -> {
+            //Se verifica que hay un item seleccionado
+            checkItemsConector[which] = isChecked;
+        });
+
+        //Al pulsar aceptar
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+
+            List<EConnectionType> conectoresSeleccionados = new ArrayList<>();
+
+            for (int i = 0; i < checkItemsConector.length; i++) {
+                if (checkItemsConector[i]) {
+                    conectoresSeleccionados.add(EConnectionType.obtenerConnectionTypePorPos(i));
+                }
+            }
+
+            presenter.onAceptarFiltroConectoresClicked(conectoresSeleccionados);
+        });
+
+        //Al pulsar cancelar
+        builder.setNegativeButton("Cancelar", (dialog, which) -> filtrosDialog());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
     @Override
     public void init() {
@@ -183,29 +333,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 Toast.LENGTH_LONG).show();
     }
 
+
+
     /**
-     * Crea un alertDialog que avisa de un error determinado
-<<<<<<< HEAD
-     * Pasar por parametro un string que rellene el campo de setMessage con el string de parametro
-=======
-     * @param error mensaje que rellena el campo de setMessage con el string de parametro
->>>>>>> feature/484709-FiltrarPotencia
+     * Gestiona errores cuando no hay cargadores, volviendo a la lista de cargadorres inicial.
+     * @param error mensaje explicativo del error.
      */
-    public void showLoadErrorDialog(String error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Error");
-        builder.setMessage(error);
-
-        // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", (dialog, which) -> dialog.dismiss());
-
-        // Mostrar el AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
     public void showLoadSinCargadores(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -214,7 +347,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setMessage(error);
 
         // Configurar un botón para cerrar el diálogo
-        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaOriginal());
+        builder.setPositiveButton("Salir", (dialog, which) -> presenter.listaActual());
 
         // Mostrar el AlertDialog
         AlertDialog dialog = builder.create();
@@ -222,9 +355,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+    /**
+     * Implementacion de gestion de errores general.
+     * @param error mensaje explicativo del error.
+     */
     @Override
     public void showLoadError(String error) {
-        showLoadErrorDialog(error);
+        showLoadErrorDialog(error, this);
     }
 
 
