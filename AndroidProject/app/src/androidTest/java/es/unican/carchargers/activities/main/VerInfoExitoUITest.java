@@ -36,7 +36,6 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  * Example UI Test using Hilt dependency injection
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
- * TODO: Hacer mock de IMainContract.View view
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
