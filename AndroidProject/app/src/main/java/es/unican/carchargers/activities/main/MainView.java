@@ -13,11 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +83,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
-            case R.id.filtro:
+            case R.id.filtros:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
                 return true;
