@@ -36,6 +36,9 @@ public class MainPresenter implements IMainContract.Presenter {
     /** Filtros activos */
     List<Double> potenciasFiltro = new ArrayList<>();
     List<EConnectionType> conectoresFiltro = new ArrayList<>();
+    /** Filtros a devolver y guardar */
+    List<Double> potenciasFiltroAplicados;
+    List<EConnectionType> conectoresFiltroAplicados;
 
     @Override
     public void init(IMainContract.View view) {
@@ -164,8 +167,25 @@ public class MainPresenter implements IMainContract.Presenter {
         aplicarFiltros();
     }
 
+    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
+    //Aplicados anteriormente
+    public List<Double> devolverFiltrosAplicadosPotencia() {
+        return potenciasFiltroAplicados;
+    }
+    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
+    //Aplicados anteriormente
+    public List<EConnectionType> devolverFiltrosAplicadosConectores() {
+        return conectoresFiltroAplicados;
+    }
+
+    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
+    //Aplicados anteriormente TODO
+    public void devolverOrdenAplicado() {
+
+    }
+
     private void aplicarFiltros() {
-// Coger lista og
+        // Coger lista og
         List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
@@ -186,6 +206,12 @@ public class MainPresenter implements IMainContract.Presenter {
                     "Al cerrar este mensaje se volverá a la selección anterior.");
             return;
         }
+
+        //Si tenemos exito y los nuevos filtros del usuario dan lugar a una lista
+        //valida guardamos los filtros para devolverlos si son pedidos.
+        potenciasFiltroAplicados = new ArrayList<>(potenciasFiltro);
+        conectoresFiltroAplicados = new ArrayList<>(conectoresFiltro);
+
 
         // Mostrar el resultado y guardarlo por separado, en caso de que la
         // proxima llamada de este método acabe con una lista vacia.
