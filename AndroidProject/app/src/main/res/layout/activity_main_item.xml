@@ -7,67 +7,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="16dp"
-            tools:srcCompat="@tools:sample/avatars"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp">
+            android:layout_width="wrap_content"
+            android:layout_height="107dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="Info" />
 
-                <TextView
-                    android:id="@+id/tvInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Info" />
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Direccion" />
 
-                <Button
-                    android:id="@+id/btnFavoritoChiquitin"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:drawableLeft="@drawable/estrella_gris"
-                    android:text="Button" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Titulo" />
-
-                <TextView
-                    android:id="@+id/tvAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Direccion" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titulo" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnFavoritoChiquitin"
+            android:layout_width="270dp"
+            android:layout_height="44dp"
+            android:drawableBottom="@drawable/estrella_gris" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
