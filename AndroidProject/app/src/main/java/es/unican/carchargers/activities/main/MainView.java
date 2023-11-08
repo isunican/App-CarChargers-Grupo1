@@ -1,10 +1,13 @@
 package es.unican.carchargers.activities.main;
 
+import static android.app.PendingIntent.getActivity;
 import static es.unican.carchargers.common.AndroidUtils.showLoadErrorDialog;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -377,5 +380,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
+
+    public SharedPreferences getActivityPreferencies() {
+        //Accede al fichero de favoritos en modo privado
+        return this.getPreferences(Context.MODE_PRIVATE);
+       /* Context context = getActivity();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/
+    }
+
 
 }

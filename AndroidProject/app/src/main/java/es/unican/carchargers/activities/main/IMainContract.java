@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.SharedPreferences;
+
 import java.util.List;
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -115,5 +117,14 @@ public interface IMainContract {
          * @param s mensaje explicativo del error.
          */
         void showLoadSinCargadores(String s);
+
+
+        /**
+         * Metodos de acceso y uso de cargadores favoritos
+         */
+
+        //Obtiene el fichero de favoritos de la mainView
+        public SharedPreferences getActivityPreferencies();
+
     }
 }

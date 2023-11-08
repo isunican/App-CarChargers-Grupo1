@@ -1,7 +1,11 @@
 package es.unican.carchargers.activities.main;
 
 
+import static android.app.PendingIntent.getActivity;
+import static android.provider.Settings.System.getString;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -241,7 +245,6 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-
     /**
      * Carga la vista con la lista inicial de cargadores.
      */
@@ -252,4 +255,25 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
 
+
+    public void OnChargerBotonFavClicked(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        //Se coge con el getActivity la actividad en el mainView
+        SharedPreferences sharedPref = view.getActivityPreferencies();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //Asigno el id del cargador a la llave generada por el id del boton
+        editor.putBoolean(c.id, true);
+        editor.apply();
+
+    }
+
+
+
+
+
+
 }
+

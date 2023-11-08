@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +63,14 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             TextView tv = convertView.findViewById(R.id.tvInfo);
             tv.setText(charger.usageCost);
         }
+
+        //Meter el listener del boton chiquitin del layout de la vista general
+        {
+            //Button btnFavoritoChiquitin = findViewById(R.id.btnFavoritoChiquitin);
+            //btnFavoritoChiquitin.setOnItemClickListener((parent, view, position, id, charger) -> presenter.onChargerClicked(charger));
+        }
+
+
 
         return convertView;
     }
