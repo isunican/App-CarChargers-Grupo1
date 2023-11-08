@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.Connection;
 
 /**
  * Charging station details view. Shows the basic information of a charging station.
@@ -74,18 +76,21 @@ public class DetailsView extends AppCompatActivity {
         conectores[1] = findViewById(R.id.tvConector2);
         conectores[2] = findViewById(R.id.tvConector3);
 
-        /*TextView[] potencias = new TextView[3];
+        TextView[] potencias = new TextView[3];
         potencias[0] = findViewById(R.id.tvPotencia1);
         potencias[1] = findViewById(R.id.tvPotencia2);
         potencias[2] = findViewById(R.id.tvPotencia3);
-        */
-
-
 
         List<String> lista = charger.listarTiposConector();
+        List<String> listaPotencias = new ArrayList<>();
+
+        for (Connection c:charger.connections){
+            listaPotencias.add("   -   " + c.powerKW + "kW");
+        }
 
         for (int i = 0; i < lista.size() && i < 3; i++) {
             validarYEstablecerTextView(conectores[i], lista.get(i));
+            validarYEstablecerTextView(potencias[i], String.valueOf(listaPotencias.get(i)));
             switch(lista.get(i)){
                 case "CCS (Type 1)":
                     logos[i].setImageResource(R.drawable.type1);
