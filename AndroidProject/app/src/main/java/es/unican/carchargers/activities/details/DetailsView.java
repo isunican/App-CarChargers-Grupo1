@@ -85,7 +85,7 @@ public class DetailsView extends AppCompatActivity {
         List<String> listaPotencias = new ArrayList<>();
 
         for (Connection c:charger.connections){
-            listaPotencias.add("   -   " + c.powerKW + "kW");
+            listaPotencias.add("  -  " + c.powerKW + "kW");
         }
 
         for (int i = 0; i < lista.size() && i < 3; i++) {
