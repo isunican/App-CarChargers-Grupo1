@@ -36,7 +36,6 @@ public class DetailsView extends AppCompatActivity {
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
-
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
 
@@ -74,6 +73,14 @@ public class DetailsView extends AppCompatActivity {
         conectores[0] = findViewById(R.id.tvConector1);
         conectores[1] = findViewById(R.id.tvConector2);
         conectores[2] = findViewById(R.id.tvConector3);
+
+        /*TextView[] potencias = new TextView[3];
+        potencias[0] = findViewById(R.id.tvPotencia1);
+        potencias[1] = findViewById(R.id.tvPotencia2);
+        potencias[2] = findViewById(R.id.tvPotencia3);
+        */
+
+
 
         List<String> lista = charger.listarTiposConector();
 
