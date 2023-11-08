@@ -3,185 +3,169 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="128dp">
+    android:layout_height="330dp">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="238dp"
+        android:layout_height="128dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.595"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="16dp"
-            tools:srcCompat="@tools:sample/avatars"
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titulo"
             android:layout_marginTop="20dp"/>
 
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direccion"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Info"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/etiqCanectores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Conectores y potencias:"
+            android:textColor="#000000" />
+
         <LinearLayout
+            android:id="@+id/charger1"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="15dp"
-            android:orientation="vertical">
+            android:layout_height="33dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/logo1"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="0" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Info" />
-
-                    <TextView
-                        android:id="@+id/tvTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Titulo" />
-
-                    <TextView
-                        android:id="@+id/tvAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Direccion" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnFavoritoChiquitin"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:drawableLeft="@drawable/estrella_gris"
-                    android:text="Button" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout1"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvConector1"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
 
-                <TextView
-                    android:id="@+id/etiqCanectoresPotencia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Conectores y Potencias:" />
+            <TextView
+                android:id="@+id/tvPotencia1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
 
+        </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/charger1"
-                    android:layout_width="match_parent"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/charger2"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/logo1"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_weight="0" />
+            <ImageView
+                android:id="@+id/logo2"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="0" />
 
-                    <TextView
-                        android:id="@+id/tvConector1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:textColor="#000000" />
+            <TextView
+                android:id="@+id/tvConector2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
 
-                    <TextView
-                        android:id="@+id/tvPotencia1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:textColor="#000000" />
+            <TextView
+                android:id="@+id/tvPotencia2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
 
-                </LinearLayout>
+        </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/charger2"
-                    android:layout_width="match_parent"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/type3"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/logo2"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_weight="0" />
+            <ImageView
+                android:id="@+id/logo3"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="0" />
 
-                    <TextView
-                        android:id="@+id/tvConector2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/tvPotencia2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:textColor="#000000" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/type3"
-                    android:layout_width="match_parent"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/logo3"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_weight="0" />
-
-                    <TextView
-                        android:id="@+id/tvConector3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:textColor="#000000" />
+            <TextView
+                android:id="@+id/tvConector3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
 
 
-                    <TextView
-                        android:id="@+id/tvPotencia3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:textColor="#000000" />
+            <TextView
+                android:id="@+id/tvPotencia3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
 
-                </LinearLayout>
-
-            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnFavoritoChiquitin"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:src="@drawable/estrella_amarilla"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
