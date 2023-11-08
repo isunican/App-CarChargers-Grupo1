@@ -154,16 +154,31 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         };
 
         //Por defecto no estará seleccionada ninguna opción
-        boolean[] checkItems = new boolean[] {
+        final boolean[] checkItems = new boolean[] {
                 false
         };
+
+        if (presenter.getOrdenacionAplicada() != null) {
+            for (int i = 0; i < tiposOrden.length; i++) {
+                if (tiposOrden[i].equals(presenter.getOrdenacionAplicada())) {
+                    checkItems[i] = true;
+                    break;
+                }
+            }
+        }
 
         // Configurar los OnCheckedChangeListener para cada CheckBox
         checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             checkItems[0] = isChecked;
         });
 
+        //Es necesario que sea final para el correcto funcionamiento
         final boolean[] tipoOrdenAscDesc = {true};
+
+        if (presenter.getAscendenteAplicado() != null) {
+            tipoOrdenAscDesc[0] = presenter.getAscendenteAplicado();
+        }
+
 
         builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado

@@ -52,6 +52,10 @@ public interface IMainContract {
         List<Double> devolverFiltrosAplicadosPotencia();
 
         List<EConnectionType> devolverFiltrosAplicadosConectores();
+
+        String getOrdenacionAplicada();
+
+        Boolean getAscendenteAplicado();
     }
 
     /**
