@@ -48,14 +48,14 @@
             android:layout_marginBottom="20dp"/>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/btnFavoritoChiquitin"
+    <TextView
+        android:id="@+id/imgFavoritoChiquitin"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:src="@drawable/estrella_gris"
+        android:drawableLeft="@drawable/estrella_gris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

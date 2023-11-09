@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,10 +67,15 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
         //Meter el listener del boton chiquitin del layout de la vista general
         {
-            //Button btnFavoritoChiquitin = findViewById(R.id.btnFavoritoChiquitin);
-            //btnFavoritoChiquitin.setOnItemClickListener((parent, view, position, id, charger) -> presenter.onChargerClicked(charger));
-        }
+            //TODO: Como hacer un onclick sobre un textview que esta dentro de un listview
+            MainPresenter presenter = new MainPresenter();
+            TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
 
+            imgFavoritoChiquitin.setOnClickListener((v) -> presenter.OnChargerBotonFavClicked(charger));
+
+            Toast.makeText(convertView.getContext(), String.format("Añadido 1 cargador a favoritos"),
+                    Toast.LENGTH_LONG).show();
+        }
 
 
         return convertView;

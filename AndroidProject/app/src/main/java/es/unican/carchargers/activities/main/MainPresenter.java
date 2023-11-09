@@ -4,8 +4,10 @@ package es.unican.carchargers.activities.main;
 import static android.app.PendingIntent.getActivity;
 import static android.provider.Settings.System.getString;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -267,7 +269,6 @@ public class MainPresenter implements IMainContract.Presenter {
         //Asigno el id del cargador a la llave generada por el id del boton
         editor.putBoolean(c.id, true);
         editor.apply();
-
     }
 
 
