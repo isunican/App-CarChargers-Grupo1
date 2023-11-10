@@ -387,7 +387,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     public SharedPreferences getActivityPreferencies() {
         //Accede al fichero de favoritos en modo privado
-        return this.getPreferences(Context.MODE_PRIVATE);
+        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
     }
 
 

@@ -138,7 +138,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
 
     public SharedPreferences getActivityPreferencies() {
         //Accede al fichero de favoritos en modo privado
-        return this.getPreferences(Context.MODE_PRIVATE);
+        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
     }
 
     public void anhadeCargadorAFavoritos(Charger c) {
