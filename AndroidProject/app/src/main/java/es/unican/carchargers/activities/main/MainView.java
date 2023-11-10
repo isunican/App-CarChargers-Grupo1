@@ -405,6 +405,28 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
+    public List<Charger> getFavoriteChargers() {
+        List<Charger> favoriteChargers = new ArrayList<>();
+
+        // Obtén las preferencias compartidas
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        // Itera sobre las entradas de las preferencias compartidas
+        Map<String, ?> allEntries = sharedPref.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            // Verifica si el valor asociado a la llave es true (indicando que es un cargador favorito)
+            if (entry.getValue() instanceof Boolean && Boolean.TRUE.equals(entry.getValue())) {
+                // Aquí, entry.getKey() sería el id del cargador favorito
+                // Puedes usar este id para obtener el cargador correspondiente y agregarlo a la lista
+                Charger favoriteCharger = presenter.getChargerById(entry.getKey());
+                if (favoriteCharger != null) {
+                    favoriteChargers.add(favoriteCharger);
+                }
+            }
+        }
+
+        return favoriteChargers;
+    }
 
 
 }

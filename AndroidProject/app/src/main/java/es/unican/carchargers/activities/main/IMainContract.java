@@ -53,6 +53,8 @@ public interface IMainContract {
 
         void OnChargerBotonFavClicked(Charger c);
 
+        Charger getChargerById(String id);
+
     }
 
     /**
