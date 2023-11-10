@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 
 import es.unican.carchargers.R;
@@ -38,6 +39,9 @@ public class MainPresenter implements IMainContract.Presenter {
 
     // Lista que mostramos al user.
     private List<Charger> chargersActuales;
+
+    private List<Charger> chargersFavoritos;
+
 
     /** Filtros activos */
     List<Double> potenciasFiltro = new ArrayList<>();
@@ -73,6 +77,8 @@ public class MainPresenter implements IMainContract.Presenter {
                 // y tener que volver atrás no depender de la llamada original a la API
                 // que tambien queremos conservar.
                 chargersActuales = new ArrayList<>(shownChargers);
+
+                chargersFavoritos = new ArrayList<>();
 
                 view.showChargers(MainPresenter.this.chargersActuales);
                 view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
@@ -262,18 +268,46 @@ public class MainPresenter implements IMainContract.Presenter {
         //Si esta seleccionado, se quita de favs (por implementar...)
         //...
 
-        //Se coge con el getActivity la actividad en el mainView
-        SharedPreferences sharedPref = view.getActivityPreferencies();
+        view.anhadeCargadorAFavoritos(c);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        //Asigno el id del cargador a la llave generada por el id del boton
-        editor.putBoolean(c.id, true);
-        editor.apply();
+        Toast.makeText((Context) view, String.format("Añadido 1 cargador a favoritos"),
+                Toast.LENGTH_LONG).show();
     }
 
 
+    public List<Charger> getFavoriteChargers() {
+        List<Charger> favoriteChargers = new ArrayList<>();
 
+        // Obtén las preferencias compartidas
+        SharedPreferences sharedPref = view.getActivityPreferencies();
 
+        // Itera sobre las entradas de las preferencias compartidas
+        Map<String, ?> allEntries = sharedPref.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            // Verifica si el valor asociado a la llave es true (indicando que es un cargador favorito)
+            if (entry.getValue() instanceof Boolean && Boolean.TRUE.equals(entry.getValue())) {
+                // Aquí, entry.getKey() sería el id del cargador favorito
+                // Puedes usar este id para obtener el cargador correspondiente y agregarlo a la lista
+                Charger favoriteCharger = getChargerById(entry.getKey());
+                if (favoriteCharger != null) {
+                    favoriteChargers.add(favoriteCharger);
+                }
+            }
+        }
+
+        return favoriteChargers;
+    }
+
+    private Charger getChargerById(String id) {
+
+        for (int i = 0; i < chargersActuales.size(); i++) {
+            if (chargersActuales.get(i).id.equals(id)) {
+                return chargersActuales.get(i);
+            }
+        }
+
+        return null;
+    }
 
 
 }

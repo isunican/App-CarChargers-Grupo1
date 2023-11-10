@@ -31,7 +31,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -315,6 +318,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
 
+
     }
 
 
@@ -325,7 +329,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers);
+        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter);
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
     }
@@ -384,11 +388,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public SharedPreferences getActivityPreferencies() {
         //Accede al fichero de favoritos en modo privado
         return this.getPreferences(Context.MODE_PRIVATE);
-       /* Context context = getActivity();
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/
     }
 
+
+    public void anhadeCargadorAFavoritos(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        //Se coge con el getActivity la actividad en el mainView
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //Asigno el id del cargador a la llave generada por el id del boton
+        editor.putBoolean(c.id, true);
+        editor.apply();
+
+    }
 
 
 

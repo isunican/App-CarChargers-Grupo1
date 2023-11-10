@@ -21,8 +21,11 @@ import es.unican.carchargers.model.Charger;
 
 public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects) {
+    private IMainContract.Presenter presenter;
+
+    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter) {
         super(context, 0, objects);
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -67,14 +70,10 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
         //Meter el listener del boton chiquitin del layout de la vista general
         {
-            //TODO: Como hacer un onclick sobre un textview que esta dentro de un listview
-            MainPresenter presenter = new MainPresenter();
+            //Onclick sobre un textview que esta dentro de un listview
             TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-
             imgFavoritoChiquitin.setOnClickListener((v) -> presenter.OnChargerBotonFavClicked(charger));
 
-            Toast.makeText(convertView.getContext(), String.format("Añadido 1 cargador a favoritos"),
-                    Toast.LENGTH_LONG).show();
         }
 
 

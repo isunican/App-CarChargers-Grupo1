@@ -50,6 +50,9 @@ public interface IMainContract {
         void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
 
         void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
+
+        void OnChargerBotonFavClicked(Charger c);
+
     }
 
     /**
@@ -125,6 +128,8 @@ public interface IMainContract {
 
         //Obtiene el fichero de favoritos de la mainView
         public SharedPreferences getActivityPreferencies();
+
+        void anhadeCargadorAFavoritos(Charger c);
 
     }
 }
