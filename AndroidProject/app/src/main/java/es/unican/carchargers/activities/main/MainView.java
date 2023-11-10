@@ -91,7 +91,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
-            case R.id.filtro:
+            case R.id.filtros:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
                 return true;
