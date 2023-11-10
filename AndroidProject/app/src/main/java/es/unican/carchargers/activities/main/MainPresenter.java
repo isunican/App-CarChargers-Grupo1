@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -270,8 +271,6 @@ public class MainPresenter implements IMainContract.Presenter {
 
         view.anhadeCargadorAFavoritos(c);
 
-        Toast.makeText((Context) view, String.format("Añadido 1 cargador a favoritos"),
-                Toast.LENGTH_LONG).show();
     }
 
 
