@@ -249,6 +249,11 @@ public class MainPresenter implements IMainContract.Presenter {
         return ascendenteAplicado;
     }
 
+    @Override
+    public void onMenuFavoritosClicked() {
+
+    }
+
     public void ordenaChargersPrecio(boolean ascendente) {
         // Creamos un comparador personalizado para ordenar por el precio
         Comparator<Charger> comparadorPrecio = (charger1, charger2) -> {

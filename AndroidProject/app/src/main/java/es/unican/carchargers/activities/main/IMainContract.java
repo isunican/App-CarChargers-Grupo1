@@ -56,6 +56,8 @@ public interface IMainContract {
         String getOrdenacionAplicada();
 
         Boolean getAscendenteAplicado();
+
+        void onMenuFavoritosClicked();
     }
 
     /**
