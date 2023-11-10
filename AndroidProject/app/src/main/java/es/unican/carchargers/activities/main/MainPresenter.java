@@ -249,9 +249,9 @@ public class MainPresenter implements IMainContract.Presenter {
         return ascendenteAplicado;
     }
 
-    @Override
-    public void onMenuFavoritosClicked() {
 
+    public void onMenuFavoritosClicked() {
+        return;
     }
 
     public void ordenaChargersPrecio(boolean ascendente) {
