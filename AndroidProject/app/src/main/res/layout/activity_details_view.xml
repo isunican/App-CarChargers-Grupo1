@@ -32,36 +32,15 @@
                 android:textColor="#000000"
                 tools:text="Title" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    tools:text="Info" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnFavs"
+            <TextView
+                android:id="@+id/tvInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:text="Añadir a \nfavoritos"
-                android:textSize="13dp"
-                android:drawableLeft="@drawable/estrella_gris"
-                android:backgroundTint="@color/verdeMuyClaro"/>
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                tools:text="Info" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -177,7 +156,7 @@
                     android:id="@+id/etiqCanectores"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• Conectores:"
+                    android:text="• Conectores y potencias:"
                     android:textColor="#4CAF50"
                     android:textStyle="bold" />
 
@@ -186,7 +165,6 @@
                     android:id="@+id/charger1"
                     android:layout_width="match_parent"
                     android:layout_height="33dp"
-                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="30dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
@@ -220,7 +198,6 @@
                     android:id="@+id/charger2"
                     android:layout_width="match_parent"
                     android:layout_height="33dp"
-                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="30dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
@@ -245,7 +222,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0"
                         android:gravity="center_vertical"
-                        android:textColor="#000000" />
+                        android:textColor="#000000"/>
 
                 </LinearLayout>
 
@@ -253,7 +230,6 @@
                     android:id="@+id/type3"
                     android:layout_width="match_parent"
                     android:layout_height="33dp"
-                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="30dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
@@ -281,6 +257,7 @@
                         android:layout_weight="0"
                         android:gravity="center_vertical"
                         android:textColor="#000000" />
+
                 </LinearLayout>
 
             </LinearLayout>

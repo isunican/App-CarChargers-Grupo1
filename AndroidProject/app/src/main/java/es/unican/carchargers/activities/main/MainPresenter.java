@@ -1,19 +1,13 @@
 package es.unican.carchargers.activities.main;
 
 
-import android.content.Context;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 
-import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EConnectionType;
-import es.unican.carchargers.model.ConnectionType;
 
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
@@ -34,8 +28,15 @@ public class MainPresenter implements IMainContract.Presenter {
     private List<Charger> chargersActuales;
 
     /** Filtros activos */
-    List<Double> potenciasFiltro = new ArrayList<>();
-    List<EConnectionType> conectoresFiltro = new ArrayList<>();
+    private List<Double> potenciasFiltro = new ArrayList<>();
+    private List<EConnectionType> conectoresFiltro = new ArrayList<>();
+    /** Filtros a devolver y guardar */
+    private List<Double> potenciasFiltroAplicados;
+    private List<EConnectionType> conectoresFiltroAplicados;
+
+    /** Ordenacion aplicada actualmente */
+    private String ordenacionAplicada;
+    private Boolean ascendenteAplicado;
 
     @Override
     public void init(IMainContract.View view) {
@@ -164,8 +165,25 @@ public class MainPresenter implements IMainContract.Presenter {
         aplicarFiltros();
     }
 
+    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
+    //Aplicados anteriormente
+    public List<Double> devolverFiltrosAplicadosPotencia() {
+        return potenciasFiltroAplicados;
+    }
+    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
+    //Aplicados anteriormente
+    public List<EConnectionType> devolverFiltrosAplicadosConectores() {
+        return conectoresFiltroAplicados;
+    }
+
+    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
+    //Aplicados anteriormente TODO
+    public void devolverOrdenAplicado() {
+
+    }
+
     private void aplicarFiltros() {
-// Coger lista og
+        // Coger lista og
         List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
@@ -186,6 +204,11 @@ public class MainPresenter implements IMainContract.Presenter {
                     "Al cerrar este mensaje se volverá a la selección anterior.");
             return;
         }
+
+        //Si tenemos exito y los nuevos filtros del usuario dan lugar a una lista
+        //valida guardamos los filtros para devolverlos si son pedidos.
+        potenciasFiltroAplicados = new ArrayList<>(potenciasFiltro);
+        conectoresFiltroAplicados = new ArrayList<>(conectoresFiltro);
 
         // Mostrar el resultado y guardarlo por separado, en caso de que la
         // proxima llamada de este método acabe con una lista vacia.
@@ -212,8 +235,23 @@ public class MainPresenter implements IMainContract.Presenter {
                 return;
         }
 
+        ordenacionAplicada = criterioOrdenacion;
+        ascendenteAplicado = ascendente;
+
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+    }
+
+    public String getOrdenacionAplicada(){
+        return ordenacionAplicada;
+    }
+    public Boolean getAscendenteAplicado() {
+        return ascendenteAplicado;
+    }
+
+    @Override
+    public void onMenuFavoritosClicked() {
+
     }
 
     public void ordenaChargersPrecio(boolean ascendente) {

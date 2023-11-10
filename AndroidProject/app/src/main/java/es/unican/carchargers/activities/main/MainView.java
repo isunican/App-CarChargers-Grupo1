@@ -92,6 +92,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 // inicializar el dialogo de filtros
                 ordenDialog();
                 return true;
+            case R.id.favoritos:
+                presenter.onMenuFavoritosClicked();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -154,16 +157,31 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         };
 
         //Por defecto no estará seleccionada ninguna opción
-        boolean[] checkItems = new boolean[] {
+        final boolean[] checkItems = new boolean[] {
                 false
         };
+
+        if (presenter.getOrdenacionAplicada() != null) {
+            for (int i = 0; i < tiposOrden.length; i++) {
+                if (tiposOrden[i].equals(presenter.getOrdenacionAplicada())) {
+                    checkItems[i] = true;
+                    break;
+                }
+            }
+        }
 
         // Configurar los OnCheckedChangeListener para cada CheckBox
         checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             checkItems[0] = isChecked;
         });
 
+        //Es necesario que sea final para el correcto funcionamiento
         final boolean[] tipoOrdenAscDesc = {true};
+
+        if (presenter.getAscendenteAplicado() != null) {
+            tipoOrdenAscDesc[0] = presenter.getAscendenteAplicado();
+        }
+
 
         builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado
@@ -229,10 +247,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 2, 7.4, 22, 43, 50
         };
 
-        //Por defecto no estará seleccionada ninguna opción
-        boolean[] checkItems = new boolean[] {
+        //Por defecto ninguna preferencia esta marcada, ya luego vemos si hay alguna
+        boolean[] checkItems = new boolean[]{
                 false, false, false, false, false
         };
+        if (presenter.devolverFiltrosAplicadosPotencia() != null) {
+            List<Double> listaPots = presenter.devolverFiltrosAplicadosPotencia();
+            for (int i = 0; i < potenciasEnteras.length; i++) {
+
+                if (listaPots.contains(potenciasEnteras[i])) {
+                    checkItems [i] = true;
+                } else {
+                    checkItems [i] = false;
+                }
+            }
+
+        }
 
         builder.setMultiChoiceItems(potencias, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado
@@ -272,10 +302,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         String[] conectores = EConnectionType.obtenerNombres();
 
-        //Por defecto no estará seleccionada ninguna opción
+        //Por defecto no estará seleccionada ninguna opcion,  ya luego vemos si hay alguna
         boolean[] checkItemsConector = new boolean[] {
                 false, false, false, false, false, false, false, false, false
         };
+        if (presenter.devolverFiltrosAplicadosConectores() != null) {
+
+            List<EConnectionType> listaConectores = presenter.devolverFiltrosAplicadosConectores();
+            for (int i = 0; i < conectores.length; i++) {
+                for (EConnectionType connectionType : listaConectores) {
+                    if (conectores[i].equals(connectionType.getNombre())) {
+                        checkItemsConector[i] = true;
+                    }
+                }
+            }
+        }
 
 
         builder.setMultiChoiceItems(conectores, checkItemsConector, (dialog, which, isChecked) -> {

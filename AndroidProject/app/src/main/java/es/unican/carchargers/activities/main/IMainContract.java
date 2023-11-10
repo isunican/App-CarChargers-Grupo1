@@ -48,6 +48,16 @@ public interface IMainContract {
         void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
 
         void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
+
+        List<Double> devolverFiltrosAplicadosPotencia();
+
+        List<EConnectionType> devolverFiltrosAplicadosConectores();
+
+        String getOrdenacionAplicada();
+
+        Boolean getAscendenteAplicado();
+
+        void onMenuFavoritosClicked();
     }
 
     /**
