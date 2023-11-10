@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +21,11 @@ import es.unican.carchargers.model.Charger;
 
 public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects) {
+    private IMainContract.Presenter presenter;
+
+    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter) {
         super(context, 0, objects);
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -62,6 +67,15 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             TextView tv = convertView.findViewById(R.id.tvInfo);
             tv.setText(charger.usageCost);
         }
+
+        //Meter el listener del boton chiquitin del layout de la vista general
+        {
+            //Onclick sobre un textview que esta dentro de un listview
+            TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
+            imgFavoritoChiquitin.setOnClickListener((v) -> presenter.OnChargerBotonFavClicked(charger));
+
+        }
+
 
         return convertView;
     }
