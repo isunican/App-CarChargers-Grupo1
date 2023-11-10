@@ -91,7 +91,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
-            case R.id.filtros:
+            case R.id.filtro:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
                 return true;
@@ -101,7 +101,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 ordenDialog();
                 return true;
             case R.id.favoritos:
-                //presenter.onFavoritosClicked
+                presenter.onMenuFavoritosClicked();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
