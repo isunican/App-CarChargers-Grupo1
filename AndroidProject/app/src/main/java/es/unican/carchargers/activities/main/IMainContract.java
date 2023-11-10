@@ -55,6 +55,7 @@ public interface IMainContract {
 
         Charger getChargerById(String id);
 
+        void onMenuFavoritosClicked();
     }
 
     /**
@@ -133,5 +134,6 @@ public interface IMainContract {
 
         void anhadeCargadorAFavoritos(Charger c);
 
+        List<Charger> getFavoriteChargers();
     }
 }

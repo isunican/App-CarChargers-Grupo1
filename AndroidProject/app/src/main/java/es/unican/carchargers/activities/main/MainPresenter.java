@@ -287,6 +287,15 @@ public class MainPresenter implements IMainContract.Presenter {
         return null;
     }
 
+    @Override
+    public void onMenuFavoritosClicked() {
+        List<Charger> chargersFavoritos = new ArrayList<>(shownChargers);
+        chargersFavoritos = view.getFavoriteChargers();
+        chargersActuales = new ArrayList<>(chargersFavoritos);
+        view.showChargers(MainPresenter.this.chargersActuales);
+        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+    }
+
 
 }
 
