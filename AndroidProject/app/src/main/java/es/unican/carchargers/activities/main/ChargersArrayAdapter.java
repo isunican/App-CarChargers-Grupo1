@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
@@ -70,22 +71,28 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             tv.setText(charger.usageCost);
         }
 
-        /*
         {
+
             TextView[] potencias = new TextView[3];
-            potencias[0] = convertView.findViewById(R.id.tvPotencia1);
-            potencias[1] = convertView.findViewById(R.id.tvPotencia2);
-            potencias[2] = convertView.findViewById(R.id.tvPotencia3);
+            potencias[0] = convertView.findViewById(R.id.tvPot1);
+            potencias[1] = convertView.findViewById(R.id.tvPot2);
+            potencias[2] = convertView.findViewById(R.id.tvPot3);
 
-
+            List<String> lista = charger.listarTiposConector();
             List<String> listaPotencias = new ArrayList<>();
 
-            for (Connection c:charger.connections){
+            for (Connection c : charger.connections) {
                 listaPotencias.add(c.powerKW + "kW");
             }
 
+            for (int i = 0; i < Math.min(lista.size(), potencias.length); i++) {
+                potencias[i].setText(listaPotencias.get(i));
+            }
+
+
         }
-        */
+
+
 
         //Meter el listener del boton chiquitin del layout de la vista general
         {
