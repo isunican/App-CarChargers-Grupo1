@@ -51,8 +51,7 @@
             android:id="@+id/etiqCanectores"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Conectores y potencias:"
-            android:textColor="#000000" />
+            android:text="Conectores y potencias:" />
 
         <LinearLayout
             android:id="@+id/charger1"
@@ -70,7 +69,7 @@
                 android:layout_weight="0" />
 
             <TextView
-                android:id="@+id/tvConector1"
+                android:id="@+id/tvCon1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
@@ -103,7 +102,7 @@
                 android:layout_weight="0" />
 
             <TextView
-                android:id="@+id/tvConector2"
+                android:id="@+id/tvCon2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
@@ -136,7 +135,7 @@
                 android:layout_weight="0" />
 
             <TextView
-                android:id="@+id/tvConector3"
+                android:id="@+id/tvCon3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
