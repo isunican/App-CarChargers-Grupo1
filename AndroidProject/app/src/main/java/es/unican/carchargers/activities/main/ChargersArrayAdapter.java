@@ -13,11 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.Connection;
 
 public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
@@ -67,6 +69,23 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             TextView tv = convertView.findViewById(R.id.tvInfo);
             tv.setText(charger.usageCost);
         }
+
+        /*
+        {
+            TextView[] potencias = new TextView[3];
+            potencias[0] = convertView.findViewById(R.id.tvPotencia1);
+            potencias[1] = convertView.findViewById(R.id.tvPotencia2);
+            potencias[2] = convertView.findViewById(R.id.tvPotencia3);
+
+
+            List<String> listaPotencias = new ArrayList<>();
+
+            for (Connection c:charger.connections){
+                listaPotencias.add(c.powerKW + "kW");
+            }
+
+        }
+        */
 
         //Meter el listener del boton chiquitin del layout de la vista general
         {

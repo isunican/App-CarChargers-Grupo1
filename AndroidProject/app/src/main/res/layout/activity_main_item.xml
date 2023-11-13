@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="128dp">
+    android:layout_height="150dp">
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -46,6 +46,41 @@
             android:text="TextView"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tvPot1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tvPot2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tvPot3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
+
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 
