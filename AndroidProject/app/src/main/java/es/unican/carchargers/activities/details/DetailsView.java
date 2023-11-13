@@ -2,10 +2,14 @@ package es.unican.carchargers.activities.details;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -13,20 +17,28 @@ import java.util.List;
 import java.util.Objects;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.IMainContract;
+import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 
 /**
  * Charging station details view. Shows the basic information of a charging station.
  */
-public class DetailsView extends AppCompatActivity {
+public class DetailsView extends AppCompatActivity implements IDetailsContract.View {
+
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
+    private IDetailsContract.Presenter detailsPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_view);
+        // Initialize presenter-view connection
+        detailsPresenter = new DetailsPresenter();
+        detailsPresenter.init(this);
 
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
@@ -40,10 +52,8 @@ public class DetailsView extends AppCompatActivity {
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
 
-
         //Obtiene el cargador del intent que produjo esta actividad (Obsoleto, requiere api33 para implementar metodo actualizado getParcelable(string, clazz))
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
-
 
 
         // Set logo
@@ -58,7 +68,7 @@ public class DetailsView extends AppCompatActivity {
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-        if(charger.comprobarDisponibilidad() == true) {
+        if (charger.comprobarDisponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {
             tvDisponibilidad.setText("No Disponible");
@@ -79,7 +89,7 @@ public class DetailsView extends AppCompatActivity {
 
         for (int i = 0; i < lista.size() && i < 3; i++) {
             validarYEstablecerTextView(conectores[i], lista.get(i));
-            switch(lista.get(i)){
+            switch (lista.get(i)) {
                 case "CCS (Type 1)":
                     logos[i].setImageResource(R.drawable.type1);
                     break;
@@ -105,7 +115,18 @@ public class DetailsView extends AppCompatActivity {
                     logos[i].setImageResource(R.drawable.unknown);
             }
         }
-}
+
+
+        Button btnFavs = findViewById(R.id.btnFavs);
+        boolean isChargerInPreferences = isChargerInPreferences(charger.id);
+        if (isChargerInPreferences) {
+            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+        }
+        btnFavs.setOnClickListener((v) -> {
+            detailsPresenter.OnChargerBotonFavClicked(charger);
+            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+        });
+    }
 
     /**
      *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
@@ -119,6 +140,36 @@ public class DetailsView extends AppCompatActivity {
             textView.setText(valor);
         }
     }
+
+    public SharedPreferences getActivityPreferencies() {
+        //Accede al fichero de favoritos en modo privado
+        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
+    }
+
+    public void anhadeCargadorAFavoritos(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        //Se coge con el getActivity la actividad en el mainView
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //Asigno el id del cargador a la llave generada por el id del boton
+        editor.putBoolean(c.id, true);
+        editor.apply();
+
+        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
+                Toast.LENGTH_LONG).show();
+    }
+
+    public boolean isChargerInPreferences(String chargerId) {
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        // Obtén el valor booleano asociado con la clave chargerId
+        return sharedPref.getBoolean(chargerId, false);
+    }
+
+
 
 
 }

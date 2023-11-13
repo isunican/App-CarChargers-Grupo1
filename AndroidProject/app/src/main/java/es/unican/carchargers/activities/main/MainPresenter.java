@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -270,16 +271,8 @@ public class MainPresenter implements IMainContract.Presenter {
         //...
 
         view.anhadeCargadorAFavoritos(c);
-        // TODO COMPROBAR ESTO
-        view.cambiaColorEstrellaDetailsView(c);
         chargersFavoritos.add(c);
 
-        Toast.makeText((Context) view, String.format("Añadido 1 cargador a favoritos"),
-                Toast.LENGTH_LONG).show();
-    }
-
-    public boolean isChargerFav(Charger c){
-        return chargersFavoritos.contains(c);
     }
 
 
@@ -292,6 +285,14 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
         return null;
+    }
+    @Override
+    public void onMenuFavoritosClicked() {
+        List<Charger> chargersFavoritos = new ArrayList<>(shownChargers);
+        chargersFavoritos = view.getFavoriteChargers();
+        chargersActuales = new ArrayList<>(chargersFavoritos);
+        view.showChargers(MainPresenter.this.chargersActuales);
+        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
 
 }

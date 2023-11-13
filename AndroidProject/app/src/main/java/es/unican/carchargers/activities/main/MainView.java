@@ -104,6 +104,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 // inicializar el dialogo de filtros
                 ordenDialog();
                 return true;
+            /*case R.id.favoritos:
+                presenter.onMenuFavoritosClicked();
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -333,7 +336,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter);
+        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter, getActivityPreferencies());
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
     }
@@ -391,7 +394,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     public SharedPreferences getActivityPreferencies() {
         //Accede al fichero de favoritos en modo privado
-        return this.getPreferences(Context.MODE_PRIVATE);
+        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
     }
 
 
@@ -406,29 +409,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //Asigno el id del cargador a la llave generada por el id del boton
         editor.putBoolean(c.id, true);
         editor.apply();
-
-    }
-
-    // TODO COMPROBAR ESTO
-    public void cambiaColorEstrellaDetailsView(Charger c){
-        LayoutInflater inflater= LayoutInflater.from(this);
-        View view=inflater.inflate(R.layout.activity_details_view, null);
-/*
-        TextView imgFavoritoChiquitin = findViewById(R.id.imgFavoritoChiquitin);
-        Button btnfav = view.findViewById(R.id.btnFavs);
-        imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.OnChargerBotonFavClicked(c);
-                // Cambiar la imagen de la estrella al hacer clic
-                if (!presenter.isChargerFav(c)) {
-                    btnfav.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
-                } else {
-                    btnfav.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
-                }
-            }
-        });
-        */
+        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
+                Toast.LENGTH_LONG).show();
     }
 
 
@@ -454,6 +436,5 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         return favoriteChargers;
     }
-
 
 }

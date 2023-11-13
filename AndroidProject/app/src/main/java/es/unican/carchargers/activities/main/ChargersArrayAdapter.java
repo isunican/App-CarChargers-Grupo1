@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,12 @@ import es.unican.carchargers.model.Charger;
 public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
     private IMainContract.Presenter presenter;
+    private SharedPreferences sharedPref;
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter) {
+    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter, SharedPreferences sharedPref) {
         super(context, 0, objects);
         this.presenter = presenter;
+        this.sharedPref = sharedPref;
     }
 
     @NonNull
@@ -69,22 +72,28 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
         }
 
         {
-            //Onclick sobre un textview que esta dentro de un listview
             TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-            imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    presenter.OnChargerBotonFavClicked(charger);
-                    if (!presenter.isChargerFav(charger)) {
-                        imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
-                    } else {
-                        imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
-                    }
-                }
-            });
-
+            // comprueba inicialmente si ya está en favoritos
+            if (sharedPref.getBoolean(charger.id, false)) {
+                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+            }
         }
+        {
+            {
+                TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
+                //Onclick sobre un textview que esta dentro de un listview
+                imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        presenter.OnChargerBotonFavClicked(charger);
+                        if (sharedPref.getBoolean(charger.id, false)) {
+                            ((TextView)v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+                        }
+                    }
+                });
 
+            }
+        }
 
         return convertView;
     }
