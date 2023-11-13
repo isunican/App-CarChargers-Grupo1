@@ -42,6 +42,9 @@ public class MainPresenter implements IMainContract.Presenter {
 
     private List<Charger> chargersFavoritos;
 
+    private List<Charger> chargersFav;
+    private List<Charger> chargersFinal = new ArrayList<Charger>();
+
 
     /** Filtros activos */
     private List<Double> potenciasFiltro = new ArrayList<>();
@@ -87,8 +90,16 @@ public class MainPresenter implements IMainContract.Presenter {
 
                 chargersFavoritos = new ArrayList<>();
 
-                view.showChargers(MainPresenter.this.chargersActuales);
-                view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+
+
+                chargersFav = view.getFavoriteChargers();
+                chargersActuales.removeIf(c -> chargersFav.contains(c));
+
+                chargersFinal.addAll(chargersFav);
+                chargersFinal.addAll(chargersActuales);
+
+                view.showChargers(MainPresenter.this.chargersFinal);
+                view.showLoadCorrect(MainPresenter.this.chargersFinal.size());
             }
 
             @Override
