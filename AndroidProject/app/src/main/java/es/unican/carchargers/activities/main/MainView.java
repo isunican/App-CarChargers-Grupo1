@@ -73,6 +73,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
@@ -409,6 +413,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //Asigno el id del cargador a la llave generada por el id del boton
         editor.putBoolean(c.id, true);
         editor.apply();
+
         Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
                 Toast.LENGTH_LONG).show();
     }

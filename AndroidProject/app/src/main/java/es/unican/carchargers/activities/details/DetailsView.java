@@ -157,7 +157,6 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         //Asigno el id del cargador a la llave generada por el id del boton
         editor.putBoolean(c.id, true);
         editor.apply();
-
         Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
                 Toast.LENGTH_LONG).show();
     }
