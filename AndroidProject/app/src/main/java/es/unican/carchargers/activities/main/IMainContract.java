@@ -55,6 +55,7 @@ public interface IMainContract {
 
         Charger getChargerById(String id);
 
+        boolean isChargerFav(Charger charger);
     }
 
     /**
@@ -133,5 +134,6 @@ public interface IMainContract {
 
         void anhadeCargadorAFavoritos(Charger c);
 
+        void cambiaColorEstrellaDetailsView(Charger c);
     }
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -61,7 +63,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     AlertDialog ordenDialog;
 
-
+    private TextView imgFavoritoChiquitin;
+    private Button btnFavs;
+    private boolean isStarYellow = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -404,6 +408,29 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         editor.apply();
 
     }
+
+    // TODO COMPROBAR ESTO
+    public void cambiaColorEstrellaDetailsView(Charger c){
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.activity_details_view, null);
+/*
+        TextView imgFavoritoChiquitin = findViewById(R.id.imgFavoritoChiquitin);
+        Button btnfav = view.findViewById(R.id.btnFavs);
+        imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.OnChargerBotonFavClicked(c);
+                // Cambiar la imagen de la estrella al hacer clic
+                if (!presenter.isChargerFav(c)) {
+                    btnfav.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
+                } else {
+                    btnfav.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+                }
+            }
+        });
+        */
+    }
+
 
     public List<Charger> getFavoriteChargers() {
         List<Charger> favoriteChargers = new ArrayList<>();

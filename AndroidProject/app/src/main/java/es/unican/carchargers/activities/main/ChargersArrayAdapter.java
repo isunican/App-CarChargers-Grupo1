@@ -33,7 +33,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         // this is the car charger we want to show here
-        Charger charger = getItem(position);
+        final Charger charger = getItem(position);
 
         // create the view
         if (convertView == null) {
@@ -68,11 +68,20 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             tv.setText(charger.usageCost);
         }
 
-        //Meter el listener del boton chiquitin del layout de la vista general
         {
             //Onclick sobre un textview que esta dentro de un listview
             TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-            imgFavoritoChiquitin.setOnClickListener((v) -> presenter.OnChargerBotonFavClicked(charger));
+            imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.OnChargerBotonFavClicked(charger);
+                    if (!presenter.isChargerFav(charger)) {
+                        imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
+                    } else {
+                        imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+                    }
+                }
+            });
 
         }
 
