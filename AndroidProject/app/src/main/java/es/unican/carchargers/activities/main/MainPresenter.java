@@ -1,10 +1,23 @@
 package es.unican.carchargers.activities.main;
 
 
+
+import static android.app.PendingIntent.getActivity;
+import static android.provider.Settings.System.getString;
+
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -26,6 +39,9 @@ public class MainPresenter implements IMainContract.Presenter {
 
     // Lista que mostramos al user.
     private List<Charger> chargersActuales;
+
+    private List<Charger> chargersFavoritos;
+
 
     /** Filtros activos */
     private List<Double> potenciasFiltro = new ArrayList<>();
@@ -68,6 +84,8 @@ public class MainPresenter implements IMainContract.Presenter {
                 // y tener que volver atrás no depender de la llamada original a la API
                 // que tambien queremos conservar.
                 chargersActuales = new ArrayList<>(shownChargers);
+
+                chargersFavoritos = new ArrayList<>();
 
                 view.showChargers(MainPresenter.this.chargersActuales);
                 view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
@@ -249,10 +267,7 @@ public class MainPresenter implements IMainContract.Presenter {
         return ascendenteAplicado;
     }
 
-    @Override
-    public void onMenuFavoritosClicked() {
 
-    }
 
     public void ordenaChargersPrecio(boolean ascendente) {
         // Creamos un comparador personalizado para ordenar por el precio
@@ -279,7 +294,6 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-
     /**
      * Carga la vista con la lista inicial de cargadores.
      */
@@ -290,4 +304,43 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
 
+
+    public void OnChargerBotonFavClicked(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        view.anhadeCargadorAFavoritos(c);
+
+    }
+
+
+
+
+    public Charger getChargerById(String id) {
+
+        for (int i = 0; i < chargersActuales.size(); i++) {
+            if (chargersActuales.get(i).id.equals(id)) {
+                return chargersActuales.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onMenuFavoritosClicked() {
+        List<Charger> chargersFavoritos = new ArrayList<>(shownChargers);
+        chargersFavoritos = view.getFavoriteChargers();
+        //Si vacia, lanzo actividad de aviso que no hay favs
+        if (chargersFavoritos.isEmpty()) {
+            view.showInfoNoFav();
+        } else {
+            chargersActuales = new ArrayList<>(chargersFavoritos);
+            view.showChargers(MainPresenter.this.chargersActuales);
+            view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+        }
+    }
+
+
 }
+

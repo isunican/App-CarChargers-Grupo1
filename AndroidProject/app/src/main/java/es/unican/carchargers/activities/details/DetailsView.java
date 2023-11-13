@@ -2,10 +2,14 @@ package es.unican.carchargers.activities.details;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -14,6 +18,8 @@ import java.util.List;
 import java.util.Objects;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.IMainContract;
+import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
@@ -21,14 +27,20 @@ import es.unican.carchargers.model.Connection;
 /**
  * Charging station details view. Shows the basic information of a charging station.
  */
-public class DetailsView extends AppCompatActivity {
+public class DetailsView extends AppCompatActivity implements IDetailsContract.View {
+
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
+    private IDetailsContract.Presenter detailsPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_view);
+        // Initialize presenter-view connection
+        detailsPresenter = new DetailsPresenter();
+        detailsPresenter.init(this);
 
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
@@ -117,6 +129,10 @@ public class DetailsView extends AppCompatActivity {
                     logos[i].setImageResource(R.drawable.unknown);
             }
         }
+
+        Button btnFavs = findViewById(R.id.btnFavs);
+        btnFavs.setOnClickListener((v) -> detailsPresenter.OnChargerBotonFavClicked(charger));
+
 }
 
     /**
@@ -131,6 +147,29 @@ public class DetailsView extends AppCompatActivity {
             textView.setText(valor);
         }
     }
+
+    public SharedPreferences getActivityPreferencies() {
+        //Accede al fichero de favoritos en modo privado
+        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
+    }
+
+    public void anhadeCargadorAFavoritos(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        //Se coge con el getActivity la actividad en el mainView
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //Asigno el id del cargador a la llave generada por el id del boton
+        editor.putBoolean(c.id, true);
+        editor.apply();
+
+        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
+                Toast.LENGTH_LONG).show();
+    }
+
+
 
 
 }

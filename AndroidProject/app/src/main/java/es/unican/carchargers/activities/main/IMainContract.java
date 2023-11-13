@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.SharedPreferences;
+
 import java.util.List;
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -56,6 +58,9 @@ public interface IMainContract {
         String getOrdenacionAplicada();
 
         Boolean getAscendenteAplicado();
+        void OnChargerBotonFavClicked(Charger c);
+
+        Charger getChargerById(String id);
 
         void onMenuFavoritosClicked();
     }
@@ -125,5 +130,22 @@ public interface IMainContract {
          * @param s mensaje explicativo del error.
          */
         void showLoadSinCargadores(String s);
+
+
+        /**
+         * Metodos de acceso y uso de cargadores favoritos
+         */
+
+        //Obtiene el fichero de favoritos de la mainView
+        public SharedPreferences getActivityPreferencies();
+
+        void anhadeCargadorAFavoritos(Charger c);
+
+        List<Charger> getFavoriteChargers();
+
+        /**
+         * Si la vista general de cargadores favoritos no tiene favs, se avisara.
+         */
+        void showInfoNoFav();
     }
 }

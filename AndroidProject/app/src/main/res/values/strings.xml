@@ -4,6 +4,7 @@
     <string name="title_activity_info">InfoActivity</string>
     <string name="info_text">Aplicación creada para el Proyecto Integrado Curso 2023-2024</string>
     <string name="no_favoritos">No se han añadido puntos de carga a favoritos de momento</string>
+    <string name="Cabecera_favoritos">Favoritos</string>
     <string name="filtros">Filtros</string>
     <string name="filtro" />
     <string name="favoritos" />
