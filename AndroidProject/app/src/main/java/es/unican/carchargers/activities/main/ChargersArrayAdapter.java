@@ -89,10 +89,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                 potencias[i].setText(listaPotencias.get(i));
             }
 
-
         }
-
-
 
         //Meter el listener del boton chiquitin del layout de la vista general
         {
