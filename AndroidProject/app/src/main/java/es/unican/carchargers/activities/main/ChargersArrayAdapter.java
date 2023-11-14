@@ -73,7 +73,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
             // comprueba inicialmente si ya está en favoritos
             if (sharedPref.getBoolean(charger.id, false)) {
-                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
             } else {
                 imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
 
@@ -88,7 +88,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                     public void onClick(View v) {
                         presenter.OnChargerBotonFavClicked(charger);
                         if (sharedPref.getBoolean(charger.id, false)) {
-                            ((TextView)v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+                            ((TextView)v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
                         }
                     }
                 });

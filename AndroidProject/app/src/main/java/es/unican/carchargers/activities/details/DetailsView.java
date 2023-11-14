@@ -116,11 +116,11 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         Button btnFavs = findViewById(R.id.btnFavs);
         boolean isChargerInPreferences = isChargerInPreferences(charger.id);
         if (isChargerInPreferences) {
-            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
         }
         btnFavs.setOnClickListener((v) -> {
             detailsPresenter.OnChargerBotonFavClicked(charger);
-            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarilla, 0, 0, 0);
+            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
         });
     }
 
