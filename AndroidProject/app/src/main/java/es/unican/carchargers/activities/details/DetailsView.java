@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,11 +13,8 @@ import android.widget.Toast;
 import org.parceler.Parcels;
 
 import java.util.List;
-import java.util.Objects;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.main.IMainContract;
-import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 
