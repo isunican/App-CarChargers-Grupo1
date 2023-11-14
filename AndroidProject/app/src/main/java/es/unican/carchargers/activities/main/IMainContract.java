@@ -86,6 +86,7 @@ public interface IMainContract {
          * therefore the Presenter should be unable to instantiate repositories and must rely on
          * the view to create the repository.
          * Only the Presenter should call this method
+         *
          * @return
          */
         public IRepository getRepository();
@@ -93,6 +94,7 @@ public interface IMainContract {
         /**
          * The view is requested to display the given list of charging stations.
          * Only the Presenter should call this method
+         *
          * @param chargers the list of charging stations
          */
         public void showChargers(List<Charger> chargers);
@@ -101,6 +103,7 @@ public interface IMainContract {
          * The view is requested to display a notification indicating  that the charging
          * stations were loaded correctly.
          * Only the Presenter should call this method
+         *
          * @param chargers
          */
         public void showLoadCorrect(int chargers);
@@ -115,6 +118,7 @@ public interface IMainContract {
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method
+         *
          * @param charger the charging station
          */
         public void showChargerDetails(Charger charger);
@@ -128,6 +132,7 @@ public interface IMainContract {
         /**
          * Se llama a este metodo cuando no se encuentra ningun cargador con las caracteristicas
          * introducidas en el filtro
+         *
          * @param s mensaje explicativo del error.
          */
         void showLoadSinCargadores(String s);

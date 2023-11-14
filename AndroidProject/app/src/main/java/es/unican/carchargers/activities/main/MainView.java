@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.RadioButton;
@@ -59,7 +63,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     AlertDialog ordenDialog;
 
-
+    private TextView imgFavoritoChiquitin;
+    private Button btnFavs;
+    private boolean isStarYellow = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -67,6 +73,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
@@ -370,7 +380,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter);
+        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter, getActivityPreferencies());
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
     }
@@ -443,9 +453,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         //Asigno el id del cargador a la llave generada por el id del boton
         editor.putBoolean(c.id, true);
         editor.apply();
+
         Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
                 Toast.LENGTH_LONG).show();
     }
+
 
     public List<Charger> getFavoriteChargers() {
         List<Charger> favoriteChargers = new ArrayList<>();
@@ -469,6 +481,5 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         return favoriteChargers;
     }
-
 
 }

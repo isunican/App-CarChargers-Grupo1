@@ -1,14 +1,13 @@
 package es.unican.carchargers.activities.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,10 +21,12 @@ import es.unican.carchargers.model.Charger;
 public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
     private IMainContract.Presenter presenter;
+    private SharedPreferences sharedPref;
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter) {
+    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter, SharedPreferences sharedPref) {
         super(context, 0, objects);
         this.presenter = presenter;
+        this.sharedPref = sharedPref;
     }
 
     @NonNull
@@ -33,7 +34,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         // this is the car charger we want to show here
-        Charger charger = getItem(position);
+        final Charger charger = getItem(position);
 
         // create the view
         if (convertView == null) {
@@ -68,14 +69,32 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             tv.setText(charger.usageCost);
         }
 
-        //Meter el listener del boton chiquitin del layout de la vista general
         {
-            //Onclick sobre un textview que esta dentro de un listview
             TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-            imgFavoritoChiquitin.setOnClickListener((v) -> presenter.OnChargerBotonFavClicked(charger));
+            // comprueba inicialmente si ya está en favoritos
+            if (sharedPref.getBoolean(charger.id, false)) {
+                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
+            } else {
+                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
 
+            }
         }
+        {
+            {
+                TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
+                //Onclick sobre un textview que esta dentro de un listview
+                imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        presenter.OnChargerBotonFavClicked(charger);
+                        if (sharedPref.getBoolean(charger.id, false)) {
+                            ((TextView)v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
+                        }
+                    }
+                });
 
+            }
+        }
 
         return convertView;
     }

@@ -9,6 +9,7 @@ import static android.provider.Settings.System.getString;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -298,9 +299,9 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-    /**
-     * Carga la vista con la lista inicial de cargadores.
-     */
+/**
+ * Carga la vista con la lista inicial de cargadores.
+ */
     public void listaActual() {
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
@@ -314,10 +315,9 @@ public class MainPresenter implements IMainContract.Presenter {
         //...
 
         view.anhadeCargadorAFavoritos(c);
+        chargersFavoritos.add(c);
 
     }
-
-
 
 
     public Charger getChargerById(String id) {
@@ -330,7 +330,6 @@ public class MainPresenter implements IMainContract.Presenter {
 
         return null;
     }
-
     @Override
     public void onMenuFavoritosClicked() {
         List<Charger> chargersFavoritos = new ArrayList<>(shownChargers);
@@ -339,7 +338,6 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
-
 
 }
 
