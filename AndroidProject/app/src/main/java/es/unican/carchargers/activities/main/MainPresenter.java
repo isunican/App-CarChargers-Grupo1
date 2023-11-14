@@ -40,10 +40,9 @@ public class MainPresenter implements IMainContract.Presenter {
     // Lista que mostramos al user.
     private List<Charger> chargersActuales;
 
-    private List<Charger> chargersFavoritos;
-
     private List<Charger> chargersFav;
-    private List<Charger> chargersFinal = new ArrayList<Charger>();
+    private List<Charger> chargersFinal;
+    private List<Charger> chargersIni;
 
 
     /** Filtros activos */
@@ -86,20 +85,19 @@ public class MainPresenter implements IMainContract.Presenter {
                 // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
                 // y tener que volver atrás no depender de la llamada original a la API
                 // que tambien queremos conservar.
-                chargersActuales = new ArrayList<>(shownChargers);
+                chargersIni = new ArrayList<>(shownChargers);
 
-                chargersFavoritos = new ArrayList<>();
-
+                chargersActuales = new ArrayList<>();
 
 
                 chargersFav = view.getFavoriteChargers();
-                chargersActuales.removeIf(c -> chargersFav.contains(c));
+                chargersIni.removeIf(c -> chargersFav.contains(c));
 
-                chargersFinal.addAll(chargersFav);
-                chargersFinal.addAll(chargersActuales);
+                chargersActuales.addAll(chargersFav);
+                chargersActuales.addAll(chargersIni);
 
-                view.showChargers(MainPresenter.this.chargersFinal);
-                view.showLoadCorrect(MainPresenter.this.chargersFinal.size());
+                view.showChargers(MainPresenter.this.chargersActuales);
+                view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
             }
 
             @Override
@@ -340,15 +338,15 @@ public class MainPresenter implements IMainContract.Presenter {
 
     @Override
     public void onMenuFavoritosClicked() {
-        List<Charger> chargersFavoritos = new ArrayList<>(shownChargers);
+        List<Charger> chargersFavoritos = new ArrayList<>();
         chargersFavoritos = view.getFavoriteChargers();
         //Si vacia, lanzo actividad de aviso que no hay favs
         if (chargersFavoritos.isEmpty()) {
             view.showInfoNoFav();
         } else {
-            chargersActuales = new ArrayList<>(chargersFavoritos);
-            view.showChargers(MainPresenter.this.chargersActuales);
-            view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+            chargersFav = view.getFavoriteChargers();
+            view.showChargersFav(MainPresenter.this.chargersFav);
+            view.showLoadCorrect(MainPresenter.this.chargersFav.size());
         }
     }
 
