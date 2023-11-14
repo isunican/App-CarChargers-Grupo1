@@ -44,6 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.info.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -108,7 +109,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 // inicializar el dialogo de filtros
                 ordenDialog();
                 return true;
-
             case R.id.favoritos:
                 presenter.onMenuFavoritosClicked();
                 return true;
@@ -480,6 +480,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         return favoriteChargers;
+    }
+
+
+    @Override
+    public void showInfoNoFav() {
+        Intent intent = new Intent(this, NoFavActivities.class);
+        startActivity(intent);
     }
 
 }

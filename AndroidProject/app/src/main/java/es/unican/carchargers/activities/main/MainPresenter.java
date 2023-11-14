@@ -268,11 +268,6 @@ public class MainPresenter implements IMainContract.Presenter {
         return ascendenteAplicado;
     }
 
-    /*
-    @Override
-    public void onMenuFavoritosClicked() {
-
-    }*/
 
     public void ordenaChargersPrecio(boolean ascendente) {
         // Creamos un comparador personalizado para ordenar por el precio
@@ -334,9 +329,14 @@ public class MainPresenter implements IMainContract.Presenter {
     public void onMenuFavoritosClicked() {
         List<Charger> chargersFavoritos = new ArrayList<>(shownChargers);
         chargersFavoritos = view.getFavoriteChargers();
-        chargersActuales = new ArrayList<>(chargersFavoritos);
-        view.showChargers(MainPresenter.this.chargersActuales);
-        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+        //Si vacia, lanzo actividad de aviso que no hay favs
+        if (chargersFavoritos.isEmpty()) {
+            view.showInfoNoFav();
+        } else {
+            chargersActuales = new ArrayList<>(chargersFavoritos);
+            view.showChargers(MainPresenter.this.chargersActuales);
+            view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+        }
     }
 
 }

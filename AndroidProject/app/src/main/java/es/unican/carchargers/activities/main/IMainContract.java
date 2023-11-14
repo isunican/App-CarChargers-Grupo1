@@ -148,5 +148,10 @@ public interface IMainContract {
         void anhadeCargadorAFavoritos(Charger c);
 
         List<Charger> getFavoriteChargers();
+
+        /**
+         * Si la vista general de cargadores favoritos no tiene favs, se avisara.
+         */
+        void showInfoNoFav();
     }
 }
