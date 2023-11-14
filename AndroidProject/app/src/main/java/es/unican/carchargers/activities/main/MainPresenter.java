@@ -319,7 +319,7 @@ public class MainPresenter implements IMainContract.Presenter {
         //...
 
         view.anhadeCargadorAFavoritos(c);
-        chargersFavoritos.add(c);
+        //chargersFavoritos.add(c);
 
     }
 
