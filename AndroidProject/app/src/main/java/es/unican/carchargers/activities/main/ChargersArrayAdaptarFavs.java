@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,16 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 
-public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
+public class ChargersArrayAdaptarFavs extends ArrayAdapter<Charger> {
 
     private IMainContract.Presenter presenter;
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter) {
+    public ChargersArrayAdaptarFavs(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter) {
         super(context, 0, objects);
         this.presenter = presenter;
     }
@@ -72,6 +69,10 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
         }
 
         {
+            TextView[] conectores = new TextView[3];
+            conectores[0] = convertView.findViewById(R.id.tvCon1);
+            conectores[1] = convertView.findViewById(R.id.tvCon2);
+            conectores[2] = convertView.findViewById(R.id.tvCon3);
 
             TextView[] potencias = new TextView[3];
             potencias[0] = convertView.findViewById(R.id.tvPot1);
@@ -87,17 +88,16 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
             for (int i = 0; i < Math.min(lista.size(), potencias.length); i++) {
                 potencias[i].setText(listaPotencias.get(i));
+                conectores[i].setText(lista.get(i));
             }
 
         }
-
-        //Meter el listener del boton chiquitin del layout de la vista general
         {
-            //Onclick sobre un textview que esta dentro de un listview
-            TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-            imgFavoritoChiquitin.setOnClickListener((v) -> presenter.OnChargerBotonFavClicked(charger));
+            ImageView iv = convertView.findViewById(R.id.btnFavoritoChiquitin);
+            iv.setImageResource(R.drawable.estrella_amarilla);
 
         }
+
 
         return convertView;
     }
