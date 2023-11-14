@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerTextView;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +91,6 @@ public class ChargersArrayAdaptarFavs extends ArrayAdapter<Charger> {
             for (int i = 0; i < lista.size(); i++) {
                 potencias[i].setText(listaPotencias.get(i));
                 conectores[i].setText(lista.get(i));
-
             }
 
         }
