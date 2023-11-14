@@ -153,5 +153,7 @@ public interface IMainContract {
          * Si la vista general de cargadores favoritos no tiene favs, se avisara.
          */
         void showInfoNoFav();
+
+        void showChargersFav(List<Charger> favs);
     }
 }

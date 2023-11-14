@@ -489,4 +489,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
+    public void showChargersFav(List<Charger> favs) {
+        ChargersArrayAdaptarFavs adapter = new ChargersArrayAdaptarFavs(this, favs, presenter);
+        ListView listView = findViewById(R.id.lvChargers);
+        listView.setAdapter(adapter);
+    }
+
 }
