@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.details;
 
+import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerTextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -135,18 +137,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
 
 }
 
-    /**
-     *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
-     * @param textView campo de la vista a detalle a establecer valor.
-     * @param valor valor a establecer en el campo de la vista a detalle.
-     */
-    private void validarYEstablecerTextView(TextView textView, String valor) {
-        if (valor == null || valor.trim().isEmpty()) {
-            textView.setText("-");
-        } else {
-            textView.setText(valor);
-        }
-    }
+
 
     public SharedPreferences getActivityPreferencies() {
         //Accede al fichero de favoritos en modo privado

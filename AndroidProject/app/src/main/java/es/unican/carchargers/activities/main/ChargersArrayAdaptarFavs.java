@@ -38,7 +38,7 @@ public class ChargersArrayAdaptarFavs extends ArrayAdapter<Charger> {
         // create the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.activity_main_item, parent, false);
+                    .inflate(R.layout.activity_main_item_favs, parent, false);
         }
 
         // logo
@@ -70,14 +70,14 @@ public class ChargersArrayAdaptarFavs extends ArrayAdapter<Charger> {
 
         {
             TextView[] conectores = new TextView[3];
-            conectores[0] = convertView.findViewById(R.id.tvCon1);
-            conectores[1] = convertView.findViewById(R.id.tvCon2);
-            conectores[2] = convertView.findViewById(R.id.tvCon3);
+            conectores[0] = convertView.findViewById(R.id.tvC1);
+            conectores[1] = convertView.findViewById(R.id.tvC2);
+            conectores[2] = convertView.findViewById(R.id.tvC3);
 
             TextView[] potencias = new TextView[3];
-            potencias[0] = convertView.findViewById(R.id.tvPot1);
-            potencias[1] = convertView.findViewById(R.id.tvPot2);
-            potencias[2] = convertView.findViewById(R.id.tvPot3);
+            potencias[0] = convertView.findViewById(R.id.tvP1);
+            potencias[1] = convertView.findViewById(R.id.tvP2);
+            potencias[2] = convertView.findViewById(R.id.tvP3);
 
             List<String> lista = charger.listarTiposConector();
             List<String> listaPotencias = new ArrayList<>();
@@ -86,9 +86,10 @@ public class ChargersArrayAdaptarFavs extends ArrayAdapter<Charger> {
                 listaPotencias.add(c.powerKW + "kW");
             }
 
-            for (int i = 0; i < Math.min(lista.size(), potencias.length); i++) {
+            for (int i = 0; i < lista.size(); i++) {
                 potencias[i].setText(listaPotencias.get(i));
                 conectores[i].setText(lista.get(i));
+
             }
 
         }
