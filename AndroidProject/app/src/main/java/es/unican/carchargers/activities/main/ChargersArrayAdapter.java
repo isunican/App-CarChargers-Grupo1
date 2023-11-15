@@ -104,7 +104,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             }
         }
         {
-            {/*
+            {
                 TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
                 //Onclick sobre un textview que esta dentro de un listview
                 imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
@@ -115,12 +115,11 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                             ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
                         }
                     }
-                });*/
+                });
 
 
                 return convertView;
             }
-
 
         }
     }

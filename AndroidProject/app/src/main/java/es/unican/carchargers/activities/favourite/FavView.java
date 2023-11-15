@@ -3,24 +3,13 @@ package es.unican.carchargers.activities.favourite;
 import static es.unican.carchargers.common.AndroidUtils.showLoadErrorDialog;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.parceler.Parcels;
@@ -34,11 +23,6 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
-import es.unican.carchargers.activities.info.InfoActivity;
-import es.unican.carchargers.activities.main.ChargersArrayAdapter;
-import es.unican.carchargers.activities.main.IMainContract;
-import es.unican.carchargers.activities.main.MainPresenter;
-import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -59,6 +43,7 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     @Override

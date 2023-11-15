@@ -17,6 +17,7 @@ import java.util.List;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.main.IMainContract;
+import es.unican.carchargers.activities.main.MainView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
@@ -26,11 +27,13 @@ public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
     private IFavContract.Presenter presenter;
     private SharedPreferences sharedPref;
 
+
     public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IFavContract.Presenter presenter, SharedPreferences sharedPref) {
         super(context, 0, objects);
         this.presenter = presenter;
         this.sharedPref = sharedPref;
     }
+
 
     @NonNull
     @Override
@@ -42,7 +45,7 @@ public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
         // create the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.activity_main_item, parent, false);
+                    .inflate(R.layout.activity_main_item_favs, parent, false);
         }
 
         // logo

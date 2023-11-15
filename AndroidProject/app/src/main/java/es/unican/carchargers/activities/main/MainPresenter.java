@@ -86,12 +86,14 @@ public class MainPresenter implements IMainContract.Presenter {
                 // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
                 // y tener que volver atrás no depender de la llamada original a la API
                 // que tambien queremos conservar.
+
                 chargersIni = new ArrayList<>(shownChargers);
 
-                chargersActuales = new ArrayList<>();
+                chargersActuales = new ArrayList<Charger>();
 
+                chargersFav = view.getFavoriteChargers();
 
-                //chargersFav = view.getFavoriteChargers();
+                chargersFav = view.getFavoriteChargers();
                 chargersIni.removeIf(c -> chargersFav.contains(c));
 
                 chargersActuales.addAll(chargersFav);
@@ -303,13 +305,15 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-    /**
-     * Carga la vista con la lista inicial de cargadores.
-     */
+/**
+ * Carga la vista con la lista inicial de cargadores.
+ */
     public void listaActual() {
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
     }
+
+
 
 
     public void OnChargerBotonFavClicked(Charger c) {
@@ -324,18 +328,14 @@ public class MainPresenter implements IMainContract.Presenter {
 
     public Charger getChargerById(String id) {
 
-        for (int i = 0; i < chargersActuales.size(); i++) {
-            if (chargersActuales.get(i).id.equals(id)) {
-                return chargersActuales.get(i);
+        for (int i = 0; i < shownChargers.size(); i++) {
+            if (shownChargers.get(i).id.equals(id)) {
+                return shownChargers.get(i);
             }
         }
 
         return null;
     }
-
-
-
-    /*
     @Override
     public void onMenuFavoritosClicked() {
         List<Charger> chargersFavoritos = new ArrayList<>();
@@ -349,8 +349,6 @@ public class MainPresenter implements IMainContract.Presenter {
             view.showLoadCorrect(MainPresenter.this.chargersFav.size());
         }
     }
-     */
-
 
 }
 

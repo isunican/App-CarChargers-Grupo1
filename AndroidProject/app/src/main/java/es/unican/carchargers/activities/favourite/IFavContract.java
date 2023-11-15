@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 
 import java.util.List;
 
-import es.unican.carchargers.activities.main.IMainContract;
-import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 

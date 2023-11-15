@@ -59,11 +59,11 @@ public interface IMainContract {
         String getOrdenacionAplicada();
 
         Boolean getAscendenteAplicado();
- //       void OnChargerBotonFavClicked(Charger c);
+        void OnChargerBotonFavClicked(Charger c);
 
         Charger getChargerById(String id);
 
-//        void onMenuFavoritosClicked();
+        void onMenuFavoritosClicked();
     }
 
     /**
@@ -145,16 +145,15 @@ public interface IMainContract {
         //Obtiene el fichero de favoritos de la mainView
         public SharedPreferences getActivityPreferencies();
 
-
         void anhadeCargadorAFavoritos(Charger c);
 
-//        List<Charger> getFavoriteChargers();
+        List<Charger> getFavoriteChargers();
 
         /**
          * Si la vista general de cargadores favoritos no tiene favs, se avisara.
          */
-//        void showInfoNoFav();
+        void showInfoNoFav();
 
-//        void showChargersFav(List<Charger> favs);
+        void showChargersFav(List<Charger> favs);
     }
 }

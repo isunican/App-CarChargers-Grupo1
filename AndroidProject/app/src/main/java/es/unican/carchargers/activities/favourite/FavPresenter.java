@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import es.unican.carchargers.activities.main.IMainContract;
-import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
 import es.unican.carchargers.model.Charger;
@@ -41,6 +39,8 @@ public class FavPresenter implements IFavContract.Presenter {
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
+
+    //TIENE QUE CARGAR DE EL FICHERO FAVORITOS NO DEL REPOSITORIO GLOBAL
     private void load() {
         IRepository repository = view.getRepository();
 

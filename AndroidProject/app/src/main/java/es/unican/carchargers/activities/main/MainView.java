@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.RadioButton;
@@ -30,7 +33,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -39,6 +45,8 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.favourite.FavView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.favourite.FavChargersArrayAdapter;
+import es.unican.carchargers.activities.favourite.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -49,7 +57,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** repository is injected with Hilt */
     @Inject IRepository repository;
 
-
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
@@ -58,9 +65,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     AlertDialog ordenDialog;
 
-    private TextView imgFavoritoChiquitin;
-    private Button btnFavs;
-    private boolean isStarYellow = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -104,7 +108,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 ordenDialog();
                 return true;
             case R.id.favoritos:
-                //showChargerFavs();
+                presenter.onMenuFavoritosClicked();
                 return true;
 
             default:
@@ -436,7 +440,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-
     public void anhadeCargadorAFavoritos(Charger c) {
         //Si esta seleccionado, se quita de favs (por implementar...)
         //...
@@ -449,10 +452,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         editor.putBoolean(c.id, true);
         editor.apply();
 
-        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this, String.format("Añadido 1 cargador a favoritos"), Toast.LENGTH_LONG).show();
     }
-/*
+
+
     public List<Charger> getFavoriteChargers() {
         List<Charger> favoriteChargers = new ArrayList<>();
 
@@ -484,19 +487,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     public void showChargersFav(List<Charger> favs) {
-        Intent intent = new Intent(this, FavsPresenter.class);
-        startActivity(intent);
-
-        FavsView adapter = new FavsView(this, favs, presenter);
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapter);
-    }
-
-
-    //Muestra lista de favoritos
-    public void showChargerFavs() {
         Intent intent = new Intent(this, FavView.class);
         startActivity(intent);
     }
-*/
+
 }
