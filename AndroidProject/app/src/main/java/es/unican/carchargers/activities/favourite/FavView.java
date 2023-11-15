@@ -53,14 +53,6 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
     /** presenter that controls this view */
     FavPresenter presenter;
 
-    //Para elegir filtros
-    AlertDialog dialogFiltros;
-
-    AlertDialog ordenDialog;
-
-    private TextView imgFavoritoChiquitin;
-    private Button btnFavs;
-    private boolean isStarYellow = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -89,7 +81,7 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter, getActivityPreferencies());
+        FavChargersArrayAdapter adapter = new FavChargersArrayAdapter(this, chargers, presenter, getActivityPreferencies());
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
     }
@@ -98,6 +90,11 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
     public void showLoadCorrect(int chargers) {
         Toast.makeText(this, String.format("Cargados %d cargadores", chargers),
                 Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoadError(String error) {
+        showLoadErrorDialog(error, this);
     }
 
     @Override
@@ -142,15 +139,5 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
         Intent intent = new Intent(this, NoFavActivities.class);
         startActivity(intent);
     }
-
-    /*
-    public void showChargersFav(List<Charger> favs) {
-        Intent intent = new Intent(this, FavPresenter.class);
-        startActivity(intent);
-
-        FavView adapter = new FavView(this, favs, presenter);
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapter);
-    }*/
 
 }

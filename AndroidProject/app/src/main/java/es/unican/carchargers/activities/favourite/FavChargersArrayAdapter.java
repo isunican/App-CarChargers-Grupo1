@@ -26,9 +26,9 @@ public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
     private IFavContract.Presenter presenter;
     private SharedPreferences sharedPref;
 
-    public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter, SharedPreferences sharedPref) {
+    public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IFavContract.Presenter presenter, SharedPreferences sharedPref) {
         super(context, 0, objects);
-        this.presenter = (IFavContract.Presenter) presenter;
+        this.presenter = presenter;
         this.sharedPref = sharedPref;
     }
 
@@ -94,34 +94,13 @@ public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
 
         //Meter el listener del boton chiquitin del layout de la vista general
         {
-            TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-            // comprueba inicialmente si ya está en favoritos
-            if (sharedPref.getBoolean(charger.id, false)) {
-                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
-            } else {
-                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
-
-            }
+            ImageView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
+            String operatorName = charger.operator.title;
+            EOperator operator = EOperator.fromId(charger.operator.id);
+            imgFavoritoChiquitin.setImageResource(operator.logo);
         }
         {
-            {
-                TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-                //Onclick sobre un textview que esta dentro de un listview
-                imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        presenter.OnChargerBotonFavClicked(charger);
-                        if (sharedPref.getBoolean(charger.id, false)) {
-                            ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
-                        }
-                    }
-                });
-
-
-                return convertView;
-            }
-
-
+            return convertView;
         }
     }
 }

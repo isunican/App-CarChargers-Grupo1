@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import java.util.List;
 
+import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -27,6 +28,7 @@ public interface IFavContract {
          */
         public void init(View view);
 
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -34,36 +36,8 @@ public interface IFavContract {
          */
         public void onChargerClicked(int index);
 
-        /**
-         * The presenter is informed that the Info item in the menu has been clicked
-         * Only the View should call this method
-         */
-        public void onMenuInfoClicked();
-
-        public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente);
-
-        /**
-         * Muestra lista original con todos los cargadores.
-         */
-        void listaActual();
-
-        void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
-
-        void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
-
-
-        List<Double> devolverFiltrosAplicadosPotencia();
-
-        List<EConnectionType> devolverFiltrosAplicadosConectores();
-
-        String getOrdenacionAplicada();
-
-        Boolean getAscendenteAplicado();
-        void OnChargerBotonFavClicked(Charger c);
-
         Charger getChargerById(String id);
 
-        void onMenuFavoritosClicked();
     }
 
     /**
@@ -126,6 +100,8 @@ public interface IFavContract {
          */
         void showInfoNoFav();
 
-        void showChargersFav(List<Charger> favs);
+        void showLoadCorrect(int size);
+
+        void showLoadError(String error);
     }
 }
