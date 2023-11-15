@@ -24,7 +24,12 @@
             android:label="@string/title_activity_info"
             android:theme="@style/Theme.CarChargers" />
         <activity
-            android:name=".activities.info.NoFavActivities"
+            android:name=".activities.favourite.NoFavActivities"
+            android:exported="false"
+            android:label="@string/Cabecera_favoritos"
+            android:theme="@style/Theme.CarChargers" />
+        <activity
+            android:name=".activities.favourite.FavsActivity"
             android:exported="false"
             android:label="@string/Cabecera_favoritos"
             android:theme="@style/Theme.CarChargers" />

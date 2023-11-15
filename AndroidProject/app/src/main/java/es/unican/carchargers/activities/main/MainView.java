@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.RadioButton;
@@ -33,8 +30,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,8 +38,9 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
+import es.unican.carchargers.activities.favourite.FavsActivity;
 import es.unican.carchargers.activities.info.InfoActivity;
-import es.unican.carchargers.activities.info.NoFavActivities;
+import es.unican.carchargers.activities.favourite.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -490,6 +486,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     public void showChargersFav(List<Charger> favs) {
+        Intent intent = new Intent(this, FavsActivity.class);
+        startActivity(intent);
+
         ChargersArrayAdaptarFavs adapter = new ChargersArrayAdaptarFavs(this, favs, presenter);
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
