@@ -1,4 +1,4 @@
-package es.unican.carchargers.activities.main;
+package es.unican.carchargers.activities.favourite;
 
 import android.content.SharedPreferences;
 
@@ -12,7 +12,7 @@ import es.unican.carchargers.repository.IRepository;
  * The Presenter-View contract for the Main activity.
  * The Main activity shows a list of charging stations.
  */
-public interface IMainContract {
+public interface IFavContract {
 
     /**
      * Methods that must be implemented in the Main Presenter.
@@ -59,11 +59,11 @@ public interface IMainContract {
         String getOrdenacionAplicada();
 
         Boolean getAscendenteAplicado();
- //       void OnChargerBotonFavClicked(Charger c);
+        void OnChargerBotonFavClicked(Charger c);
 
         Charger getChargerById(String id);
 
-//        void onMenuFavoritosClicked();
+        void onMenuFavoritosClicked();
     }
 
     /**
@@ -99,21 +99,7 @@ public interface IMainContract {
          */
         public void showChargers(List<Charger> chargers);
 
-        /**
-         * The view is requested to display a notification indicating  that the charging
-         * stations were loaded correctly.
-         * Only the Presenter should call this method
-         *
-         * @param chargers
-         */
-        public void showLoadCorrect(int chargers);
 
-        /**
-         * The view is requested to display a notificacion indicating that the charging
-         * stations were not loaded correctly.
-         * Only the Presenter should call this method
-         */
-        public void showLoadError(String error);
 
         /**
          * The view is requested to display the detailed view of the given charging station.
@@ -123,19 +109,6 @@ public interface IMainContract {
          */
         public void showChargerDetails(Charger charger);
 
-        /**
-         * The view is requested to open the info activity.
-         * Only the Presenter should call this method
-         */
-        public void showInfoActivity();
-
-        /**
-         * Se llama a este metodo cuando no se encuentra ningun cargador con las caracteristicas
-         * introducidas en el filtro
-         *
-         * @param s mensaje explicativo del error.
-         */
-        void showLoadSinCargadores(String s);
 
 
         /**
@@ -146,15 +119,13 @@ public interface IMainContract {
         public SharedPreferences getActivityPreferencies();
 
 
-        void anhadeCargadorAFavoritos(Charger c);
-
-//        List<Charger> getFavoriteChargers();
+        List<Charger> getFavoriteChargers();
 
         /**
          * Si la vista general de cargadores favoritos no tiene favs, se avisara.
          */
-//        void showInfoNoFav();
+        void showInfoNoFav();
 
-//        void showChargersFav(List<Charger> favs);
+        void showChargersFav(List<Charger> favs);
     }
 }

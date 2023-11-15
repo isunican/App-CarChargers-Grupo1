@@ -1,4 +1,4 @@
-package es.unican.carchargers.activities.main;
+package es.unican.carchargers.activities.favourite;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,19 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.details.DetailsView;
+import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 
-public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
+public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
 
-    private IMainContract.Presenter presenter;
+    private IFavContract.Presenter presenter;
     private SharedPreferences sharedPref;
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter, SharedPreferences sharedPref) {
+    public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter, SharedPreferences sharedPref) {
         super(context, 0, objects);
-        this.presenter = presenter;
+        this.presenter = (IFavContract.Presenter) presenter;
         this.sharedPref = sharedPref;
     }
 
@@ -104,7 +104,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             }
         }
         {
-            {/*
+            {
                 TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
                 //Onclick sobre un textview que esta dentro de un listview
                 imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                             ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
                         }
                     }
-                });*/
+                });
 
 
                 return convertView;

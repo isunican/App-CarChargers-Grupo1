@@ -31,16 +31,14 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
-import es.unican.carchargers.activities.favourite.FavsActivity;
+import es.unican.carchargers.activities.favourite.FavView;
 import es.unican.carchargers.activities.info.InfoActivity;
-import es.unican.carchargers.activities.favourite.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -106,7 +104,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 ordenDialog();
                 return true;
             case R.id.favoritos:
-                presenter.onMenuFavoritosClicked();
+                showChargerFavs();
                 return true;
 
             default:
@@ -438,6 +436,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+
     public void anhadeCargadorAFavoritos(Charger c) {
         //Si esta seleccionado, se quita de favs (por implementar...)
         //...
@@ -453,8 +452,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
                 Toast.LENGTH_LONG).show();
     }
-
-
+/*
     public List<Charger> getFavoriteChargers() {
         List<Charger> favoriteChargers = new ArrayList<>();
 
@@ -486,12 +484,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     public void showChargersFav(List<Charger> favs) {
-        Intent intent = new Intent(this, FavsActivity.class);
+        Intent intent = new Intent(this, FavsPresenter.class);
         startActivity(intent);
 
-        ChargersArrayAdaptarFavs adapter = new ChargersArrayAdaptarFavs(this, favs, presenter);
+        FavsView adapter = new FavsView(this, favs, presenter);
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
+    }
+*/
+
+    //Muestra lista de favoritos
+    public void showChargerFavs() {
+        Intent intent = new Intent(this, FavView.class);
+        startActivity(intent);
     }
 
 }

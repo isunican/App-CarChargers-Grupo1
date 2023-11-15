@@ -1,39 +1,24 @@
-package es.unican.carchargers.activities.main;
+package es.unican.carchargers.activities.favourite;
 
-
-
-import static android.app.PendingIntent.getActivity;
-import static android.provider.Settings.System.getString;
-
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-
+import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.constants.EConnectionType;
-
-import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
 
-public class MainPresenter implements IMainContract.Presenter {
+public class FavPresenter implements IFavContract.Presenter {
 
     /** the view controlled by this presenter */
-    private IMainContract.View view;
+    private IFavContract.View view;
 
     // Lista que obtenemos al llamar a la API
     private List<Charger> shownChargers;
@@ -80,7 +65,7 @@ public class MainPresenter implements IMainContract.Presenter {
         ICallBack callback = new ICallBack() {
             @Override
             public void onSuccess(List<Charger> chargers) {
-                MainPresenter.this.shownChargers =
+                FavPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
 
                 // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
@@ -97,13 +82,13 @@ public class MainPresenter implements IMainContract.Presenter {
                 chargersActuales.addAll(chargersFav);
                 chargersActuales.addAll(chargersIni);
 
-                view.showChargers(MainPresenter.this.chargersActuales);
-                view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+                view.showChargers(FavPresenter.this.chargersActuales);
+                view.showLoadCorrect(FavPresenter.this.chargersActuales.size());
             }
 
             @Override
             public void onFailure(Throwable e) {
-                MainPresenter.this.shownChargers = Collections.emptyList();
+                FavPresenter.this.shownChargers = Collections.emptyList();
                 String error = "El sistema no pudo conectarse a la red";
                 view.showLoadError(error);
             }
@@ -241,8 +226,8 @@ public class MainPresenter implements IMainContract.Presenter {
         // Mostrar el resultado y guardarlo por separado, en caso de que la
         // proxima llamada de este método acabe con una lista vacia.
         chargersActuales = new ArrayList<>(chargersFiltrados);
-        view.showChargers(MainPresenter.this.chargersActuales);
-        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+        view.showChargers(FavPresenter.this.chargersActuales);
+        view.showLoadCorrect(FavPresenter.this.chargersActuales.size());
     }
 
     //Ordena la lista en funcion de un parametro
@@ -266,8 +251,8 @@ public class MainPresenter implements IMainContract.Presenter {
         ordenacionAplicada = criterioOrdenacion;
         ascendenteAplicado = ascendente;
 
-        view.showChargers(MainPresenter.this.chargersActuales);
-        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+        view.showChargers(FavPresenter.this.chargersActuales);
+        view.showLoadCorrect(FavPresenter.this.chargersActuales.size());
     }
 
     public String getOrdenacionAplicada(){
@@ -302,16 +287,18 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
-
+/*
     /**
      * Carga la vista con la lista inicial de cargadores.
      */
     public void listaActual() {
-        view.showChargers(MainPresenter.this.chargersActuales);
-        view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
+        view.showChargers(FavPresenter.this.chargersActuales);
+        view.showLoadCorrect(FavPresenter.this.chargersActuales.size());
     }
+*/
 
 
+/*
     public void OnChargerBotonFavClicked(Charger c) {
         //Si esta seleccionado, se quita de favs (por implementar...)
         //...
@@ -320,6 +307,7 @@ public class MainPresenter implements IMainContract.Presenter {
         //chargersFavoritos.add(c);
 
     }
+*/
 
 
     public Charger getChargerById(String id) {
@@ -333,9 +321,7 @@ public class MainPresenter implements IMainContract.Presenter {
         return null;
     }
 
-
-
-    /*
+/*
     @Override
     public void onMenuFavoritosClicked() {
         List<Charger> chargersFavoritos = new ArrayList<>();
@@ -345,12 +331,10 @@ public class MainPresenter implements IMainContract.Presenter {
             view.showInfoNoFav();
         } else {
             chargersFav = view.getFavoriteChargers();
-            view.showChargersFav(MainPresenter.this.chargersFav);
-            view.showLoadCorrect(MainPresenter.this.chargersFav.size());
+            view.showChargersFav(FavPresenter.this.chargersFav);
+            view.showLoadCorrect(FavPresenter.this.chargersFav.size());
         }
     }
-     */
-
-
+*/
 }
 
