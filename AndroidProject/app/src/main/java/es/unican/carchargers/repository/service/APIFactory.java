@@ -20,7 +20,9 @@ import retrofit2.Call;
  * not connect to the online REST API)
  */
 public class APIFactory {
-
+    private APIFactory() {
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * Returns a "real" API object that actually connects to the internet.
      * @return the real API object
