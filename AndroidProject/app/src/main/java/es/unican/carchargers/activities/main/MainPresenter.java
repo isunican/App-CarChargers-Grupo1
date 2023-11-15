@@ -88,7 +88,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 // que tambien queremos conservar.
                 chargersIni = new ArrayList<>(shownChargers);
 
-                chargersActuales = new ArrayList<>();
+                chargersActuales = new ArrayList<Charger>();
 
 
                 chargersFav = view.getFavoriteChargers();

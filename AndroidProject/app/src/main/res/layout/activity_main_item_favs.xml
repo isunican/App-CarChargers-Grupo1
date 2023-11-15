@@ -162,7 +162,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:src="@drawable/estrella_amarilla"
+        android:src="@drawable/estrella_amarillita"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
