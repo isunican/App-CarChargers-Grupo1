@@ -96,7 +96,7 @@ public class ChargersArrayAdaptarFavs extends ArrayAdapter<Charger> {
         }
         {
             ImageView iv = convertView.findViewById(R.id.btnFavoritoChiquitin);
-            iv.setImageResource(R.drawable.estrella_amarilla);
+            iv.setImageResource(R.drawable.estrella_amarillita);
 
         }
 
