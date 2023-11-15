@@ -55,7 +55,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** repository is injected with Hilt */
     @Inject IRepository repository;
 
-
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
@@ -454,8 +453,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         editor.putBoolean(c.id, true);
         editor.apply();
 
-        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this, String.format("Añadido 1 cargador a favoritos"), Toast.LENGTH_LONG).show();
     }
 
 
