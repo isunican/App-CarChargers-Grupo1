@@ -1,11 +1,9 @@
-package es.unican.carchargers.activities.main;
+package es.unican.carchargers.activities.favourite;
 
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -13,7 +11,7 @@ import es.unican.carchargers.repository.IRepository;
  * The Presenter-View contract for the Main activity.
  * The Main activity shows a list of charging stations.
  */
-public interface IMainContract {
+public interface IFavContract {
 
     /**
      * Methods that must be implemented in the Main Presenter.
@@ -28,6 +26,7 @@ public interface IMainContract {
          */
         public void init(View view);
 
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -35,36 +34,8 @@ public interface IMainContract {
          */
         public void onChargerClicked(int index);
 
-        /**
-         * The presenter is informed that the Info item in the menu has been clicked
-         * Only the View should call this method
-         */
-        public void onMenuInfoClicked();
-
-        public void onClickedAceptarOrdenacion(String criterioOrdenacion, boolean ascendente);
-
-        /**
-         * Muestra lista original con todos los cargadores.
-         */
-        void listaActual();
-
-        void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
-
-        void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
-
-
-        List<Double> devolverFiltrosAplicadosPotencia();
-
-        List<EConnectionType> devolverFiltrosAplicadosConectores();
-
-        String getOrdenacionAplicada();
-
-        Boolean getAscendenteAplicado();
-        void OnChargerBotonFavClicked(Charger c);
-
         Charger getChargerById(String id);
 
-        void onMenuFavoritosClicked();
 
 
     }
@@ -94,29 +65,9 @@ public interface IMainContract {
          */
         public IRepository getRepository();
 
-        /**
-         * The view is requested to display the given list of charging stations.
-         * Only the Presenter should call this method
-         *
-         * @param chargers the list of charging stations
-         */
-        public void showChargers(List<Charger> chargers);
 
-        /**
-         * The view is requested to display a notification indicating  that the charging
-         * stations were loaded correctly.
-         * Only the Presenter should call this method
-         *
-         * @param chargers
-         */
-        public void showLoadCorrect(int chargers);
 
-        /**
-         * The view is requested to display a notificacion indicating that the charging
-         * stations were not loaded correctly.
-         * Only the Presenter should call this method
-         */
-        public void showLoadError(String error);
+
 
         /**
          * The view is requested to display the detailed view of the given charging station.
@@ -126,19 +77,6 @@ public interface IMainContract {
          */
         public void showChargerDetails(Charger charger);
 
-        /**
-         * The view is requested to open the info activity.
-         * Only the Presenter should call this method
-         */
-        public void showInfoActivity();
-
-        /**
-         * Se llama a este metodo cuando no se encuentra ningun cargador con las caracteristicas
-         * introducidas en el filtro
-         *
-         * @param s mensaje explicativo del error.
-         */
-        void showLoadSinCargadores(String s);
 
 
         /**
@@ -148,7 +86,6 @@ public interface IMainContract {
         //Obtiene el fichero de favoritos de la mainView
         public SharedPreferences getActivityPreferencies();
 
-        void anhadeCargadorAFavoritos(Charger c);
 
         List<Charger> getFavoriteChargers();
 
@@ -157,9 +94,17 @@ public interface IMainContract {
          */
         void showInfoNoFav();
 
+        void showLoadCorrect(int size);
 
-        void showChargersFav();
+        void showLoadError(String error);
 
+        /**
+         * The view is requested to display the given list of charging stations.
+         * Only the Presenter should call this method
+         *
+         * @param chargersFav the list of charging stations
+         */
+        void showChargersFav(List<Charger> chargersFav);
 
     }
 }

@@ -43,8 +43,10 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
+import es.unican.carchargers.activities.favourite.FavView;
 import es.unican.carchargers.activities.info.InfoActivity;
-import es.unican.carchargers.activities.info.NoFavActivities;
+import es.unican.carchargers.activities.favourite.FavChargersArrayAdapter;
+import es.unican.carchargers.activities.favourite.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -63,9 +65,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     AlertDialog ordenDialog;
 
-    private TextView imgFavoritoChiquitin;
-    private Button btnFavs;
-    private boolean isStarYellow = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -109,7 +108,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 ordenDialog();
                 return true;
             case R.id.favoritos:
-                presenter.onMenuFavoritosClicked();
+                showChargersFav();
                 return true;
 
             default:
@@ -487,10 +486,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-    public void showChargersFav(List<Charger> favs) {
-        ChargersArrayAdaptarFavs adapter = new ChargersArrayAdaptarFavs(this, favs, presenter);
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapter);
+
+
+
+    public void showChargersFav() {
+        Intent intent = new Intent(this, FavView.class);
+        startActivity(intent);
     }
 
 }

@@ -336,6 +336,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
         return null;
     }
+
     @Override
     public void onMenuFavoritosClicked() {
         List<Charger> chargersFavoritos = new ArrayList<>();
@@ -345,7 +346,7 @@ public class MainPresenter implements IMainContract.Presenter {
             view.showInfoNoFav();
         } else {
             chargersFav = view.getFavoriteChargers();
-            view.showChargersFav(MainPresenter.this.chargersFav);
+            view.showChargersFav();
             view.showLoadCorrect(MainPresenter.this.chargersFav.size());
         }
     }

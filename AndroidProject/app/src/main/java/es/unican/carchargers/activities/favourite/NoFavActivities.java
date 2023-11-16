@@ -1,4 +1,4 @@
-package es.unican.carchargers.activities.info;
+package es.unican.carchargers.activities.favourite;
 
 import android.os.Bundle;
 
