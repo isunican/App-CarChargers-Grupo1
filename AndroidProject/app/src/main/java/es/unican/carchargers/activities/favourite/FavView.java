@@ -58,7 +58,6 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
 
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
-
     }
 
     @Override
@@ -119,7 +118,7 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
     public void showChargersFav(List<Charger> favs) {
         FavChargersArrayAdapter adapter = new FavChargersArrayAdapter(this, favs, presenter);
         ListView listView = findViewById(R.id.lvChargers);
-
+        listView.setAdapter(adapter);
     }
 
 

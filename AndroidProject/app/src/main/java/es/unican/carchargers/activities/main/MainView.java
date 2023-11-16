@@ -108,8 +108,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 ordenDialog();
                 return true;
             case R.id.favoritos:
-                List<Charger> favs = getFavoriteChargers();
-                showChargersFav(favs);
+                showChargersFav();
                 return true;
 
             default:
@@ -490,7 +489,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
 
-    public void showChargersFav(List<Charger> favs) {
+    public void showChargersFav() {
         Intent intent = new Intent(this, FavView.class);
         startActivity(intent);
     }

@@ -158,7 +158,7 @@ public interface IMainContract {
         void showInfoNoFav();
 
 
-        void showChargersFav(List<Charger> favs);
+        void showChargersFav();
 
 
     }
