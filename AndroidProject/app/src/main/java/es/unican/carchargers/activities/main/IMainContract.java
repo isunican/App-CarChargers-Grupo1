@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -64,6 +65,8 @@ public interface IMainContract {
         Charger getChargerById(String id);
 
         void onMenuFavoritosClicked();
+
+
     }
 
     /**
@@ -154,6 +157,9 @@ public interface IMainContract {
          */
         void showInfoNoFav();
 
+
         void showChargersFav(List<Charger> favs);
+
+
     }
 }

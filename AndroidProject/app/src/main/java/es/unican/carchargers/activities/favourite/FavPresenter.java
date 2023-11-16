@@ -17,6 +17,8 @@ public class FavPresenter implements IFavContract.Presenter {
     /** the view controlled by this presenter */
     private IFavContract.View view;
 
+    private IFavContract.Presenter presenter;
+
     // Lista que obtenemos al llamar a la API
     private List<Charger> shownChargers;
 
@@ -30,61 +32,14 @@ public class FavPresenter implements IFavContract.Presenter {
 
     @Override
     public void init(IFavContract.View view) {
-        this.view = (IFavContract.View) view;
-        ((IFavContract.View) view).init();
-        load();
+        this.view = view;
+        view.init();
+        //chargersFav = view.getFavoriteChargers();
+        //view.showChargersFav(FavPresenter.this.chargersFav);
+        //view.showLoadCorrect(FavPresenter.this.chargersFav.size());
     }
 
-    /**
-     * This method requests a list of charging stations from the repository, and requests
-     * the view to show them.
-     */
 
-    //TIENE QUE CARGAR DE EL FICHERO FAVORITOS NO DEL REPOSITORIO GLOBAL
-    private void load() {
-        IRepository repository = view.getRepository();
-
-        // set API arguments to retrieve charging stations that match some criteria
-        APIArguments args = APIArguments.builder()
-                .setCountryCode(ECountry.SPAIN.code)
-                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setMaxResults(50);
-
-        ICallBack callback = new ICallBack() {
-            @Override
-            public void onSuccess(List<Charger> chargers) {
-                FavPresenter.this.shownChargers =
-                        chargers != null ? chargers : Collections.emptyList();
-
-                // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
-                // y tener que volver atrás no depender de la llamada original a la API
-                // que tambien queremos conservar.
-                chargersIni = new ArrayList<>(shownChargers);
-
-                chargersActuales = new ArrayList<>();
-
-
-                //chargersFav = view.getFavoriteChargers();
-                chargersIni.removeIf(c -> chargersFav.contains(c));
-
-                chargersActuales.addAll(chargersFav);
-                chargersActuales.addAll(chargersIni);
-
-                view.showChargers(FavPresenter.this.chargersActuales);
-                view.showLoadCorrect(FavPresenter.this.chargersActuales.size());
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                FavPresenter.this.shownChargers = Collections.emptyList();
-                String error = "El sistema no pudo conectarse a la red";
-                view.showLoadError(error);
-            }
-        };
-
-        repository.requestChargers(args, callback);
-
-    }
 
     @Override
     public void onChargerClicked(int index) {
@@ -105,5 +60,9 @@ public class FavPresenter implements IFavContract.Presenter {
 
         return null;
     }
+
+
+
+
 }
 

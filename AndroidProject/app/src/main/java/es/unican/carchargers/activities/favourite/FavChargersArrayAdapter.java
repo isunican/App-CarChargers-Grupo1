@@ -28,7 +28,7 @@ public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
     private SharedPreferences sharedPref;
 
 
-    public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IFavContract.Presenter presenter, SharedPreferences sharedPref) {
+    public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IFavContract.Presenter presenter) {
         super(context, 0, objects);
         this.presenter = presenter;
         this.sharedPref = sharedPref;

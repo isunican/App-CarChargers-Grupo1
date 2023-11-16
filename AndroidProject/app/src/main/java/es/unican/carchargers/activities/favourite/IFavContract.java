@@ -36,6 +36,8 @@ public interface IFavContract {
 
         Charger getChargerById(String id);
 
+
+
     }
 
     /**
@@ -63,13 +65,7 @@ public interface IFavContract {
          */
         public IRepository getRepository();
 
-        /**
-         * The view is requested to display the given list of charging stations.
-         * Only the Presenter should call this method
-         *
-         * @param chargers the list of charging stations
-         */
-        public void showChargers(List<Charger> chargers);
+
 
 
 
@@ -101,5 +97,14 @@ public interface IFavContract {
         void showLoadCorrect(int size);
 
         void showLoadError(String error);
+
+        /**
+         * The view is requested to display the given list of charging stations.
+         * Only the Presenter should call this method
+         *
+         * @param chargersFav the list of charging stations
+         */
+        void showChargersFav(List<Charger> chargersFav);
+
     }
 }

@@ -336,6 +336,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
         return null;
     }
+
     @Override
     public void onMenuFavoritosClicked() {
         List<Charger> chargersFavoritos = new ArrayList<>();

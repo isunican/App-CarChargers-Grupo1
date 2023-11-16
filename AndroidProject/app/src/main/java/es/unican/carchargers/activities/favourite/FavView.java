@@ -35,7 +35,7 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
 
 
     /** presenter that controls this view */
-    FavPresenter presenter;
+    IFavContract.Presenter presenter;
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,8 +55,10 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
     }
 
     public void init() {
+
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
+
     }
 
     @Override
@@ -64,12 +66,7 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
         return repository;
     }
 
-    @Override
-    public void showChargers(List<Charger> chargers) {
-        FavChargersArrayAdapter adapter = new FavChargersArrayAdapter(this, chargers, presenter, getActivityPreferencies());
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapter);
-    }
+
 
     @Override
     public void showLoadCorrect(int chargers) {
@@ -116,6 +113,13 @@ public class FavView extends AppCompatActivity implements IFavContract.View {
         }
 
         return favoriteChargers;
+    }
+
+
+    public void showChargersFav(List<Charger> favs) {
+        FavChargersArrayAdapter adapter = new FavChargersArrayAdapter(this, favs, presenter);
+        ListView listView = findViewById(R.id.lvChargers);
+
     }
 
 
