@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,11 +16,8 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.main.IMainContract;
-import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
@@ -55,10 +51,8 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
 
-
         //Obtiene el cargador del intent que produjo esta actividad (Obsoleto, requiere api33 para implementar metodo actualizado getParcelable(string, clazz))
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
-
 
 
         // Set logo
@@ -73,7 +67,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-        if(charger.comprobarDisponibilidad() == true) {
+        if (charger.comprobarDisponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {
             tvDisponibilidad.setText("No Disponible");
@@ -98,6 +92,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         List<String> lista = charger.listarTiposConector();
         List<String> listaPotencias = new ArrayList<>();
 
+
         for (Connection c:charger.connections){
             listaPotencias.add("  -  " + c.powerKW + "kW");
         }
@@ -105,7 +100,8 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         for (int i = 0; i < lista.size() && i < 3; i++) {
             validarYEstablecerTextView(conectores[i], lista.get(i));
             validarYEstablecerTextView(potencias[i], String.valueOf(listaPotencias.get(i)));
-            switch(lista.get(i)){
+
+            switch (lista.get(i)) {
                 case "CCS (Type 1)":
                     logos[i].setImageResource(R.drawable.type1);
                     break;
@@ -132,10 +128,17 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
             }
         }
 
-        Button btnFavs = findViewById(R.id.btnFavs);
-        btnFavs.setOnClickListener((v) -> detailsPresenter.OnChargerBotonFavClicked(charger));
 
-}
+        Button btnFavs = findViewById(R.id.btnFavs);
+        boolean isChargerInPreferences = isChargerInPreferences(charger.id);
+        if (isChargerInPreferences) {
+            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
+        }
+        btnFavs.setOnClickListener((v) -> {
+            detailsPresenter.OnChargerBotonFavClicked(charger);
+            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
+        });
+    }
 
 
 
@@ -155,9 +158,15 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         //Asigno el id del cargador a la llave generada por el id del boton
         editor.putBoolean(c.id, true);
         editor.apply();
-
         Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
                 Toast.LENGTH_LONG).show();
+    }
+
+    public boolean isChargerInPreferences(String chargerId) {
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        // Obtén el valor booleano asociado con la clave chargerId
+        return sharedPref.getBoolean(chargerId, false);
     }
 
 
