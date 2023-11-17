@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import es.unican.carchargers.activities.main.ChargersArrayAdapter;
 import es.unican.carchargers.model.Charger;
 
 public class Matchers {
