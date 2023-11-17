@@ -28,6 +28,10 @@ public interface IMainContract {
          */
         public void init(View view);
 
+        static MainPresenter getInstance() {
+            return null;
+        }
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method

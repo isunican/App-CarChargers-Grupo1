@@ -78,7 +78,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     protected void onResume() {
         super.onResume();
         // Initialize presenter-view connection
-        presenter = new MainPresenter();
+        presenter = MainPresenter.getInstance();
         presenter.init(this);
 
     }
