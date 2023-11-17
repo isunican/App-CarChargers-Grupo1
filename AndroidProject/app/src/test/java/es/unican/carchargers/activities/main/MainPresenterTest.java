@@ -101,7 +101,6 @@ public class MainPresenterTest {
     }
 
 
-
     @Test
     public void filtrarPorConectorTest() {
         // CASO 1: Filtrado con varios puntos de carga y un tipo de conector.
@@ -231,6 +230,134 @@ public class MainPresenterTest {
                 "Al cerrar este mensaje se volverá a la selección anterior.");
         captados = captor.getValue();
         assertEquals(captados.size(), 0);
+    }
+
+
+    @Test
+    public void devolverFiltrosAplicadosPotenciaTest(){
+        // caso 1: No se ha realizado ningun filtrado todavia
+        Connection c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
+        Connection c2 = new Connection();
+        c2.powerKW = 43;
+        c2.id = 2;
+        Connection c3 = new Connection();
+        c3.powerKW = 7.4;
+        c3.id = 3;
+
+        Charger a = new Charger();
+        a.connections.add(c);
+        a.id = "1";
+        Charger a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        Charger a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
+
+        chargers.add(a);
+        chargers.add(a2);
+        chargers.add(a3);
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        List<Double> pots = sut.devolverFiltrosAplicadosPotencia();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(pots.size(), 0);
+
+        // caso 2: Se ha realizado el filtrado solo con una potencia
+        // inicializamos de nuevo
+        chargers = new ArrayList<>();
+        repository = Repositories.getSyncFake(chargers);
+        potencias = new ArrayList<>();
+        captados = new ArrayList<>();
+
+        potencias.add(7.4);
+
+        c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
+        c2 = new Connection();
+        c2.powerKW = 43;
+        c2.id = 2;
+        c3 = new Connection();
+        c3.powerKW = 7.4;
+        c3.id = 3;
+
+        a = new Charger();
+        a.connections.add(c);
+        a.id = "1";
+        a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
+
+        chargers.add(a);
+        chargers.add(a2);
+        chargers.add(a3);
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        pots = sut.devolverFiltrosAplicadosPotencia();
+
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        pots = sut.devolverFiltrosAplicadosPotencia();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(pots.size(), 1);
+
+        // caso 3: Se ha realizado el filtrado con mas de una potencia
+        // inicializamos de nuevo
+        chargers = new ArrayList<>();
+        repository = Repositories.getSyncFake(chargers);
+        potencias = new ArrayList<>();
+        captados = new ArrayList<>();
+
+        potencias.add(7.4);
+        potencias.add(2.0);
+        potencias.add(50.0);
+
+        c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
+        c2 = new Connection();
+        c2.powerKW = 43;
+        c2.id = 2;
+        c3 = new Connection();
+        c3.powerKW = 7.4;
+        c3.id = 3;
+
+        a = new Charger();
+        a.connections.add(c);
+        a.id = "1";
+        a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
+
+        chargers.add(a);
+        chargers.add(a2);
+        chargers.add(a3);
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        pots = sut.devolverFiltrosAplicadosPotencia();
+
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        pots = sut.devolverFiltrosAplicadosPotencia();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(pots.size(), 3);
     }
 
     @Test
