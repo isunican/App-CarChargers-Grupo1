@@ -203,14 +203,11 @@ public class MainPresenter implements IMainContract.Presenter {
         return conectoresFiltroAplicados;
     }
 
-    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
-    //Aplicados anteriormente TODO
-    public void devolverOrdenAplicado() {
-
-    }
-
     private void aplicarFiltros() {
-        // Coger lista og
+        // Coger lista og. Si se intenta filtrar antes del cargado inicial de cargadores no se hace nada.
+        if (shownChargers == null) {
+            return;
+        }
         List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
