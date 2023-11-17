@@ -17,13 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,10 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
+import es.unican.carchargers.activities.favourite.FavView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.favourite.FavChargersArrayAdapter;
+import es.unican.carchargers.activities.favourite.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -54,7 +58,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** repository is injected with Hilt */
     @Inject IRepository repository;
 
-
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
@@ -63,9 +66,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     AlertDialog ordenDialog;
 
-    private TextView imgFavoritoChiquitin;
-    private Button btnFavs;
-    private boolean isStarYellow = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -99,7 +99,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
-            case R.id.filtro:
+            case R.id.filtros:
                 // inicializar el dialogo de filtros
                 filtrosDialog();
                 return true;
@@ -108,9 +108,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 // inicializar el dialogo de filtros
                 ordenDialog();
                 return true;
-            /*case R.id.favoritos:
-                presenter.onMenuFavoritosClicked();
-                return true;*/
+            case R.id.favoritos:
+                showChargersFav();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -151,80 +152,82 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     public void ordenDialog() {
+
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.activity_menu_orden, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
+        // Crear el constructor del AlertDialog
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this, R.style.AlertDialogTema);
+
         builder.setView(view);
 
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Ordenar");
-        // Mostrar el AlertDialog
-        ordenDialog = builder.create();
-        // Mostrar el AlertDialog para elegir filtros
-        ordenDialog.show();
+        RadioGroup radioOrdenes = view.findViewById(R.id.radioGroupOrdenacion);
+        CheckBox checkboxPrecio = view.findViewById(R.id.checkbox_precio);
 
-        //True = Si pinchas fuera se cierra la ventana
-        builder.setCancelable(true);
-
-        CheckBox checkBox1 = view.findViewById(R.id.checkbox_precio);
-        String[] tiposOrden = new String[] {
-                "Precio"
-        };
-
-        //Por defecto no estará seleccionada ninguna opción
-        boolean[] checkItems = new boolean[] {
-                false
-        };
-
-        // Configurar los OnCheckedChangeListener para cada CheckBox
-        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            checkItems[0] = isChecked;
-        });
-
-        final boolean[] tipoOrdenAscDesc = {true};
-
-        builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
-            //Se verifica que hay un item seleccionado
-            checkItems[which] = isChecked;
-        });
-
-
-        RadioButton radioButtonAsc = view.findViewById(R.id.radioButtonAsc);
-        RadioButton radioButtonDesc = view.findViewById(R.id.radioButtonDesc);
-
-        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipoOrdenAscDesc[0] = true;
+        //Aqui quiero marcar que items estan marcados
+        if (presenter.getOrdenacionAplicada() != null) {
+            switch (presenter.getOrdenacionAplicada()) {
+                case "Precio":
+                    checkboxPrecio.setChecked(true);
+                    break;
+                default:
+                    break;
             }
-        });
+        }
 
-        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipoOrdenAscDesc[0] = false;
+        // Botones de radio para orden ascendente y descendente
+        RadioButton radioSentidoDesc = view.findViewById(R.id.radioButtonDesc);
+        RadioButton radioSentidoAsc = view.findViewById(R.id.radioButtonAsc);
+
+        if (presenter.getAscendenteAplicado() != null) {
+            if (presenter.getAscendenteAplicado()) {
+                radioSentidoAsc.setChecked(true);
+            } else {
+                radioSentidoDesc.setChecked(true);
             }
-        });
+        } else {
+            radioSentidoAsc.setChecked(true);
+        }
 
+        AlertDialog dialog = builder.create();
 
-        TextView btnAceptarOrden = (TextView)view.findViewById(R.id.btnAceptarOrden);
-        btnAceptarOrden.setOnClickListener(v -> {
+        // Botones de acectar y cancelar
+        TextView btnAceptar = view.findViewById(R.id.btnAceptarOrden);
+        btnAceptar.setOnClickListener(v -> {
+
             String orden = null;
-            for (int i = 0; i < checkItems.length; i++) {
-                if (checkItems[i]) {
-                    orden = tiposOrden[i];
-                }
+            /** getCheckedRadioButton siempre devuelve el mismo, por ahora con un if bastará.
+             switch (radioOrdenes.getCheckedRadioButtonId()) {
+             case R.id.checkbox_precio:
+             orden = "Precio";
+             break;
+             default:
+             orden = null;
+             break;
+             }
+             */
+            if (checkboxPrecio.isChecked()) {
+                orden = "Precio";
             }
-            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
-            ordenDialog.dismiss();
+
+            boolean  ascDesc = !radioSentidoDesc.isChecked();
+
+            presenter.onClickedAceptarOrdenacion(orden, ascDesc);
+
+            dialog.dismiss();
         });
 
-        TextView btnCancelarOrden = (TextView) view.findViewById(R.id.btnCancelarOrden);
-        btnCancelarOrden.setOnClickListener(v -> {
-            ordenDialog.dismiss();
+        TextView btnCancelar = view.findViewById(R.id.btnCancelarOrden);
+        btnCancelar.setOnClickListener(v -> {
+            // Cerrar el dialog
+            dialog.dismiss();
         });
 
+
+        // Crear y mostrar el AlertDialog
+
+        dialog.show();
     }
 
     /**
@@ -248,10 +251,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 2, 7.4, 22, 43, 50
         };
 
-        //Por defecto no estará seleccionada ninguna opción
-        boolean[] checkItems = new boolean[] {
+        //Por defecto ninguna preferencia esta marcada, ya luego vemos si hay alguna
+        boolean[] checkItems = new boolean[]{
                 false, false, false, false, false
         };
+        if (presenter.devolverFiltrosAplicadosPotencia() != null) {
+            List<Double> listaPots = presenter.devolverFiltrosAplicadosPotencia();
+            for (int i = 0; i < potenciasEnteras.length; i++) {
+
+                if (listaPots.contains(potenciasEnteras[i])) {
+                    checkItems [i] = true;
+                } else {
+                    checkItems [i] = false;
+                }
+            }
+
+        }
 
         builder.setMultiChoiceItems(potencias, checkItems, (dialog, which, isChecked) -> {
             //Se verifica que hay un item seleccionado
@@ -291,10 +306,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         String[] conectores = EConnectionType.obtenerNombres();
 
-        //Por defecto no estará seleccionada ninguna opción
+        //Por defecto no estará seleccionada ninguna opcion,  ya luego vemos si hay alguna
         boolean[] checkItemsConector = new boolean[] {
                 false, false, false, false, false, false, false, false, false
         };
+        if (presenter.devolverFiltrosAplicadosConectores() != null) {
+
+            List<EConnectionType> listaConectores = presenter.devolverFiltrosAplicadosConectores();
+            for (int i = 0; i < conectores.length; i++) {
+                for (EConnectionType connectionType : listaConectores) {
+                    if (conectores[i].equals(connectionType.getNombre())) {
+                        checkItemsConector[i] = true;
+                    }
+                }
+            }
+        }
 
 
         builder.setMultiChoiceItems(conectores, checkItemsConector, (dialog, which, isChecked) -> {
@@ -414,8 +440,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         editor.putBoolean(c.id, true);
         editor.apply();
 
-        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this, String.format("Añadido 1 cargador a favoritos"), Toast.LENGTH_LONG).show();
     }
 
 
@@ -440,6 +465,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         return favoriteChargers;
+    }
+
+
+    @Override
+    public void showInfoNoFav() {
+        Intent intent = new Intent(this, NoFavActivities.class);
+        startActivity(intent);
+    }
+
+
+
+
+    public void showChargersFav() {
+        Intent intent = new Intent(this, FavView.class);
+        startActivity(intent);
     }
 
 }

@@ -7,6 +7,8 @@
 
     <color name="colorPrimary">#8BC34A</color>
 
+    <!--color name="verdeMuyClaro">#B1E378</color-->
+
     <!--   A darker variant of the primary color, used for
            the status bar (on Android 5.0+) and contextual app bars. -->
     <color name="colorPrimaryDark">#4CAF50</color>

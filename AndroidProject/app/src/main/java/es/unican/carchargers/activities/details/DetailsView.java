@@ -1,5 +1,7 @@
 package es.unican.carchargers.activities.details;
 
+import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerTextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -46,7 +48,6 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
-
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
 
 
@@ -83,14 +84,14 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         conectores[1] = findViewById(R.id.tvConector2);
         conectores[2] = findViewById(R.id.tvConector3);
 
-        List<String> lista = charger.listarTiposConector();
-
         TextView[] potencias = new TextView[3];
         potencias[0] = findViewById(R.id.tvPotencia1);
         potencias[1] = findViewById(R.id.tvPotencia2);
         potencias[2] = findViewById(R.id.tvPotencia3);
 
+        List<String> lista = charger.listarTiposConector();
         List<String> listaPotencias = new ArrayList<>();
+
 
         for (Connection c:charger.connections){
             listaPotencias.add("  -  " + c.powerKW + "kW");
@@ -99,6 +100,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         for (int i = 0; i < lista.size() && i < 3; i++) {
             validarYEstablecerTextView(conectores[i], lista.get(i));
             validarYEstablecerTextView(potencias[i], String.valueOf(listaPotencias.get(i)));
+
             switch (lista.get(i)) {
                 case "CCS (Type 1)":
                     logos[i].setImageResource(R.drawable.type1);
@@ -138,18 +140,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         });
     }
 
-    /**
-     *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
-     * @param textView campo de la vista a detalle a establecer valor.
-     * @param valor valor a establecer en el campo de la vista a detalle.
-     */
-    private void validarYEstablecerTextView(TextView textView, String valor) {
-        if (valor == null || valor.trim().isEmpty()) {
-            textView.setText("-");
-        } else {
-            textView.setText(valor);
-        }
-    }
+
 
     public SharedPreferences getActivityPreferencies() {
         //Accede al fichero de favoritos en modo privado

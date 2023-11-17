@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -51,11 +52,21 @@ public interface IMainContract {
 
         void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
 
+
+        List<Double> devolverFiltrosAplicadosPotencia();
+
+        List<EConnectionType> devolverFiltrosAplicadosConectores();
+
+        String getOrdenacionAplicada();
+
+        Boolean getAscendenteAplicado();
         void OnChargerBotonFavClicked(Charger c);
 
         Charger getChargerById(String id);
 
         void onMenuFavoritosClicked();
+
+
     }
 
     /**
@@ -140,5 +151,15 @@ public interface IMainContract {
         void anhadeCargadorAFavoritos(Charger c);
 
         List<Charger> getFavoriteChargers();
+
+        /**
+         * Si la vista general de cargadores favoritos no tiene favs, se avisara.
+         */
+        void showInfoNoFav();
+
+
+        void showChargersFav();
+
+
     }
 }

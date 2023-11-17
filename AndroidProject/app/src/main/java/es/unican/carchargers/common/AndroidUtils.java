@@ -2,6 +2,7 @@ package es.unican.carchargers.common;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.widget.TextView;
 
 public class AndroidUtils {
 
@@ -31,7 +32,26 @@ public class AndroidUtils {
     }
 
 
+    /**
+     *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
+     * @param textView campo de la vista a detalle a establecer valor.
+     * @param valor valor a establecer en el campo de la vista a detalle.
+     */
+    public static void validarYEstablecerTextView(TextView textView, String valor) {
+        if (valor == null || valor.trim().isEmpty()) {
+            textView.setText("-");
+        } else {
+            textView.setText(valor);
+        }
+    }
 
 
+    public static String validarYEstablecerString(String valor) {
+        if (valor == null || valor.trim().isEmpty()) {
+            return "-";
+        } else {
+            return valor;
+        }
+    }
 
 }
