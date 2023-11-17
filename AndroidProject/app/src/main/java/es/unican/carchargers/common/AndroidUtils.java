@@ -46,4 +46,12 @@ public class AndroidUtils {
     }
 
 
+    public static String validarYEstablecerString(String valor) {
+        if (valor == null || valor.trim().isEmpty()) {
+            return "-";
+        } else {
+            return valor;
+        }
+    }
+
 }
