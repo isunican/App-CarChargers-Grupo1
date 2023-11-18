@@ -115,10 +115,6 @@ public class PersistenciaFiltrosOrdenUITest {
         // Verifica que el diálogo se muestra
         onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
 
-        // Realiza una selección de elementos en el diálogo de selección múltiple
-        onView(withText("2kW")).perform(click());
-        onView(withText("7.4kW")).perform(click());
-
         // Verifica que las selecciones se realizaron correctamente
         onView(withText("2kW")).check(matches(isChecked()));
         onView(withText("7.4kW")).check(matches(isChecked()));
