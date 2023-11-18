@@ -1,9 +1,5 @@
 package es.unican.carchargers.activities.details;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.model.Charger;
 
 public class DetailsPresenter implements IDetailsContract.Presenter {

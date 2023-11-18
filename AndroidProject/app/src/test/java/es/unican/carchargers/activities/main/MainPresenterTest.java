@@ -180,7 +180,7 @@ public class MainPresenterTest {
         verify(mv, atLeast(4)).showChargers(captor.capture());
         captados = captor.getValue();
         assertEquals(captados.get(0), a);
-        assertEquals(captados.size(), 1);
+        assertEquals(1, captados.size());
 
         //CASO 5: Filtrado con un punto de carga con dos conectores en el que solo coincide uno de ellos.
         chargers.remove(b);
@@ -189,7 +189,7 @@ public class MainPresenterTest {
         verify(mv, atLeast(5)).showChargers(captor.capture());
         captados = captor.getValue();
         assertEquals(captados.get(0), a);
-        assertEquals(captados.size(), 1);
+        assertEquals(1, captados.size());
 
         //CASO 6: Filtrado con un punto de carga con dos conectores en el que coinciden los dos tipos.
         conectores.clear();
@@ -199,7 +199,7 @@ public class MainPresenterTest {
         verify(mv, atLeast(6)).showChargers(captor.capture());
         captados = captor.getValue();
         assertEquals(captados.get(0), a);
-        assertEquals(captados.size(), 1);
+        assertEquals(1, captados.size());
 
         //CASO 7: Filtrado sin seleccionar el tipo de conector.
         a.connections.clear();
@@ -219,7 +219,7 @@ public class MainPresenterTest {
         assertEquals(captados.get(0), a);
         assertEquals(captados.get(1), b);
         assertEquals(captados.get(2), c);
-        assertEquals(captados.size(), 3);
+        assertEquals(3, captados.size());
 
         //CASO 8: Filtrado en el que la lista de cargadores esta vacía
         chargers.clear();
@@ -229,7 +229,7 @@ public class MainPresenterTest {
         verify(mv, atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
                 "Al cerrar este mensaje se volverá a la selección anterior.");
         captados = captor.getValue();
-        assertEquals(captados.size(), 0);
+        assertEquals(0, captados.size());
     }
 
 
@@ -443,12 +443,12 @@ public class MainPresenterTest {
         sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
-        assertTrue(captados.get(0).equals(a));
-        assertTrue(captados.get(1).equals(a2));
-        assertTrue(captados.get(2).equals(a3));
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.get(1), a2);
+        assertEquals(captados.get(2), a3);
 
         // Verifica que el resultado sea el esperado
-        assertEquals(captados.size(), 3);
+        assertEquals(3, captados.size());
 
         // inicializamos de nuevo
         chargers = new ArrayList<>();
@@ -519,10 +519,10 @@ public class MainPresenterTest {
         sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
-        assertTrue(captados.get(0).equals(a));
+        assertEquals(captados.get(0), a);
 
         // Verifica que el resultado sea el esperado
-        assertEquals(captados.size(), 1);
+        assertEquals(1, captados.size());
 
         // inicializamos de nuevo
         chargers = new ArrayList<>();
@@ -564,10 +564,10 @@ public class MainPresenterTest {
         sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
-        assertTrue(captados.get(0).equals(a));
+        assertEquals(captados.get(0), a);
 
         // Verifica que el resultado sea el esperado
-        assertEquals(captados.size(), 1);
+        assertEquals(1, captados.size());
 
         // inicializamos de nuevo
         chargers = new ArrayList<>();
@@ -607,11 +607,11 @@ public class MainPresenterTest {
         sut.onAceptarFiltroPotenciaClicked(potencias);
         verify(mv,atLeast(1)).showChargers(captor.capture());
         captados = captor.getValue();
-        assertTrue(captados.get(0).equals(a));
-        assertTrue(captados.get(1).equals(a2));
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.get(1), a2);
 
         // Verifica que el resultado sea el esperado
-        assertEquals(captados.size(), 2);
+        assertEquals(2, captados.size());
 
         // inicializamos de nuevo
         chargers = new ArrayList<>();
@@ -698,7 +698,7 @@ public class MainPresenterTest {
         when(mv.getRepository()).thenReturn(repositoryVariosEltos);
         sut.init(mv);
         verify(mv).showLoadError(captorMensajeError.capture());
-        assertEquals(captorMensajeError.getValue(), "El sistema no pudo conectarse a la red");
+        assertEquals( "El sistema no pudo conectarse a la red", captorMensajeError.getValue());
     }
 
     //OnChargedClicked(int indice)
@@ -783,6 +783,231 @@ public class MainPresenterTest {
         //No muestra nada
         verify(mv, never()).showChargerDetails(c1);
         verify(mv, never()).showChargerDetails(c2);
+
+    }
+
+
+
+
+    //TEST: OnClickedAceptarOrdenacion
+
+    //CASO 1:
+    @Test
+    public void OnClickedAceptarOrdenacionCorrectaAscendenteTest() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+        Charger c4 = new Charger();
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+        chargers.add(c4);
+
+        c1.usageCost = "0,35€/kWh";
+        c2.usageCost = "0,43€/kWh";
+        c3.usageCost = "0,30€/kWh";
+        c4.usageCost = null;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(captados.get(0),c3);
+        assertEquals(captados.get(1),c1);
+        assertEquals(captados.get(2),c2);
+        assertEquals(3, captados.size());
+
+    }
+
+    //CASO 2:
+    @Test
+    public void OnClickedAceptarOrdenacionCorrectaDescendenteTest() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+        Charger c4 = new Charger();
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+        chargers.add(c4);
+
+        c1.usageCost = "0,35€/kWh";
+        c2.usageCost = "0,43€/kWh";
+        c3.usageCost = "0,30€/kWh";
+        c4.usageCost = null;
+
+        criterioOrd = "Precio";
+        asc = false;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(captados.get(0),c2);
+        assertEquals(captados.get(1),c1);
+        assertEquals(captados.get(2),c3);
+        assertEquals(3, captados.size());
+
+    }
+
+
+    //CASO 3:
+    @Test
+    public void OnClickedAceptarOrdenacionAscSinPreciosTest() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = null;
+        c2.usageCost = null;
+
+        chargers.add(c1);
+        chargers.add(c2);
+
+        criterioOrd = "Precio";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(0, captados.size());
+
+    }
+
+    //CASO 4:
+    @Test
+    public void OnClickedAceptarOrdenacionDesSinPreciosTest() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = null;
+        c2.usageCost = null;
+
+        chargers.add(c1);
+        chargers.add(c2);
+
+        criterioOrd = "Precio";
+        asc = false;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+        verify(mv,atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        //Comprobacion de los resultados esperados
+        assertEquals(0, captados.size());
+
+    }
+
+    //CASO 5:
+    @Test
+    public void OnClickedAceptarOrdenacionCriterioInexistenteTest() {
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        c1.usageCost = "0,76€/kWh";
+        c2.usageCost = null;
+
+        chargers.add(c1);
+        chargers.add(c2);
+
+        criterioOrd = "hola";
+        asc = true;
+
+        when(mv.getRepository()).thenReturn(repository);
+
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion(criterioOrd, asc);
+
+        //Comprobar si salta el mensaje de error
+        assertTrue("Esta ordenación no existe. Contacte con soporte para ver que ha ocurrido.", true);
+
+    }
+
+
+    @Test
+    public void onMenuFavoritosClickedVariosFAvsTest() {
+
+        Charger c1 = new Charger();
+        Charger c2 = new Charger();
+        Charger c3 = new Charger();
+
+        c1.id = "1";
+        c2.id = "2";
+        c3.id = "3";
+
+        chargers.add(c1);
+        chargers.add(c2);
+        chargers.add(c3);
+
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        //CASO 1:Cuando hay 3 elementos en favoritos
+        sut.onMenuFavoritosClicked();
+        verify(mv, atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        assertEquals(3, captados.size());
+
+    }
+
+    @Test
+    public void onMenuFavoritosClickedUnFavFavsTest() {
+        //CASO 2: Cuando solo hay 1 elemento en favoritos
+        Charger c1 = new Charger();
+
+        c1.id = "1";
+
+        chargers.add(c1);
+
+
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        sut.onMenuFavoritosClicked();
+        verify(mv, atLeast(1)).showChargers(captor.capture());
+        captados = captor.getValue();
+
+        assertEquals(1, captados.size());
+
+    }
+
+    @Test
+    public void onMenuFavoritosClickedNoFavsTest() {
+        //CASO 3: Cuando no hay elementos en favoritos
+
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        // Ejecutar el método que se está probando
+        sut.onMenuFavoritosClicked();
+
+        // Verificar que se llamó al método showInfoNoFav()
+        verify(mv, atLeast(1)).showInfoNoFav();
+
+        assertEquals(0, captados.size());
 
     }
 
