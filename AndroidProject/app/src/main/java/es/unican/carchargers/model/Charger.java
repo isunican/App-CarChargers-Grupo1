@@ -77,6 +77,7 @@ public class Charger {
         for (Connection c : connections) {
             if (c.powerKW == potencia) {
 
+
                 return true;
             }
         }
