@@ -1,44 +1,32 @@
 package es.unican.carchargers.activities.details;
 
-import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerTextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
+import android.os.Parcelable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.Connection;
 
 /**
  * Charging station details view. Shows the basic information of a charging station.
  */
-public class DetailsView extends AppCompatActivity implements IDetailsContract.View {
-
+public class DetailsView extends AppCompatActivity {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    private IDetailsContract.Presenter detailsPresenter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_view);
-        // Initialize presenter-view connection
-        detailsPresenter = new DetailsPresenter();
-        detailsPresenter.init(this);
 
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
@@ -48,11 +36,14 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         TextView tvCiudad = findViewById(R.id.tvCiudad);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
         TextView tvInfo = findViewById(R.id.tvInfo);
+
         TextView tvDisponibilidad = findViewById(R.id.tvDisponibilidad);
+
 
 
         //Obtiene el cargador del intent que produjo esta actividad (Obsoleto, requiere api33 para implementar metodo actualizado getParcelable(string, clazz))
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
+
 
 
         // Set logo
@@ -67,7 +58,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         validarYEstablecerTextView(tvPrecio, charger.usageCost);
 
 
-        if (charger.comprobarDisponibilidad() == true) {
+        if(charger.comprobarDisponibilidad() == true) {
             tvDisponibilidad.setText("Disponible");
         } else {
             tvDisponibilidad.setText("No Disponible");
@@ -84,24 +75,11 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         conectores[1] = findViewById(R.id.tvConector2);
         conectores[2] = findViewById(R.id.tvConector3);
 
-        TextView[] potencias = new TextView[3];
-        potencias[0] = findViewById(R.id.tvPotencia1);
-        potencias[1] = findViewById(R.id.tvPotencia2);
-        potencias[2] = findViewById(R.id.tvPotencia3);
-
         List<String> lista = charger.listarTiposConector();
-        List<String> listaPotencias = new ArrayList<>();
-
-
-        for (Connection c:charger.connections){
-            listaPotencias.add("  -  " + c.powerKW + "kW");
-        }
 
         for (int i = 0; i < lista.size() && i < 3; i++) {
             validarYEstablecerTextView(conectores[i], lista.get(i));
-            validarYEstablecerTextView(potencias[i], String.valueOf(listaPotencias.get(i)));
-
-            switch (lista.get(i)) {
+            switch(lista.get(i)){
                 case "CCS (Type 1)":
                     logos[i].setImageResource(R.drawable.type1);
                     break;
@@ -127,49 +105,20 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
                     logos[i].setImageResource(R.drawable.unknown);
             }
         }
+}
 
-
-        Button btnFavs = findViewById(R.id.btnFavs);
-        boolean isChargerInPreferences = isChargerInPreferences(charger.id);
-        if (isChargerInPreferences) {
-            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
+    /**
+     *  Establece el valor de un campo en concreto de la vista a detalle de un punto de carga.
+     * @param textView campo de la vista a detalle a establecer valor.
+     * @param valor valor a establecer en el campo de la vista a detalle.
+     */
+    private void validarYEstablecerTextView(TextView textView, String valor) {
+        if (valor == null || valor.trim().isEmpty()) {
+            textView.setText("-");
+        } else {
+            textView.setText(valor);
         }
-        btnFavs.setOnClickListener((v) -> {
-            detailsPresenter.OnChargerBotonFavClicked(charger);
-            btnFavs.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
-        });
     }
-
-
-
-    public SharedPreferences getActivityPreferencies() {
-        //Accede al fichero de favoritos en modo privado
-        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
-    }
-
-    public void anhadeCargadorAFavoritos(Charger c) {
-        //Si esta seleccionado, se quita de favs (por implementar...)
-        //...
-
-        //Se coge con el getActivity la actividad en el mainView
-        SharedPreferences sharedPref = getActivityPreferencies();
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        //Asigno el id del cargador a la llave generada por el id del boton
-        editor.putBoolean(c.id, true);
-        editor.apply();
-        Toast.makeText((Context) this, String.format("Añadido 1 cargador a favoritos"),
-                Toast.LENGTH_LONG).show();
-    }
-
-    public boolean isChargerInPreferences(String chargerId) {
-        SharedPreferences sharedPref = getActivityPreferencies();
-
-        // Obtén el valor booleano asociado con la clave chargerId
-        return sharedPref.getBoolean(chargerId, false);
-    }
-
-
 
 
 }

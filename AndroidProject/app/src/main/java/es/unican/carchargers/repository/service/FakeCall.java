@@ -73,11 +73,7 @@ public class FakeCall implements Call<List<Charger>> {
 
     @Override
     public Call<List<Charger>> clone() {
-        try {
-            return (Call<List<Charger>>) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(); // En este caso, CloneNotSupportedException no debería ocurrir
-        }
+        return this;
     }
 
     @Override

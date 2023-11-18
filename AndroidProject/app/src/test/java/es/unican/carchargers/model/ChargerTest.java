@@ -36,21 +36,21 @@ public class ChargerTest {
         c2.statusType.isOperational = true;
         c3.statusType.isOperational = false;
         r = sut.comprobarDisponibilidad();
-        assertEquals(true, r);
+        assertEquals(r, true);
 
         //Todos los conectores estan disponibles
         c1.statusType.isOperational = true;
         c2.statusType.isOperational = true;
         c3.statusType.isOperational = true;
         r = sut.comprobarDisponibilidad();
-        assertEquals(true, r);
+        assertEquals(r, true);
 
         //Ningun conector esta disponible
         c1.statusType.isOperational = false;
         c2.statusType.isOperational = false;
         c3.statusType.isOperational = false;
         r = sut.comprobarDisponibilidad();
-        assertEquals(false, r);
+        assertEquals(r, false);
 
 
         //Todos los conectores tienen disponibilidad false o se desconoce la disponibilidad
@@ -58,7 +58,7 @@ public class ChargerTest {
         c2.statusType = null;
         c3.statusType.isOperational = false;
         r = sut.comprobarDisponibilidad();
-        assertEquals( false, r);
+        assertEquals(r, false);
 
 
         //No se conoce la disponibilidad de ingun conector
@@ -66,7 +66,7 @@ public class ChargerTest {
         c2.statusType = null;
         c3.statusType = null;
         r = sut.comprobarDisponibilidad();
-        assertEquals(false, r);
+        assertEquals(r, false);
     }
 
     @Test
@@ -106,14 +106,14 @@ public class ChargerTest {
         Charger sut = new Charger();
         List<String> res;
         res = sut.listarTiposConector();
-        assertEquals(0, res.size());
+        assertEquals(res.size(), 0);
 
         // caso con un conector
         Connection c1 = new Connection();
         c1.connectionType.title = "Manoli";
         sut.connections.add(c1);
         res = sut.listarTiposConector();
-        assertEquals(1, res.size());
+        assertEquals(res.size(), 1);
         assertEquals(res.get(0), c1.connectionType.title);
 
         // caso con varios conectores
@@ -124,7 +124,7 @@ public class ChargerTest {
         sut.connections.add(c2);
         sut.connections.add(c3);
         res = sut.listarTiposConector();
-        assertEquals(3, res.size());
+        assertEquals(res.size(), 3);
         assertEquals(res.get(0), c1.connectionType.title);
         assertEquals(res.get(1), c2.connectionType.title);
         assertEquals(res.get(2), c3.connectionType.title);
@@ -141,7 +141,7 @@ public class ChargerTest {
         sut.connections.add(c2);
         sut.connections.add(c3);
         res = sut.listarTiposConector();
-        assertEquals(3, res.size());
+        assertEquals(res.size(), 3);
         assertEquals(res.get(0), c1.connectionType.title);
         assertEquals(res.get(1), c2.connectionType.title);
         assertEquals(res.get(2), c3.connectionType.title);

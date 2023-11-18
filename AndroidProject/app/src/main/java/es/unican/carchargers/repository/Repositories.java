@@ -11,9 +11,6 @@ import es.unican.carchargers.repository.service.APIFactory;
  */
 public class Repositories {
 
-    private Repositories() {
-        throw new IllegalStateException("Utility class");
-    }
     /**
      * Returns a "real" repository that will access the real OpenChargeMap online service
      * @return

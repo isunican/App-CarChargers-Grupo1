@@ -1,8 +1,5 @@
 package es.unican.carchargers.activities.main;
 
-import android.content.SharedPreferences;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -28,10 +25,6 @@ public interface IMainContract {
          */
         public void init(View view);
 
-        static MainPresenter getInstance() {
-            return null;
-        }
-
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -55,22 +48,6 @@ public interface IMainContract {
         void onAceptarFiltroPotenciaClicked(List<Double> potenciasSeleccionadas);
 
         void onAceptarFiltroConectoresClicked(List<EConnectionType> conectoresSeleccionados);
-
-
-        List<Double> devolverFiltrosAplicadosPotencia();
-
-        List<EConnectionType> devolverFiltrosAplicadosConectores();
-
-        String getOrdenacionAplicada();
-
-        Boolean getAscendenteAplicado();
-        void OnChargerBotonFavClicked(Charger c);
-
-        Charger getChargerById(String id);
-
-        void onMenuFavoritosClicked();
-
-
     }
 
     /**
@@ -93,7 +70,6 @@ public interface IMainContract {
          * therefore the Presenter should be unable to instantiate repositories and must rely on
          * the view to create the repository.
          * Only the Presenter should call this method
-         *
          * @return
          */
         public IRepository getRepository();
@@ -101,7 +77,6 @@ public interface IMainContract {
         /**
          * The view is requested to display the given list of charging stations.
          * Only the Presenter should call this method
-         *
          * @param chargers the list of charging stations
          */
         public void showChargers(List<Charger> chargers);
@@ -110,7 +85,6 @@ public interface IMainContract {
          * The view is requested to display a notification indicating  that the charging
          * stations were loaded correctly.
          * Only the Presenter should call this method
-         *
          * @param chargers
          */
         public void showLoadCorrect(int chargers);
@@ -125,7 +99,6 @@ public interface IMainContract {
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method
-         *
          * @param charger the charging station
          */
         public void showChargerDetails(Charger charger);
@@ -139,31 +112,8 @@ public interface IMainContract {
         /**
          * Se llama a este metodo cuando no se encuentra ningun cargador con las caracteristicas
          * introducidas en el filtro
-         *
          * @param s mensaje explicativo del error.
          */
         void showLoadSinCargadores(String s);
-
-
-        /**
-         * Metodos de acceso y uso de cargadores favoritos
-         */
-
-        //Obtiene el fichero de favoritos de la mainView
-        public SharedPreferences getActivityPreferencies();
-
-        void anhadeCargadorAFavoritos(Charger c);
-
-        List<Charger> getFavoriteChargers();
-
-        /**
-         * Si la vista general de cargadores favoritos no tiene favs, se avisara.
-         */
-        void showInfoNoFav();
-
-
-        void showChargersFav();
-
-
     }
 }
