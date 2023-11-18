@@ -7,7 +7,6 @@ import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -15,24 +14,22 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.IsAnything.anything;
 import static org.junit.Assert.assertTrue;
-import static es.unican.carchargers.utils.Matchers.isFilteredByConnector;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.DataInteraction;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -56,10 +53,19 @@ public class AnhadirfavoritosUITest {
     // Necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
+    // Para los toast
+    View decorView;
+
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
     @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
+
+    @Before
+    public void before() {
+        activityRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
+
+    }
 
     @Test
     public void AnhadirFavVistaDetalle() {
@@ -74,7 +80,7 @@ public class AnhadirfavoritosUITest {
 
         // Comprobar que se muestra el mensaje de cargador anhadido a favorito
         /**activityRule.getScenario().onActivity(activity -> {
-            View decorView = activity.getWindow().getDecorView();
+            //decorView = activity.getWindow().getDecorView();
             onView(withText("String del toast"))
                     .inRoot(withDecorView(not(is(decorView))))
                     .check(matches(isDisplayed()));
@@ -92,6 +98,35 @@ public class AnhadirfavoritosUITest {
         // Ver que el titulo del cargador en la lista de favs coincide con el del primer cargador, el clicado
         DataInteraction interaction = onData(CoreMatchers.anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
+        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+    }
+
+    @Test
+    public void AnhadirFavVistaGeneral() {
+
+        // Caso valido
+
+        // Click en el boton de anhadir a favoritos
+        DataInteraction elementoLista = onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1);
+        elementoLista.onChildView(withId(R.id.imgFavoritoChiquitin)).perform(click());
+
+        // Comprobar que se muestra el mensaje de cargador anhadido a favorito
+        /**activityRule.getScenario().onActivity(activity -> {
+         View decorView = activity.getWindow().getDecorView();
+         onView(withText("String del toast"))
+         .inRoot(withDecorView(not(is(decorView))))
+         .check(matches(isDisplayed()));
+         });*/
+
+        // Clicar en lista de favoritos para abrirla
+        onView(withId(R.id.favoritos)).perform(click());
+
+        // Comprobar que el elemento en la lista es el mismo que se anhadio
+        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+
+        // Ver que el titulo del cargador en la lista de favs coincide con el del primer cargador, el clicado
+        DataInteraction interaction = onData(CoreMatchers.anything())
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(1);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
     }
 
