@@ -233,6 +233,7 @@ public class MainPresenterTest {
     }
 
     /*
+     Adrian Perez
      Test para el metodo devolverFiltrosAplicadosPotencia()
      */
     @Test
@@ -331,6 +332,7 @@ public class MainPresenterTest {
     }
 
     /*
+    Adrian Perez
     Test para el metodo getOrdenacionAplicada
      */
     @Test
