@@ -65,7 +65,7 @@ public class FiltrarPotenciaValidoUITest {
         // CASO VALIDO
 
         // Verifica que el elemento de menú filtro
-        onView(withId(R.id.filtros)).perform(click());
+        onView(withId(R.id.filtro)).perform(click());
 
         // Verifica que el elemento de filtrar por potencia se muestra
         onView(withId(R.id.btnPotencia)).perform(click());

@@ -14,9 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class OpenChargeMapService {
 
-    private OpenChargeMapService() {
-        throw new IllegalStateException("Utility class");
-    }
     /** My Open Charge Map API Key */
     final static String API_KEY = BuildConfig.OCM_API_KEY;
 

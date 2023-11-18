@@ -3,13 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/favoritos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/estrella_blanca"
-        android:title="@string/favoritos"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/orden"
         android:icon="@drawable/orden"
         android:layout_width="wrap_content"
@@ -17,7 +10,7 @@
         android:title="@string/filtro"
         app:showAsAction="always" />
     <item
-        android:id="@+id/filtros"
+        android:id="@+id/filtro"
         android:icon="@drawable/filtro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

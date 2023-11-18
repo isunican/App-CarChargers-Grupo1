@@ -57,7 +57,7 @@ public class FiltrarConectorValidoUITest {
         // Caso valido
 
         // Click en el elemento "filtro" del menu
-        onView(withId(R.id.filtros)).perform(click());
+        onView(withId(R.id.filtro)).perform(click());
 
         // Click en el boton para filtrar por tipo de conector
         onView(withId(R.id.btnConector)).perform(click());
@@ -83,7 +83,7 @@ public class FiltrarConectorValidoUITest {
         // Caso valido
 
         // Click en el elemento "filtro" del menu
-        onView(withId(R.id.filtros)).perform(click());
+        onView(withId(R.id.filtro)).perform(click());
 
         // Click en el boton para filtrar por tipo de conector
         onView(withId(R.id.btnConector)).perform(click());
