@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import android.widget.RadioButton;
 
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,7 +78,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     protected void onResume() {
         super.onResume();
         // Initialize presenter-view connection
-        presenter = new MainPresenter();
+        presenter = MainPresenter.getInstance();
         presenter.init(this);
 
     }
@@ -151,95 +152,82 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     public void ordenDialog() {
+
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.activity_menu_orden, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
+        // Crear el constructor del AlertDialog
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this, R.style.AlertDialogTema);
+
         builder.setView(view);
 
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Ordenar");
-        // Mostrar el AlertDialog
-        ordenDialog = builder.create();
-        // Mostrar el AlertDialog para elegir filtros
-        ordenDialog.show();
+        RadioGroup radioOrdenes = view.findViewById(R.id.radioGroupOrdenacion);
+        CheckBox checkboxPrecio = view.findViewById(R.id.checkbox_precio);
 
-        //True = Si pinchas fuera se cierra la ventana
-        builder.setCancelable(true);
-
-        CheckBox checkBox1 = view.findViewById(R.id.checkbox_precio);
-        String[] tiposOrden = new String[] {
-                "Precio"
-        };
-
-        //Por defecto no estará seleccionada ninguna opción
-        final boolean[] checkItems = new boolean[] {
-                false
-        };
-
+        //Aqui quiero marcar que items estan marcados
         if (presenter.getOrdenacionAplicada() != null) {
-            for (int i = 0; i < tiposOrden.length; i++) {
-                if (tiposOrden[i].equals(presenter.getOrdenacionAplicada())) {
-                    checkItems[i] = true;
+            switch (presenter.getOrdenacionAplicada()) {
+                case "Precio":
+                    checkboxPrecio.setChecked(true);
                     break;
-                }
+                default:
+                    break;
             }
         }
 
-        // Configurar los OnCheckedChangeListener para cada CheckBox
-        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            checkItems[0] = isChecked;
-        });
-
-        //Es necesario que sea final para el correcto funcionamiento
-        final boolean[] tipoOrdenAscDesc = {true};
+        // Botones de radio para orden ascendente y descendente
+        RadioButton radioSentidoDesc = view.findViewById(R.id.radioButtonDesc);
+        RadioButton radioSentidoAsc = view.findViewById(R.id.radioButtonAsc);
 
         if (presenter.getAscendenteAplicado() != null) {
-            tipoOrdenAscDesc[0] = presenter.getAscendenteAplicado();
+            if (presenter.getAscendenteAplicado()) {
+                radioSentidoAsc.setChecked(true);
+            } else {
+                radioSentidoDesc.setChecked(true);
+            }
+        } else {
+            radioSentidoAsc.setChecked(true);
         }
 
+        AlertDialog dialog = builder.create();
 
-        builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
-            //Se verifica que hay un item seleccionado
-            checkItems[which] = isChecked;
-        });
+        // Botones de acectar y cancelar
+        TextView btnAceptar = view.findViewById(R.id.btnAceptarOrden);
+        btnAceptar.setOnClickListener(v -> {
 
-
-        RadioButton radioButtonAsc = view.findViewById(R.id.radioButtonAsc);
-        RadioButton radioButtonDesc = view.findViewById(R.id.radioButtonDesc);
-
-        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipoOrdenAscDesc[0] = true;
-            }
-        });
-
-        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipoOrdenAscDesc[0] = false;
-            }
-        });
-
-
-        TextView btnAceptarOrden = (TextView)view.findViewById(R.id.btnAceptarOrden);
-        btnAceptarOrden.setOnClickListener(v -> {
             String orden = null;
-            for (int i = 0; i < checkItems.length; i++) {
-                if (checkItems[i]) {
-                    orden = tiposOrden[i];
-                }
+            /** getCheckedRadioButton siempre devuelve el mismo, por ahora con un if bastará.
+             switch (radioOrdenes.getCheckedRadioButtonId()) {
+             case R.id.checkbox_precio:
+             orden = "Precio";
+             break;
+             default:
+             orden = null;
+             break;
+             }
+             */
+            if (checkboxPrecio.isChecked()) {
+                orden = "Precio";
             }
-            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
-            ordenDialog.dismiss();
+
+            boolean  ascDesc = !radioSentidoDesc.isChecked();
+
+            presenter.onClickedAceptarOrdenacion(orden, ascDesc);
+
+            dialog.dismiss();
         });
 
-        TextView btnCancelarOrden = (TextView) view.findViewById(R.id.btnCancelarOrden);
-        btnCancelarOrden.setOnClickListener(v -> {
-            ordenDialog.dismiss();
+        TextView btnCancelar = view.findViewById(R.id.btnCancelarOrden);
+        btnCancelar.setOnClickListener(v -> {
+            // Cerrar el dialog
+            dialog.dismiss();
         });
 
+
+        // Crear y mostrar el AlertDialog
+
+        dialog.show();
     }
 
     /**

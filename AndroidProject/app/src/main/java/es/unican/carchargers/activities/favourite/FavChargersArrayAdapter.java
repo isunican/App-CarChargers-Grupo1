@@ -1,5 +1,8 @@
 package es.unican.carchargers.activities.favourite;
 
+import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerString;
+import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerTextView;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,20 +55,20 @@ public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
         // Title
         {
             TextView tv = convertView.findViewById(R.id.tvTitle);
-            tv.setText(charger.operator.title);
+            validarYEstablecerTextView(tv, charger.operator.title);
         }
 
         // Address
         {
             TextView tv = convertView.findViewById(R.id.tvAddress);
-            String str = String.format("%s (%s)", charger.address.title, charger.address.province);
-            tv.setText(str);
+            String str = String.format("%s (%s)",validarYEstablecerString(charger.address.title), validarYEstablecerString(charger.address.province));
+            validarYEstablecerTextView(tv, str);
         }
 
         // Info
         {
             TextView tv = convertView.findViewById(R.id.tvInfo);
-            tv.setText(charger.usageCost);
+            validarYEstablecerTextView(tv, charger.usageCost);
         }
 
         {
