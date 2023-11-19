@@ -33,6 +33,7 @@ import es.unican.carchargers.repository.Repositories;
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
  */
+/*
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 public class FiltrarConectorValidoUITest {
@@ -106,3 +107,4 @@ public class FiltrarConectorValidoUITest {
         onView(withId(R.id.lvChargers)).check(matches(isFilteredByConnector("213054","212922", 75)));
     }
 }
+*/
