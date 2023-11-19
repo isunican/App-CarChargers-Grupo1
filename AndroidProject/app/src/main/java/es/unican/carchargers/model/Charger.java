@@ -102,7 +102,7 @@ public class Charger {
 
         if (usageCost != null && !usageCost.isEmpty())  {
 
-            Pattern pattern = Pattern.compile("(\\d[,.]\\d{1,2})€/kWh");
+            Pattern pattern = Pattern.compile("(\\d[,.]\\d+)€/kWh");
             Matcher matcher = pattern.matcher(usageCost);
 
             if (matcher.find()) {
@@ -112,7 +112,7 @@ public class Charger {
                 // Reemplaza la coma por un punto en la cadena
                 numberStr = numberStr.replace(",", ".");
 
-                return Double.parseDouble(numberStr);
+                return Math.round(Double.parseDouble(numberStr) * 100.0) / 100.0;
 
             }
 
