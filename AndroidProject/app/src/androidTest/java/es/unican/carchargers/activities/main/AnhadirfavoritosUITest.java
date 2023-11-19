@@ -79,6 +79,7 @@ public class AnhadirfavoritosUITest {
         onView(withId(R.id.btnFavs)).perform(click());
 
         // Comprobar que se muestra el mensaje de cargador anhadido a favorito
+        // No he podido comprobar los toast
         /**activityRule.getScenario().onActivity(activity -> {
             //decorView = activity.getWindow().getDecorView();
             onView(withText("String del toast"))
@@ -126,7 +127,7 @@ public class AnhadirfavoritosUITest {
 
         // Ver que el titulo del cargador en la lista de favs coincide con el del primer cargador, el clicado
         DataInteraction interaction = onData(CoreMatchers.anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(1);
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
     }
 

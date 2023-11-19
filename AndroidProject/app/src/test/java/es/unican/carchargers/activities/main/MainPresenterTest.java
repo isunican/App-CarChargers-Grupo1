@@ -900,11 +900,14 @@ public class MainPresenterTest {
         sut.init(mvFav);
 
         // Anhadir el charger en el presenter
+        c1Fav.id = "1";
         sut.onChargerBotonFavClicked(c1Fav);
 
         // Comprobar que el uso del metodo causa que se use el metodo con sharedpreferences
         verify(mvFav).anhadeCargadorAFavoritos(c1Fav);
 
     }
+
+
 
 }
