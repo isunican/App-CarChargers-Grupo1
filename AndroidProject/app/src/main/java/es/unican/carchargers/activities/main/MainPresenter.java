@@ -117,8 +117,6 @@ public class MainPresenter implements IMainContract.Presenter {
                 chargersActuales.addAll(chargersFav);
                 chargersActuales.addAll(chargersIni);
 
-                aplicarFiltros();
-
                 view.showChargers(MainPresenter.this.chargersActuales);
                 view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
             }
@@ -228,10 +226,10 @@ public class MainPresenter implements IMainContract.Presenter {
 
     private void aplicarFiltros() {
         // Coger lista og. Si se intenta filtrar antes del cargado inicial de cargadores no se hace nada.
-        if (shownChargers == null) {
+        if (chargersActuales == null) {
             return;
         }
-        List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
+        List<Charger> chargersFiltrados = new ArrayList<>(chargersActuales);
 
         // Ir aplicandoles todos los filtros que se haya.
 

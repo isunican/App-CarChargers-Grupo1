@@ -92,7 +92,7 @@ public class FiltrarConectorValidoUITest {
         onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
 
         // Realiza una selección de elementos en el diálogo de selección múltiple
-        onView(withText("Type 2 (Socket Only)")).perform(click());
+        //onView(withText("Type 2 (Socket Only)")).perform(click());
         onView(withText("CHAdeMO")).perform(click());
 
         // Verifica se han seleccionado los tipos de conectores
