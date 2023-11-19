@@ -8,6 +8,7 @@ import org.parceler.Parcel;
  * An operator of a charging station according to the OpenChargeMap API
  * Documentation: https://openchargemap.org/site/develop/api#/operations/get-poi
  *
+ *
  * Currently it only includes a sub-set of the complete model returned by OpenChargeMap
  */
 @Parcel
