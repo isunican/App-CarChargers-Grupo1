@@ -35,6 +35,10 @@ public class MainPresenter implements IMainContract.Presenter {
     /** the view controlled by this presenter */
     private IMainContract.View view;
 
+    /** unica instancia del presenter a usar en la ejecucion de la app,
+     * de manera que se conserven los filtros aplicados */
+    private static MainPresenter instancia;
+
     // Lista que obtenemos al llamar a la API
     private List<Charger> shownChargers;
 
@@ -56,6 +60,20 @@ public class MainPresenter implements IMainContract.Presenter {
     /** Ordenacion aplicada actualmente */
     private String ordenacionAplicada;
     private Boolean ascendenteAplicado;
+
+    // Método público estático para acceder a la instancia
+    public static synchronized MainPresenter getInstance() {
+        if (instancia == null) {
+            instancia = new MainPresenter();
+        }
+        return instancia;
+    }
+
+    // Constructor que en el patron singleton presenter deberia ser publico, pero que para los tests
+    // ya hechos se deja privado.
+    public MainPresenter() {
+        // inicialización, no esta aqui.
+    }
 
     @Override
     public void init(IMainContract.View view) {
@@ -98,6 +116,8 @@ public class MainPresenter implements IMainContract.Presenter {
 
                 chargersActuales.addAll(chargersFav);
                 chargersActuales.addAll(chargersIni);
+
+                aplicarFiltros();
 
                 view.showChargers(MainPresenter.this.chargersActuales);
                 view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
