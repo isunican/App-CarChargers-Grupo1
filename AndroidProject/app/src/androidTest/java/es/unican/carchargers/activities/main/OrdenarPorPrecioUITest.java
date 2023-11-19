@@ -86,6 +86,7 @@ public class OrdenarPorPrecioUITest {
 
         // Selecciona precio y radioButton ascendente.
         //onView(withText("Precio")).perform(click());
+
         onView(withText("Descendente")).perform(click());
 
         // Verifica que las selecciones se realizaron correctamente

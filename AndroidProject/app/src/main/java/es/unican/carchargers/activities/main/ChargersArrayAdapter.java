@@ -113,7 +113,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                 imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        presenter.OnChargerBotonFavClicked(charger);
+                        presenter.onChargerBotonFavClicked(charger);
                         if (sharedPref.getBoolean(charger.id, false)) {
                             ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
                         }

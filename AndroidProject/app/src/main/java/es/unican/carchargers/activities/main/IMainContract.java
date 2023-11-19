@@ -28,6 +28,10 @@ public interface IMainContract {
          */
         public void init(View view);
 
+        static MainPresenter getInstance() {
+            return null;
+        }
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -60,7 +64,8 @@ public interface IMainContract {
         String getOrdenacionAplicada();
 
         Boolean getAscendenteAplicado();
-        void OnChargerBotonFavClicked(Charger c);
+
+        void onChargerBotonFavClicked(Charger c);
 
         Charger getChargerById(String id);
 

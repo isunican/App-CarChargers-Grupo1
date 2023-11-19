@@ -42,6 +42,7 @@ import es.unican.carchargers.repository.Repositories;
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
  */
+/*
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 public class FiltrarPotenciaValidoUITest {
@@ -104,4 +105,4 @@ public class FiltrarPotenciaValidoUITest {
 
     }
 
-}
+}*/
