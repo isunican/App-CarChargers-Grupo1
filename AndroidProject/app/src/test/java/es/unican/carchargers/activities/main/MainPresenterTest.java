@@ -68,6 +68,11 @@ public class MainPresenterTest {
     String criterioOrd;
     boolean asc;
 
+    // Variables Jorge
+    Charger c1Fav;
+    IRepository repositoryFav;
+    @Mock
+    IMainContract.View mvFav;
 
     @Before
     public void setup() {
@@ -98,6 +103,9 @@ public class MainPresenterTest {
         //Jesus
         conectores = new ArrayList<>();
 
+        // Jorge
+        c1Fav = new Charger();
+        repositoryFav = Repositories.getSyncFake(chargers);
     }
 
 
@@ -1089,5 +1097,23 @@ public class MainPresenterTest {
         assertEquals(0, captados.size());
 
     }
+
+    @Test
+    public void onChargerBotonFavClickedTest() {
+
+        // Pasarle al presenter bajo pruebas el mock de la view
+        when(mvFav.getRepository()).thenReturn(repositoryFav);
+        sut.init(mvFav);
+
+        // Anhadir el charger en el presenter
+        c1Fav.id = "1";
+        sut.onChargerBotonFavClicked(c1Fav);
+
+        // Comprobar que el uso del metodo causa que se use el metodo con sharedpreferences
+        verify(mvFav).anhadeCargadorAFavoritos(c1Fav);
+
+    }
+
+
 
 }

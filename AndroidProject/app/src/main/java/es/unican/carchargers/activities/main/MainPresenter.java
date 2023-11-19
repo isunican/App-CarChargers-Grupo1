@@ -331,7 +331,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
 
-    public void OnChargerBotonFavClicked(Charger c) {
+    public void onChargerBotonFavClicked(Charger c) {
         //Si esta seleccionado, se quita de favs (por implementar...)
         //...
 
