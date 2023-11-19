@@ -109,138 +109,206 @@ public class MainPresenterTest {
     }
 
 
-/* Comentados por cambios en las funcionalidades de la app, esto requeria cambios en esta implementacion
+
+
+    /*
+     Adrian Perez
+     Test para el metodo devolverFiltrosAplicadosPotencia()
+     */
     @Test
-    public void filtrarPorConectorTest() {
-        // CASO 1: Filtrado con varios puntos de carga y un tipo de conector.
+    public void devolverFiltrosAplicadosPotenciaTest(){
+        // caso A: No se ha realizado ningun filtrado todavia
+        List<Double> pots = sut.devolverFiltrosAplicadosPotencia();
 
-        // Filtraré por CCS_Type_1
-        conectores.add(CCS_TYPE_1);
+        // Verifica que el resultado sea el esperado
+        assertEquals(pots, null);
 
-        // Creo los conectores
-        Connection c1 = new Connection();
-        c1.connectionType.id = CCS_TYPE_1.getId();
+        // caso B: Se ha realizado el filtrado solo con una potencia
+        // inicializamos de nuevo
+        chargers = new ArrayList<>();
+        repository = Repositories.getSyncFake(chargers);
+        potencias = new ArrayList<>();
+        captados = new ArrayList<>();
+
+        potencias.add(7.4);
+
+        Connection c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
         Connection c2 = new Connection();
-        c2.connectionType.id = CCS_TYPE_2.getId();
+        c2.powerKW = 43;
+        c2.id = 2;
         Connection c3 = new Connection();
-        c3.connectionType.id = CCS_TYPE_1.getId();
+        c3.powerKW = 7.4;
+        c3.id = 3;
 
-        // Creo los puntos de carga
         Charger a = new Charger();
-        a.connections.add(c1);
-        Charger b = new Charger();
-        b.connections.add(c2);
-        Charger c = new Charger();
-        c.connections.add(c3);
-
+        a.connections.add(c);
         a.id = "1";
-        b.id = "2";
-        c.id = "3";
+        Charger a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        Charger a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
 
-        // Añado los puntos de carga a la lista
         chargers.add(a);
-        chargers.add(b);
-        chargers.add(c);
-
+        chargers.add(a2);
+        chargers.add(a3);
         // Configuro el comportamiento del mock
         when(mv.getRepository()).thenReturn(repository);
         sut.init(mv);
 
-        // Llamo al metodo a probar y verifico que se ha llamado
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(1)).showChargers(captor.capture());
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        pots = sut.devolverFiltrosAplicadosPotencia();
 
-        // Verifico que los elementos filtrados son los correctos
-        captados = captor.getValue();
-        assertEquals(captados.get(0), a);
-        assertEquals(captados.get(1), c);
+        // Verifica que el resultado sea el esperado
+        assertEquals(pots.size(), 1);
 
-        // Verifico la longitud de la lista
-        assertEquals(2, captados.size());
+        // caso C: Se ha realizado el filtrado con mas de una potencia
+        // inicializamos de nuevo
+        chargers = new ArrayList<>();
+        repository = Repositories.getSyncFake(chargers);
+        potencias = new ArrayList<>();
+        captados = new ArrayList<>();
 
-        // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
-        conectores.add(CCS_TYPE_2);
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(2)).showChargers(captor.capture());
-        captados = captor.getValue();
-        assertEquals(captados.get(0), a);
-        assertEquals(captados.get(1), b);
-        assertEquals(captados.get(2), c);
-        assertEquals(captados.size(), 3);
+        potencias.add(7.4);
+        potencias.add(2.0);
+        potencias.add(50.0);
 
-        // CASO 3: Filtrado en que no existen puntos de carga con ese conector.
-        conectores.clear();
-        captados.clear();
-        conectores.add(CEE_74_SCHUKO_TYPE_F);
-        chargers.remove(c);
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        //Compruebo la salida
-        verify(mv, atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
-                "Al cerrar este mensaje se volverá a la selección anterior.");
+        c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
+        c2 = new Connection();
+        c2.powerKW = 43;
+        c2.id = 2;
+        c3 = new Connection();
+        c3.powerKW = 7.4;
+        c3.id = 3;
 
-        captados = captor.getValue();
-        assertEquals(captados.size(), 0);
+        a = new Charger();
+        a.connections.add(c);
+        a.id = "1";
+        a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
 
-        //CASO 4: Filtrado con un punto de carga y varios tipos de conector.
-        conectores.clear();
-        conectores.add(CCS_TYPE_1);
-        conectores.add(CEE_74_SCHUKO_TYPE_F);
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(4)).showChargers(captor.capture());
-        captados = captor.getValue();
-        assertEquals(captados.get(0), a);
-        assertEquals(1, captados.size());
-
-        //CASO 5: Filtrado con un punto de carga con dos conectores en el que solo coincide uno de ellos.
-        chargers.remove(b);
-        a.connections.add(c2);
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(5)).showChargers(captor.capture());
-        captados = captor.getValue();
-        assertEquals(captados.get(0), a);
-        assertEquals(1, captados.size());
-
-        //CASO 6: Filtrado con un punto de carga con dos conectores en el que coinciden los dos tipos.
-        conectores.clear();
-        conectores.add(CCS_TYPE_1);
-        conectores.add(CCS_TYPE_2);
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(6)).showChargers(captor.capture());
-        captados = captor.getValue();
-        assertEquals(captados.get(0), a);
-        assertEquals(1, captados.size());
-
-        //CASO 7: Filtrado sin seleccionar el tipo de conector.
-        a.connections.clear();
-        b.connections.clear();
-        c.connections.clear();
-        a.connections.add(c1);
-        b.connections.add(c2);
-        c.connections.add(c3);
-        chargers.clear();
         chargers.add(a);
-        chargers.add(b);
-        chargers.add(c);
-        conectores.clear();
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(7)).showChargers(captor.capture());
-        captados = captor.getValue();
-        assertEquals(captados.get(0), a);
-        assertEquals(captados.get(1), b);
-        assertEquals(captados.get(2), c);
-        assertEquals(3, captados.size());
+        chargers.add(a2);
+        chargers.add(a3);
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
 
-        //CASO 8: Filtrado en el que la lista de cargadores esta vacía
-        chargers.clear();
-        captados.clear();
-        conectores.add(CCS_TYPE_1);
-        sut.onAceptarFiltroConectoresClicked(conectores);
-        verify(mv, atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
-                "Al cerrar este mensaje se volverá a la selección anterior.");
-        captados = captor.getValue();
-        assertEquals(0, captados.size());
+        sut.onAceptarFiltroPotenciaClicked(potencias);
+        pots = sut.devolverFiltrosAplicadosPotencia();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(pots.size(), 3);
     }
-*/
+
+    /*
+    Adrian Perez
+    Test para el metodo getOrdenacionAplicada
+     */
+    @Test
+    public void devolverTipoOrdenacionAplicado(){
+        // caso A: No se ha realizado ninguna ordenacion todavia
+        Boolean asc = sut.getAscendenteAplicado();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(asc, null);
+
+        // caso B: Se ha ordenado por precio y ascendente
+        chargers = new ArrayList<>();
+        repository = Repositories.getSyncFake(chargers);
+        potencias = new ArrayList<>();
+        captados = new ArrayList<>();
+
+        potencias.add(7.4);
+
+        Connection c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
+        Connection c2 = new Connection();
+        c2.powerKW = 43;
+        c2.id = 2;
+        Connection c3 = new Connection();
+        c3.powerKW = 7.4;
+        c3.id = 3;
+
+        Charger a = new Charger();
+        a.connections.add(c);
+        a.id = "1";
+        Charger a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        Charger a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
+
+        chargers.add(a);
+        chargers.add(a2);
+        chargers.add(a3);
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion("Precio", true);
+        asc = sut.getAscendenteAplicado();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(asc, true);
+
+        // caso C: Se ha ordenado por precio y descendente
+        // inicializamos de nuevo
+        chargers = new ArrayList<>();
+        repository = Repositories.getSyncFake(chargers);
+        potencias = new ArrayList<>();
+        captados = new ArrayList<>();
+
+        potencias.add(7.4);
+        potencias.add(2.0);
+        potencias.add(50.0);
+
+        c = new Connection();
+        c.powerKW = 7.4;
+        c.id = 1;
+        c2 = new Connection();
+        c2.powerKW = 43;
+        c2.id = 2;
+        c3 = new Connection();
+        c3.powerKW = 7.4;
+        c3.id = 3;
+
+        a = new Charger();
+        a.connections.add(c);
+        a.id = "1";
+        a2 = new Charger();
+        a2.connections.add(c2);
+        a2.id = "2";
+        a3 = new Charger();
+        a3.connections.add(c3);
+        a3.id = "3";
+
+        chargers.add(a);
+        chargers.add(a2);
+        chargers.add(a3);
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        sut.onClickedAceptarOrdenacion("Precio", false);
+        asc = sut.getAscendenteAplicado();
+
+        // Verifica que el resultado sea el esperado
+        assertEquals(asc, false);
+
+    }
+
     @Test
     public void filtrarPorPotTest() {
         // caso con varios cargadores y una potencia -> caso A
