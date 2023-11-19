@@ -68,6 +68,9 @@ public class MainPresenterTest {
     String criterioOrd;
     boolean asc;
 
+    // Variables Jorge
+    Charger c1Fav;
+
 
     @Before
     public void setup() {
@@ -97,6 +100,9 @@ public class MainPresenterTest {
 
         //Jesus
         conectores = new ArrayList<>();
+
+        // Jorge
+        c1Fav = new Charger();
 
     }
 
@@ -881,6 +887,17 @@ public class MainPresenterTest {
         verify(mv, atLeast(1)).showInfoNoFav();
 
         assertEquals(0, captados.size());
+
+    }
+
+    @Test
+    public void onChargerBotonFavClickedTest() {
+
+        // Anhadir el charger en el presenter
+        sut.onChargerBotonFavClicked(c1Fav);
+
+        // Comprobar que el uso del metodo causa que se use el metodo con sharedpreferences
+        verify(mv, atLeast(1)).anhadeCargadorAFavoritos(c1Fav);
 
     }
 
