@@ -295,7 +295,7 @@ public class MainPresenter implements IMainContract.Presenter {
     public Boolean getAscendenteAplicado() {
         return ascendenteAplicado;
     }
-    
+
 
     public void ordenaChargersPrecio(boolean ascendente) {
         // Creamos un comparador personalizado para ordenar por el precio
