@@ -151,6 +151,8 @@ public class MainPresenterTest {
 
         // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
         conectores.add(CCS_TYPE_2);
+
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mv, atLeast(2)).showChargers(captor.capture());
         captados = captor.getValue();
@@ -164,6 +166,8 @@ public class MainPresenterTest {
         captados.clear();
         conectores.add(CEE_74_SCHUKO_TYPE_F);
         chargers.remove(c);
+
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         //Compruebo la salida
         verify(mv, atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
@@ -176,6 +180,7 @@ public class MainPresenterTest {
         conectores.clear();
         conectores.add(CCS_TYPE_1);
         conectores.add(CEE_74_SCHUKO_TYPE_F);
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mv, atLeast(4)).showChargers(captor.capture());
         captados = captor.getValue();
@@ -185,6 +190,7 @@ public class MainPresenterTest {
         //CASO 5: Filtrado con un punto de carga con dos conectores en el que solo coincide uno de ellos.
         chargers.remove(b);
         a.connections.add(c2);
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mv, atLeast(5)).showChargers(captor.capture());
         captados = captor.getValue();
@@ -195,6 +201,7 @@ public class MainPresenterTest {
         conectores.clear();
         conectores.add(CCS_TYPE_1);
         conectores.add(CCS_TYPE_2);
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mv, atLeast(6)).showChargers(captor.capture());
         captados = captor.getValue();
@@ -213,6 +220,7 @@ public class MainPresenterTest {
         chargers.add(b);
         chargers.add(c);
         conectores.clear();
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mv, atLeast(7)).showChargers(captor.capture());
         captados = captor.getValue();
@@ -225,6 +233,7 @@ public class MainPresenterTest {
         chargers.clear();
         captados.clear();
         conectores.add(CCS_TYPE_1);
+        sut.init(mv);
         sut.onAceptarFiltroConectoresClicked(conectores);
         verify(mv, atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
                 "Al cerrar este mensaje se volverá a la selección anterior.");
