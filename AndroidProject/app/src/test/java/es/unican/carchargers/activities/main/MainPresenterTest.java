@@ -70,7 +70,9 @@ public class MainPresenterTest {
 
     // Variables Jorge
     Charger c1Fav;
-
+    IRepository repositoryFav;
+    @Mock
+    IMainContract.View mvFav;
 
     @Before
     public void setup() {
@@ -103,7 +105,7 @@ public class MainPresenterTest {
 
         // Jorge
         c1Fav = new Charger();
-
+        repositoryFav = Repositories.getSyncFake(chargers);
     }
 
 
@@ -893,11 +895,15 @@ public class MainPresenterTest {
     @Test
     public void onChargerBotonFavClickedTest() {
 
+        // Pasarle al presenter bajo pruebas el mock de la view
+        when(mvFav.getRepository()).thenReturn(repositoryFav);
+        sut.init(mvFav);
+
         // Anhadir el charger en el presenter
         sut.onChargerBotonFavClicked(c1Fav);
 
         // Comprobar que el uso del metodo causa que se use el metodo con sharedpreferences
-        verify(mv, atLeast(1)).anhadeCargadorAFavoritos(c1Fav);
+        verify(mvFav).anhadeCargadorAFavoritos(c1Fav);
 
     }
 
