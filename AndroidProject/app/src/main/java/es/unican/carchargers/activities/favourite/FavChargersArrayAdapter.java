@@ -1,10 +1,9 @@
-package es.unican.carchargers.activities.main;
+package es.unican.carchargers.activities.favourite;
 
 import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerString;
 import static es.unican.carchargers.common.AndroidUtils.validarYEstablecerTextView;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 
-public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
+public class FavChargersArrayAdapter extends ArrayAdapter<Charger> {
 
-    private IMainContract.Presenter presenter;
-    private SharedPreferences sharedPref;
+    private IFavContract.Presenter presenter;
 
-    public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IMainContract.Presenter presenter, SharedPreferences sharedPref) {
+    public FavChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects, IFavContract.Presenter presenter) {
         super(context, 0, objects);
         this.presenter = presenter;
-        this.sharedPref = sharedPref;
     }
 
     @NonNull
@@ -40,12 +36,12 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         // this is the car charger we want to show here
-        final Charger charger = getItem(position);
+        Charger charger = getItem(position);
 
         // create the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.activity_main_item, parent, false);
+                    .inflate(R.layout.activity_main_item_favs, parent, false);
         }
 
         // logo
@@ -76,11 +72,15 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
         }
 
         {
+            TextView[] conectores = new TextView[3];
+            conectores[0] = convertView.findViewById(R.id.tvC1);
+            conectores[1] = convertView.findViewById(R.id.tvC2);
+            conectores[2] = convertView.findViewById(R.id.tvC3);
 
             TextView[] potencias = new TextView[3];
-            potencias[0] = convertView.findViewById(R.id.tvPot1);
-            potencias[1] = convertView.findViewById(R.id.tvPot2);
-            potencias[2] = convertView.findViewById(R.id.tvPot3);
+            potencias[0] = convertView.findViewById(R.id.tvP1);
+            potencias[1] = convertView.findViewById(R.id.tvP2);
+            potencias[2] = convertView.findViewById(R.id.tvP3);
 
             List<String> lista = charger.listarTiposConector();
             List<String> listaPotencias = new ArrayList<>();
@@ -89,41 +89,21 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                 listaPotencias.add(c.powerKW + "kW");
             }
 
-            for (int i = 0; i < Math.min(lista.size(), potencias.length); i++) {
+            for (int i = 0; i < lista.size(); i++) {
                 potencias[i].setText(listaPotencias.get(i));
-            }
+                conectores[i].setText(lista.get(i));
 
-        }
-
-        //Meter el listener del boton chiquitin del layout de la vista general
-        {
-            TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-            // comprueba inicialmente si ya está en favoritos
-            if (sharedPref.getBoolean(charger.id, false)) {
-                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
-            } else {
-                imgFavoritoChiquitin.setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_gris, 0, 0, 0);
-
-            }
-        }
-        {
-            {
-                TextView imgFavoritoChiquitin = convertView.findViewById(R.id.imgFavoritoChiquitin);
-                //Onclick sobre un textview que esta dentro de un listview
-                imgFavoritoChiquitin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        presenter.OnChargerBotonFavClicked(charger);
-                        if (sharedPref.getBoolean(charger.id, false)) {
-                            ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(R.drawable.estrella_amarillita, 0, 0, 0);
-                        }
-                    }
-                });
-
-
-                return convertView;
             }
 
         }
+        {
+            ImageView iv = convertView.findViewById(R.id.btnFavoritoChiquitin);
+            iv.setImageResource(R.drawable.estrella_amarillita);
+
+        }
+
+
+        return convertView;
     }
+
 }

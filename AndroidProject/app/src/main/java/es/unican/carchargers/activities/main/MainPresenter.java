@@ -1,10 +1,24 @@
 package es.unican.carchargers.activities.main;
 
 
+
+import static android.app.PendingIntent.getActivity;
+import static android.provider.Settings.System.getString;
+
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 
 import es.unican.carchargers.constants.EConnectionType;
@@ -21,11 +35,20 @@ public class MainPresenter implements IMainContract.Presenter {
     /** the view controlled by this presenter */
     private IMainContract.View view;
 
+    /** unica instancia del presenter a usar en la ejecucion de la app,
+     * de manera que se conserven los filtros aplicados */
+    private static MainPresenter instancia;
+
     // Lista que obtenemos al llamar a la API
     private List<Charger> shownChargers;
 
     // Lista que mostramos al user.
     private List<Charger> chargersActuales;
+
+    private List<Charger> chargersFav;
+    private List<Charger> chargersFinal;
+    private List<Charger> chargersIni;
+
 
     /** Filtros activos */
     private List<Double> potenciasFiltro = new ArrayList<>();
@@ -37,6 +60,20 @@ public class MainPresenter implements IMainContract.Presenter {
     /** Ordenacion aplicada actualmente */
     private String ordenacionAplicada;
     private Boolean ascendenteAplicado;
+
+    // Método público estático para acceder a la instancia
+    public static synchronized MainPresenter getInstance() {
+        if (instancia == null) {
+            instancia = new MainPresenter();
+        }
+        return instancia;
+    }
+
+    // Constructor que en el patron singleton presenter deberia ser publico, pero que para los tests
+    // ya hechos se deja privado.
+    public MainPresenter() {
+        // inicialización, no esta aqui.
+    }
 
     @Override
     public void init(IMainContract.View view) {
@@ -67,7 +104,20 @@ public class MainPresenter implements IMainContract.Presenter {
                 // Almacenar la lista que se va a mostrar para en caso de modificar un filtro
                 // y tener que volver atrás no depender de la llamada original a la API
                 // que tambien queremos conservar.
-                chargersActuales = new ArrayList<>(shownChargers);
+
+                chargersIni = new ArrayList<>(shownChargers);
+
+                chargersActuales = new ArrayList<Charger>();
+
+                chargersFav = view.getFavoriteChargers();
+
+                chargersFav = view.getFavoriteChargers();
+                chargersIni.removeIf(c -> chargersFav.contains(c));
+
+                chargersActuales.addAll(chargersFav);
+                chargersActuales.addAll(chargersIni);
+
+                aplicarFiltros();
 
                 view.showChargers(MainPresenter.this.chargersActuales);
                 view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
@@ -176,14 +226,11 @@ public class MainPresenter implements IMainContract.Presenter {
         return conectoresFiltroAplicados;
     }
 
-    //Devuelve los filtros aplicados de manera que mainView sea capaz de mostrar los filtros
-    //Aplicados anteriormente TODO
-    public void devolverOrdenAplicado() {
-
-    }
-
     private void aplicarFiltros() {
-        // Coger lista og
+        // Coger lista og. Si se intenta filtrar antes del cargado inicial de cargadores no se hace nada.
+        if (shownChargers == null) {
+            return;
+        }
         List<Charger> chargersFiltrados = new ArrayList<>(shownChargers);
 
         // Ir aplicandoles todos los filtros que se haya.
@@ -248,11 +295,7 @@ public class MainPresenter implements IMainContract.Presenter {
     public Boolean getAscendenteAplicado() {
         return ascendenteAplicado;
     }
-
-
-    public void onMenuFavoritosClicked() {
-        return;
-    }
+    
 
     public void ordenaChargersPrecio(boolean ascendente) {
         // Creamos un comparador personalizado para ordenar por el precio
@@ -279,10 +322,9 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-
-    /**
-     * Carga la vista con la lista inicial de cargadores.
-     */
+/**
+ * Carga la vista con la lista inicial de cargadores.
+ */
     public void listaActual() {
         view.showChargers(MainPresenter.this.chargersActuales);
         view.showLoadCorrect(MainPresenter.this.chargersActuales.size());
@@ -290,4 +332,41 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
 
+
+    public void OnChargerBotonFavClicked(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        view.anhadeCargadorAFavoritos(c);
+        //chargersFavoritos.add(c);
+
+    }
+
+
+    public Charger getChargerById(String id) {
+
+        for (int i = 0; i < shownChargers.size(); i++) {
+            if (shownChargers.get(i).id.equals(id)) {
+                return shownChargers.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onMenuFavoritosClicked() {
+        List<Charger> chargersFavoritos = new ArrayList<>();
+        chargersFavoritos = view.getFavoriteChargers();
+        //Si vacia, lanzo actividad de aviso que no hay favs
+        if (chargersFavoritos.isEmpty()) {
+            view.showInfoNoFav();
+        } else {
+            chargersFav = view.getFavoriteChargers();
+            view.showChargersFav();
+            view.showLoadCorrect(MainPresenter.this.chargersFav.size());
+        }
+    }
+
 }
+

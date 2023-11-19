@@ -1,11 +1,15 @@
 package es.unican.carchargers.activities.main;
 
+import static android.app.PendingIntent.getActivity;
 import static es.unican.carchargers.common.AndroidUtils.showLoadErrorDialog;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,10 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.RadioButton;
 
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +34,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
+import es.unican.carchargers.activities.favourite.FavView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.favourite.FavChargersArrayAdapter;
+import es.unican.carchargers.activities.favourite.NoFavActivities;
 import es.unican.carchargers.constants.EConnectionType;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -44,7 +58,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** repository is injected with Hilt */
     @Inject IRepository repository;
 
-
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
@@ -54,15 +67,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     AlertDialog ordenDialog;
 
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
         // Initialize presenter-view connection
-        presenter = new MainPresenter();
+        presenter = MainPresenter.getInstance();
         presenter.init(this);
 
     }
@@ -93,8 +109,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 ordenDialog();
                 return true;
             case R.id.favoritos:
-                presenter.onMenuFavoritosClicked();
+                showChargersFav();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -135,95 +152,82 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     public void ordenDialog() {
+
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.activity_menu_orden, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainView.this);
+        // Crear el constructor del AlertDialog
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this, R.style.AlertDialogTema);
+
         builder.setView(view);
 
-        // Configurar el título y el mensaje de error
-        builder.setTitle("Ordenar");
-        // Mostrar el AlertDialog
-        ordenDialog = builder.create();
-        // Mostrar el AlertDialog para elegir filtros
-        ordenDialog.show();
+        RadioGroup radioOrdenes = view.findViewById(R.id.radioGroupOrdenacion);
+        CheckBox checkboxPrecio = view.findViewById(R.id.checkbox_precio);
 
-        //True = Si pinchas fuera se cierra la ventana
-        builder.setCancelable(true);
-
-        CheckBox checkBox1 = view.findViewById(R.id.checkbox_precio);
-        String[] tiposOrden = new String[] {
-                "Precio"
-        };
-
-        //Por defecto no estará seleccionada ninguna opción
-        final boolean[] checkItems = new boolean[] {
-                false
-        };
-
+        //Aqui quiero marcar que items estan marcados
         if (presenter.getOrdenacionAplicada() != null) {
-            for (int i = 0; i < tiposOrden.length; i++) {
-                if (tiposOrden[i].equals(presenter.getOrdenacionAplicada())) {
-                    checkItems[i] = true;
+            switch (presenter.getOrdenacionAplicada()) {
+                case "Precio":
+                    checkboxPrecio.setChecked(true);
                     break;
-                }
+                default:
+                    break;
             }
         }
 
-        // Configurar los OnCheckedChangeListener para cada CheckBox
-        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            checkItems[0] = isChecked;
-        });
-
-        //Es necesario que sea final para el correcto funcionamiento
-        final boolean[] tipoOrdenAscDesc = {true};
+        // Botones de radio para orden ascendente y descendente
+        RadioButton radioSentidoDesc = view.findViewById(R.id.radioButtonDesc);
+        RadioButton radioSentidoAsc = view.findViewById(R.id.radioButtonAsc);
 
         if (presenter.getAscendenteAplicado() != null) {
-            tipoOrdenAscDesc[0] = presenter.getAscendenteAplicado();
+            if (presenter.getAscendenteAplicado()) {
+                radioSentidoAsc.setChecked(true);
+            } else {
+                radioSentidoDesc.setChecked(true);
+            }
+        } else {
+            radioSentidoAsc.setChecked(true);
         }
 
+        AlertDialog dialog = builder.create();
 
-        builder.setMultiChoiceItems(tiposOrden, checkItems, (dialog, which, isChecked) -> {
-            //Se verifica que hay un item seleccionado
-            checkItems[which] = isChecked;
-        });
+        // Botones de acectar y cancelar
+        TextView btnAceptar = view.findViewById(R.id.btnAceptarOrden);
+        btnAceptar.setOnClickListener(v -> {
 
-
-        RadioButton radioButtonAsc = view.findViewById(R.id.radioButtonAsc);
-        RadioButton radioButtonDesc = view.findViewById(R.id.radioButtonDesc);
-
-        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipoOrdenAscDesc[0] = true;
-            }
-        });
-
-        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipoOrdenAscDesc[0] = false;
-            }
-        });
-
-
-        TextView btnAceptarOrden = (TextView)view.findViewById(R.id.btnAceptarOrden);
-        btnAceptarOrden.setOnClickListener(v -> {
             String orden = null;
-            for (int i = 0; i < checkItems.length; i++) {
-                if (checkItems[i]) {
-                    orden = tiposOrden[i];
-                }
+            /** getCheckedRadioButton siempre devuelve el mismo, por ahora con un if bastará.
+             switch (radioOrdenes.getCheckedRadioButtonId()) {
+             case R.id.checkbox_precio:
+             orden = "Precio";
+             break;
+             default:
+             orden = null;
+             break;
+             }
+             */
+            if (checkboxPrecio.isChecked()) {
+                orden = "Precio";
             }
-            presenter.onClickedAceptarOrdenacion(orden, tipoOrdenAscDesc[0]);
-            ordenDialog.dismiss();
+
+            boolean  ascDesc = !radioSentidoDesc.isChecked();
+
+            presenter.onClickedAceptarOrdenacion(orden, ascDesc);
+
+            dialog.dismiss();
         });
 
-        TextView btnCancelarOrden = (TextView) view.findViewById(R.id.btnCancelarOrden);
-        btnCancelarOrden.setOnClickListener(v -> {
-            ordenDialog.dismiss();
+        TextView btnCancelar = view.findViewById(R.id.btnCancelarOrden);
+        btnCancelar.setOnClickListener(v -> {
+            // Cerrar el dialog
+            dialog.dismiss();
         });
 
+
+        // Crear y mostrar el AlertDialog
+
+        dialog.show();
     }
 
     /**
@@ -351,6 +355,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
 
+
     }
 
 
@@ -361,7 +366,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers);
+        ChargersArrayAdapter adapter = new ChargersArrayAdapter(this, chargers, presenter, getActivityPreferencies());
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapter);
     }
@@ -414,6 +419,66 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showInfoActivity() {
         Intent intent = new Intent(this, InfoActivity.class);
+        startActivity(intent);
+    }
+
+    public SharedPreferences getActivityPreferencies() {
+        //Accede al fichero de favoritos en modo privado
+        return this.getSharedPreferences("Favoritos",Context.MODE_PRIVATE);
+    }
+
+
+    public void anhadeCargadorAFavoritos(Charger c) {
+        //Si esta seleccionado, se quita de favs (por implementar...)
+        //...
+
+        //Se coge con el getActivity la actividad en el mainView
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //Asigno el id del cargador a la llave generada por el id del boton
+        editor.putBoolean(c.id, true);
+        editor.apply();
+
+        Toast.makeText(this, String.format("Añadido 1 cargador a favoritos"), Toast.LENGTH_LONG).show();
+    }
+
+
+    public List<Charger> getFavoriteChargers() {
+        List<Charger> favoriteChargers = new ArrayList<>();
+
+        // Obtén las preferencias compartidas
+        SharedPreferences sharedPref = getActivityPreferencies();
+
+        // Itera sobre las entradas de las preferencias compartidas
+        Map<String, ?> allEntries = sharedPref.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            // Verifica si el valor asociado a la llave es true (indicando que es un cargador favorito)
+            if (entry.getValue() instanceof Boolean && Boolean.TRUE.equals(entry.getValue())) {
+                // Aquí, entry.getKey() sería el id del cargador favorito
+                // Puedes usar este id para obtener el cargador correspondiente y agregarlo a la lista
+                Charger favoriteCharger = presenter.getChargerById(entry.getKey());
+                if (favoriteCharger != null) {
+                    favoriteChargers.add(favoriteCharger);
+                }
+            }
+        }
+
+        return favoriteChargers;
+    }
+
+
+    @Override
+    public void showInfoNoFav() {
+        Intent intent = new Intent(this, NoFavActivities.class);
+        startActivity(intent);
+    }
+
+
+
+
+    public void showChargersFav() {
+        Intent intent = new Intent(this, FavView.class);
         startActivity(intent);
     }
 
