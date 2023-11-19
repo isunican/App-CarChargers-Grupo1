@@ -64,7 +64,8 @@ public interface IMainContract {
         String getOrdenacionAplicada();
 
         Boolean getAscendenteAplicado();
-        void OnChargerBotonFavClicked(Charger c);
+
+        void onChargerBotonFavClicked(Charger c);
 
         Charger getChargerById(String id);
 

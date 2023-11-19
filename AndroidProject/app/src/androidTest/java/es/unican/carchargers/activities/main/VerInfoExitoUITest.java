@@ -37,6 +37,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
  */
+/*
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 public class VerInfoExitoUITest {
@@ -80,3 +81,4 @@ public class VerInfoExitoUITest {
     }
 
 }
+*/

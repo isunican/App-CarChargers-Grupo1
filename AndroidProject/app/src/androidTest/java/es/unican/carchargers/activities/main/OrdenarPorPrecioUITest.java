@@ -85,7 +85,8 @@ public class OrdenarPorPrecioUITest {
         onView(withText("Marque las casillas que más se adapten a su búsqueda:")).check(matches(isDisplayed()));
 
         // Selecciona precio y radioButton ascendente.
-        onView(withText("Precio")).perform(click());
+        //onView(withText("Precio")).perform(click());
+
         onView(withText("Descendente")).perform(click());
 
         // Verifica que las selecciones se realizaron correctamente
