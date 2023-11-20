@@ -148,4 +148,47 @@ public class ChargerTest {
 
     }
 
+    @Test
+    public void extraerCosteChargerTest() {
+
+        Charger sut = new Charger();
+
+        // El tercer argumento de las llamads assertEquals sirve para protegernos de comparaciones de floats y doubles, como precaucion
+
+        // Casos validos
+
+        // formato correcto con coma como separador decimal
+        sut.usageCost = "0,15€/kWh";
+        assertEquals(0.15, sut.extraerCosteCharger(), 0.001);
+
+        // Formato correcto con punto como separador decimal
+        sut.usageCost = "0.15€/kWh";
+        assertEquals(0.15, sut.extraerCosteCharger(), 0.001);
+
+        // Multiples precios
+        sut.usageCost = "0,15€/kWh y 0,20€/kWh";
+        assertEquals(0.15, sut.extraerCosteCharger(), 0.001);
+
+        // Numero con mas de dos decimales
+        sut.usageCost = "0,154€/kWh";
+        assertEquals(0.15, sut.extraerCosteCharger(), 0.001);
+
+        // Casos no validos
+
+        // Sin costo indicado: cadena vacia
+        sut.usageCost = "";
+        assertEquals(-1, sut.extraerCosteCharger(), 0.001);
+
+        // Sin costo indicado: null
+        sut.usageCost = null;
+        assertEquals(-1, sut.extraerCosteCharger(), 0.001);
+
+        // Formato incorrecto
+        sut.usageCost = "costo gratis";
+        assertEquals(-1, sut.extraerCosteCharger(), 0.001);
+
+        // Numero que no se debe tener en cuenta por ser probable que sea un costo no de la electricidad
+        sut.usageCost = "10,54€";
+        assertEquals(-1, sut.extraerCosteCharger(), 0.001);
+    }
 }
