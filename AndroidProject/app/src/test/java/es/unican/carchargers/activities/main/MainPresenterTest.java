@@ -582,7 +582,143 @@ public class MainPresenterTest {
     }
 
 
+    @Test
+    public void filtrarPorConectorTest() {
+        // CASO 1: Filtrado con varios puntos de carga y un tipo de conector.
 
+        // Filtraré por CCS_Type_1
+        conectores.add(CCS_TYPE_1);
+
+        // Creo los conectores
+        Connection c1 = new Connection();
+        c1.connectionType.id = CCS_TYPE_1.getId();
+        Connection c2 = new Connection();
+        c2.connectionType.id = CCS_TYPE_2.getId();
+        Connection c3 = new Connection();
+        c3.connectionType.id = CCS_TYPE_1.getId();
+
+        // Creo los puntos de carga
+        Charger a = new Charger();
+        a.connections.add(c1);
+        Charger b = new Charger();
+        b.connections.add(c2);
+        Charger c = new Charger();
+        c.connections.add(c3);
+
+        a.id = "1";
+        b.id = "2";
+        c.id = "3";
+
+        // Añado los puntos de carga a la lista
+        chargers.add(a);
+        chargers.add(b);
+        chargers.add(c);
+
+        // Configuro el comportamiento del mock
+        when(mv.getRepository()).thenReturn(repository);
+        sut.init(mv);
+
+        // Llamo al metodo a probar y verifico que se ha llamado
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(1)).showChargers(captor.capture());
+
+        // Verifico que los elementos filtrados son los correctos
+        captados = captor.getValue();
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.get(1), c);
+
+        // Verifico la longitud de la lista
+        assertEquals(2, captados.size());
+
+        // CASO 2: Filtrado con varios puntos de carga y dos tipos de conectores.
+        conectores.add(CCS_TYPE_2);
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(2)).showChargers(captor.capture());
+        captados = captor.getValue();
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.get(1), b);
+        assertEquals(captados.get(2), c);
+        assertEquals(captados.size(), 3);
+
+        // CASO 3: Filtrado en que no existen puntos de carga con ese conector.
+        conectores.clear();
+        captados.clear();
+        conectores.add(CEE_74_SCHUKO_TYPE_F);
+        chargers.remove(c);
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        //Compruebo la salida
+        verify(mv, atLeast(1)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+                "Al cerrar este mensaje se volverá a la selección anterior.");
+
+        captados = captor.getValue();
+        assertEquals(captados.size(), 0);
+
+        //CASO 4: Filtrado con un punto de carga y varios tipos de conector.
+        conectores.clear();
+        conectores.add(CCS_TYPE_1);
+        conectores.add(CEE_74_SCHUKO_TYPE_F);
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(4)).showChargers(captor.capture());
+        captados = captor.getValue();
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.size(), 1);
+
+        //CASO 5: Filtrado con un punto de carga con dos conectores en el que solo coincide uno de ellos.
+        chargers.remove(b);
+        a.connections.add(c2);
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(5)).showChargers(captor.capture());
+        captados = captor.getValue();
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.size(), 1);
+
+        //CASO 6: Filtrado con un punto de carga con dos conectores en el que coinciden los dos tipos.
+        conectores.clear();
+        conectores.add(CCS_TYPE_1);
+        conectores.add(CCS_TYPE_2);
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(6)).showChargers(captor.capture());
+        captados = captor.getValue();
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.size(), 1);
+
+        //CASO 7: Filtrado sin seleccionar el tipo de conector.
+        a.connections.clear();
+        b.connections.clear();
+        c.connections.clear();
+        a.connections.add(c1);
+        b.connections.add(c2);
+        c.connections.add(c3);
+        chargers.clear();
+        chargers.add(a);
+        chargers.add(b);
+        chargers.add(c);
+        conectores.clear();
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(7)).showChargers(captor.capture());
+        captados = captor.getValue();
+        assertEquals(captados.get(0), a);
+        assertEquals(captados.get(1), b);
+        assertEquals(captados.get(2), c);
+        assertEquals(captados.size(), 3);
+
+        //CASO 8: Filtrado en el que la lista de cargadores esta vacía
+        chargers.clear();
+        captados.clear();
+        conectores.add(CCS_TYPE_1);
+        sut.init(mv);
+        sut.onAceptarFiltroConectoresClicked(conectores);
+        verify(mv, atLeast(2)).showLoadSinCargadores("No hay cargadores para esta selección. " +
+                "Al cerrar este mensaje se volverá a la selección anterior.");
+        captados = captor.getValue();
+        assertEquals(captados.size(), 0);
+    }
 
 
     //Test Samuel Castro
